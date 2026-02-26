@@ -1,0 +1,41 @@
+CREATE TABLE `remote_returns` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` int NOT NULL,
+	`taxYear` int NOT NULL,
+	`clientName` varchar(255),
+	`clientEmail` varchar(320),
+	`filingStatus` varchar(32),
+	`state` varchar(2),
+	`checklistProgress` json,
+	`checklistCompletePct` int DEFAULT 0,
+	`clientNotes` text,
+	`preparerNotes` text,
+	`status` enum('draft','submitted','docs_received','in_review','ready_to_sign','filed','rejected') DEFAULT 'draft',
+	`isNewClient` boolean DEFAULT true,
+	`quotedPrice` decimal(8,2),
+	`paidAt` timestamp,
+	`completedReturnUrl` varchar(1024),
+	`completedReturnKey` varchar(512),
+	`efileConfirmation` varchar(64),
+	`filedAt` timestamp,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `remote_returns_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `return_documents` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`returnId` int NOT NULL,
+	`userId` int NOT NULL,
+	`checklistItemId` varchar(64),
+	`checklistCategory` varchar(64),
+	`fileName` varchar(255) NOT NULL,
+	`fileUrl` varchar(1024) NOT NULL,
+	`fileKey` varchar(512) NOT NULL,
+	`fileSize` int,
+	`mimeType` varchar(128),
+	`status` enum('uploaded','verified','needs_reupload') DEFAULT 'uploaded',
+	`preparerComment` text,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `return_documents_id` PRIMARY KEY(`id`)
+);

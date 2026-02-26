@@ -77,3 +77,19 @@
 - [ ] Mobile app (React Native)
 - [ ] Push notifications for tax deadlines
 - [ ] Vitest unit tests for all tRPC routers
+
+## Remote Returns Portal (Human-Assisted Filing)
+- [x] RemoteReturns page with onboarding checklist wizard
+- [x] Checklist categories: Personal Info, Income Documents, Deductions, Business (if applicable), Prior Year, Special Situations
+- [x] Per-item upload slots with status indicators (Not Started / Uploaded / Verified)
+- [x] Progress bar showing overall checklist completion %
+- [x] Notes/instructions field for client to leave messages for preparer
+- [x] Document vault: list of all uploaded files with preview/delete
+- [x] Return status tracker (Submitted → Documents Received → In Review → Ready to Sign → Filed)
+- [x] DB schema: remote_returns table and return_documents table
+- [x] tRPC backend: remoteReturns.create, list, getById, updateStatus, uploadDocument
+- [x] Admin view: see all client submissions, update status, add preparer notes
+- [x] Route: /remote-returns (client portal) and /admin/returns (preparer dashboard)
+- [x] Add "Remote Returns" to AppShell sidebar navigation
+- [x] "Prior Year Return" checklist item for new clients (upload last filed return for carryover data, AGI, depreciation schedules)
+- [x] "First-time client" flag on remote return to highlight prior year return as required

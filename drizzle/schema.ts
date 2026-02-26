@@ -207,6 +207,73 @@ export const chatMessages = mysqlTable("chat_messages", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+// ─── Remote Returns (Human-Assisted Filing) ─────────────────────────────────
+export const remoteReturns = mysqlTable("remote_returns", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  // Client info snapshot
+  clientName: varchar("clientName", { length: 255 }),
+  clientEmail: varchar("clientEmail", { length: 320 }),
+  filingStatus: varchar("filingStatus", { length: 32 }),
+  state: varchar("state", { length: 2 }),
+  // Checklist progress (stored as JSON: { [itemId]: 'not_started' | 'uploaded' | 'na' })
+  checklistProgress: json("checklistProgress"),
+  checklistCompletePct: int("checklistCompletePct").default(0),
+  // Client notes to preparer
+  clientNotes: text("clientNotes"),
+  // Preparer notes back to client
+  preparerNotes: text("preparerNotes"),
+  // Return status workflow
+  status: mysqlEnum("status", [
+    "draft",           // Client started checklist
+    "submitted",       // Client submitted for review
+    "docs_received",   // Preparer confirmed all docs
+    "in_review",       // Preparer actively working
+    "ready_to_sign",   // Return complete, awaiting signature
+    "filed",           // E-filed with IRS
+    "rejected"         // IRS rejected, needs correction
+  ]).default("draft"),
+  // New client flag (no prior filing history with us)
+  isNewClient: boolean("isNewClient").default(true),
+  // Pricing
+  quotedPrice: decimal("quotedPrice", { precision: 8, scale: 2 }),
+  paidAt: timestamp("paidAt"),
+  // Completed return
+  completedReturnUrl: varchar("completedReturnUrl", { length: 1024 }),
+  completedReturnKey: varchar("completedReturnKey", { length: 512 }),
+  efileConfirmation: varchar("efileConfirmation", { length: 64 }),
+  filedAt: timestamp("filedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type RemoteReturn = typeof remoteReturns.$inferSelect;
+export type InsertRemoteReturn = typeof remoteReturns.$inferInsert;
+
+// ─── Return Documents (files uploaded for a remote return) ───────────────────
+export const returnDocuments = mysqlTable("return_documents", {
+  id: int("id").autoincrement().primaryKey(),
+  returnId: int("returnId").notNull(),
+  userId: int("userId").notNull(),
+  // Which checklist item this satisfies
+  checklistItemId: varchar("checklistItemId", { length: 64 }),
+  checklistCategory: varchar("checklistCategory", { length: 64 }),
+  // File info
+  fileName: varchar("fileName", { length: 255 }).notNull(),
+  fileUrl: varchar("fileUrl", { length: 1024 }).notNull(),
+  fileKey: varchar("fileKey", { length: 512 }).notNull(),
+  fileSize: int("fileSize"),
+  mimeType: varchar("mimeType", { length: 128 }),
+  // Preparer review
+  status: mysqlEnum("status", ["uploaded", "verified", "needs_reupload"]).default("uploaded"),
+  preparerComment: text("preparerComment"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ReturnDocument = typeof returnDocuments.$inferSelect;
+export type InsertReturnDocument = typeof returnDocuments.$inferInsert;
+
 // ─── E-File Submissions ───────────────────────────────────────────────────────
 export const efileSubmissions = mysqlTable("efile_submissions", {
   id: int("id").autoincrement().primaryKey(),

@@ -431,6 +431,127 @@ const efileRouter = router({
     }),
 });
 
+// ─── Remote Returns Router ──────────────────────────────────────────────────────
+const remoteReturnsRouter = router({
+  list: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("Database unavailable");
+    const { remoteReturns } = await import("../drizzle/schema");
+    return db.select().from(remoteReturns).where(eq(remoteReturns.userId, ctx.user.id));
+  }),
+
+  getById: protectedProcedure
+    .input(z.object({ returnId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { remoteReturns, returnDocuments } = await import("../drizzle/schema");
+      const [ret] = await db.select().from(remoteReturns)
+        .where(eq(remoteReturns.id, input.returnId))
+        .limit(1);
+      if (!ret || ret.userId !== ctx.user.id) throw new Error("Not found");
+      const docs = await db.select().from(returnDocuments)
+        .where(eq(returnDocuments.returnId, input.returnId));
+      return { ...ret, documents: docs };
+    }),
+
+  create: protectedProcedure
+    .input(z.object({
+      taxYear: z.number(),
+      isNewClient: z.boolean().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { remoteReturns } = await import("../drizzle/schema");
+      const [result] = await db.insert(remoteReturns).values({
+        userId: ctx.user.id,
+        taxYear: input.taxYear,
+        clientName: ctx.user.name,
+        clientEmail: ctx.user.email,
+        isNewClient: input.isNewClient ?? true,
+        status: "draft",
+        checklistProgress: {},
+        checklistCompletePct: 0,
+      });
+      return { id: (result as any).insertId as number };
+    }),
+
+  saveProgress: protectedProcedure
+    .input(z.object({
+      returnId: z.number(),
+      checklistProgress: z.record(z.string(), z.string()).optional(),
+      checklistCompletePct: z.number().optional(),
+      clientNotes: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { remoteReturns } = await import("../drizzle/schema");
+      await db.update(remoteReturns)
+        .set({
+          checklistProgress: input.checklistProgress,
+          checklistCompletePct: input.checklistCompletePct,
+          clientNotes: input.clientNotes,
+        })
+        .where(eq(remoteReturns.id, input.returnId));
+      return { success: true };
+    }),
+
+  submit: protectedProcedure
+    .input(z.object({ returnId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { remoteReturns } = await import("../drizzle/schema");
+      const [ret] = await db.select().from(remoteReturns)
+        .where(eq(remoteReturns.id, input.returnId))
+        .limit(1);
+      if (!ret || ret.userId !== ctx.user.id) throw new Error("Not found");
+      await db.update(remoteReturns)
+        .set({ status: "submitted" })
+        .where(eq(remoteReturns.id, input.returnId));
+      // Notify the owner (preparer) of new submission
+      const { notifyOwner } = await import("./_core/notification");
+      await notifyOwner({
+        title: "New Remote Return Submitted",
+        content: `${ret.clientName ?? ctx.user.name} submitted their ${ret.taxYear} tax documents for review.`,
+      });
+      return { success: true };
+    }),
+
+  // Admin: update return status and add preparer notes
+  updateStatus: protectedProcedure
+    .input(z.object({
+      returnId: z.number(),
+      status: z.enum(["draft", "submitted", "docs_received", "in_review", "ready_to_sign", "filed", "rejected"]),
+      preparerNotes: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.role !== "admin") throw new Error("Forbidden");
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { remoteReturns } = await import("../drizzle/schema");
+      await db.update(remoteReturns)
+        .set({
+          status: input.status,
+          preparerNotes: input.preparerNotes,
+          ...(input.status === "filed" ? { filedAt: new Date() } : {}),
+        })
+        .where(eq(remoteReturns.id, input.returnId));
+      return { success: true };
+    }),
+
+  // Admin: list all submissions
+  adminList: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user.role !== "admin") throw new Error("Forbidden");
+    const db = await getDb();
+    if (!db) throw new Error("Database unavailable");
+    const { remoteReturns } = await import("../drizzle/schema");
+    return db.select().from(remoteReturns).orderBy(remoteReturns.createdAt);
+  }),
+});
+
 // ─── User Profile Router ──────────────────────────────────────────────────────
 const profileRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
@@ -476,6 +597,7 @@ export const appRouter = router({
   audit: auditRouter,
   efile: efileRouter,
   profile: profileRouter,
+  remoteReturns: remoteReturnsRouter,
 });
 
 export type AppRouter = typeof appRouter;

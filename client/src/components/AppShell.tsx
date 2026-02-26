@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Building2, Shield, Bitcoin, Receipt,
   CreditCard, User, LogOut, Menu, X, Send, Database,
   FileText, BookOpen, ChevronLeft, ChevronRight, Home,
-  DollarSign, NotebookPen
+  DollarSign, NotebookPen, Users
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getLoginUrl } from '@/const';
@@ -22,6 +22,7 @@ const navItems = [
   { icon: Bitcoin, label: 'Crypto Taxes', path: '/crypto' },
   { icon: Shield, label: 'Audit Defense', path: '/audit-defense' },
   { icon: FileText, label: 'E-File', path: '/efile' },
+  { icon: Users, label: 'Remote Returns', path: '/remote-returns', badge: 'Human' },
   { icon: NotebookPen, label: 'Notary Services', path: '/notary' },
   { icon: Database, label: 'Backups', path: '/backups' },
   { icon: User, label: 'Profile', path: '/profile' },

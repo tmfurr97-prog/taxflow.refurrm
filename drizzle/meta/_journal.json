@@ -15,6 +15,13 @@
       "when": 1772112715681,
       "tag": "0001_crazy_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772114511874,
+      "tag": "0002_plain_korath",
+      "breakpoints": true
     }
   ]
 }
