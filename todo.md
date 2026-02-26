@@ -157,3 +157,11 @@
 
 ## Founder Story Section
 - [x] Add founder story section to Landing page (Harley story, built by a real preparer)
+
+## Logo Update
+- [ ] Recreate Teresa's badge logo as SVG (TERESA FURR top arc, SmartBooks script center, TAXFLOW bottom arc)
+- [ ] Replace emoji logo in nav with SVG badge logo
+- [ ] Update favicon
+
+## Bugs
+- [x] Receipts page: "Upload New" / "All Receipts" tab text unreadable (grey on grey) — fixed muted-foreground to oklch(0.72)

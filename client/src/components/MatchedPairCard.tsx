@@ -54,7 +54,7 @@ export function MatchedPairCard({ pair, onUnmatch }: MatchedPairCardProps) {
 
       <div className="flex items-center justify-between pt-3 border-t">
         <div className="flex flex-wrap gap-1">
-          {(pair as any).matchedBy.map((reason: string, idx: number) => (
+          {((pair as any).matchedBy ?? []).map((reason: string, idx: number) => (
             <Badge key={idx} variant="secondary" className="text-xs">
               {reason}
             </Badge>
