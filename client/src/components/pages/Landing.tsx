@@ -280,18 +280,98 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Founder Story */}
+      <section className="py-24 px-4 bg-slate-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left: Visual card */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-emerald-900/40 to-teal-900/30 rounded-2xl p-10 border border-emerald-500/20 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+                <div className="relative">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-3xl">
+                      👩🏽‍💼
+                    </div>
+                    <div>
+                      <p className="text-white font-bold text-lg">Teresa</p>
+                      <p className="text-emerald-400 text-sm">Founder, SmartBooks24</p>
+                      <p className="text-slate-500 text-xs mt-0.5">PTIN Holder · CPA Candidate · Tax Enthusiast since 1997</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <div className="text-center p-4 bg-slate-900/60 rounded-xl border border-slate-700">
+                      <p className="text-2xl font-bold text-emerald-400">1997</p>
+                      <p className="text-slate-400 text-xs mt-1">Fell in love with taxes</p>
+                    </div>
+                    <div className="text-center p-4 bg-slate-900/60 rounded-xl border border-slate-700">
+                      <p className="text-2xl font-bold text-emerald-400">Harley</p>
+                      <p className="text-slate-400 text-xs mt-1">The reason this exists</p>
+                    </div>
+                    <div className="text-center p-4 bg-slate-900/60 rounded-xl border border-slate-700">
+                      <p className="text-2xl font-bold text-emerald-400">Now</p>
+                      <p className="text-slate-400 text-xs mt-1">Built for you</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {["W-2 & 1099", "Gig Workers", "Self-Employed", "Small Business", "Crypto", "Side Hustles"].map(tag => (
+                      <span key={tag} className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Story */}
+            <div>
+              <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 mb-6">Built by a Real Preparer</Badge>
+              <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
+                A lifelong obsession.<br />
+                <span className="text-emerald-400">Finally turned into something.</span>
+              </h2>
+              <div className="space-y-4 text-slate-300 leading-relaxed">
+                <p>
+                  I&rsquo;ve been fascinated by taxes since 1997. Not because it&rsquo;s glamorous — it&rsquo;s not — but because I watched people around me overpay, miss deductions, and get blindsided by bills that were completely avoidable. I just knew there was a better way.
+                </p>
+                <p>
+                  For years I helped family and friends for free. Then my daughter Harley went off to college, and suddenly I had way too much time on my hands and no more excuses. So I got serious. Got my PTIN. Started studying for my CPA. And built the tool I always wished existed.
+                </p>
+                <p>
+                  SmartBooks24 is what happens when someone who genuinely loves this stuff stops doing it for free and starts doing it right — with AI that works year-round and a real human who actually knows your situation.
+                </p>
+                <p className="text-emerald-400 font-medium">
+                  Thanks, Harley. Best thing you ever did was leave.
+                </p>
+              </div>
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <Link href="/remote-returns">
+                  <Button className="bg-emerald-500 hover:bg-emerald-600 text-white gap-2 h-11 px-6">
+                    File with Teresa <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button variant="outline" className="border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 h-11 px-6 bg-transparent">
+                    See All Plans
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Teaser */}
       <section className="py-24 px-4 bg-slate-900/50">
         <div className="max-w-4xl mx-auto text-center">
           <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 mb-4">Simple Pricing</Badge>
           <h2 className="text-4xl font-bold text-white mb-4">Start free. Upgrade when you are ready.</h2>
-          <p className="text-xl text-slate-400 mb-12">Plans from bash to 9.99/month. No contracts, no hidden fees, cancel anytime.</p>
+          <p className="text-xl text-slate-400 mb-12">Plans from $0 to $39.99/month. No contracts, no hidden fees, cancel anytime.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {[
-              { name: "Free", price: "bash", desc: "Receipts, mileage, 1 estimate", highlight: false },
-              { name: "Essential", price: ".99", desc: "Unlimited tracking + TaxGPT", highlight: false },
-              { name: "Pro", price: "4.99", desc: "Full suite: crypto, audit, entities", highlight: true },
-              { name: "Business", price: "9.99", desc: "Multi-entity + priority support", highlight: false },
+              { name: "Free", price: "$0", desc: "Receipts, mileage, 1 estimate", highlight: false },
+              { name: "Essential", price: "$9.99", desc: "Unlimited tracking + TaxGPT", highlight: false },
+              { name: "Pro", price: "$24.99", desc: "Full suite: crypto, audit, entities", highlight: true },
+              { name: "Business", price: "$39.99", desc: "Multi-entity + priority support", highlight: false },
             ].map((plan, i) => (
               <div key={i} className={"p-5 rounded-xl border text-left " + (plan.highlight ? "bg-emerald-500/10 border-emerald-500/40" : "bg-slate-900 border-slate-800")}>
                 {plan.highlight && <Badge className="bg-emerald-500 text-white border-0 text-xs mb-2">Most Popular</Badge>}

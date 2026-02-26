@@ -154,3 +154,6 @@
 - [x] User UI: redeem code from Profile → Subscription tab
 - [x] Pre-generate codes on demand from admin page (no limit, max 5 active at a time recommended)
 - [x] Exclusions: Remote Returns and à la carte services remain paid even with promo tier
+
+## Founder Story Section
+- [x] Add founder story section to Landing page (Harley story, built by a real preparer)
