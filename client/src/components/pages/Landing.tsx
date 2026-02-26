@@ -340,7 +340,7 @@ export default function Landing() {
                   SmartBooks24 is what happens when someone who genuinely loves this stuff stops doing it for free and starts doing it right — with AI that works year-round and a real human who actually knows your situation.
                 </p>
                 <p className="text-emerald-400 font-medium">
-                  Thanks, Harley. Best thing you ever did was leave.
+                  When you work with SmartBooks24, you get someone who genuinely cares — not just about your refund, but about your financial future.
                 </p>
               </div>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
