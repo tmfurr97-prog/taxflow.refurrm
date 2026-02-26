@@ -11,6 +11,22 @@ export const users = mysqlTable("users", {
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  // Personal info (IRS form layout)
+  firstName: varchar("firstName", { length: 64 }),
+  middleInitial: varchar("middleInitial", { length: 4 }),
+  lastName: varchar("lastName", { length: 64 }),
+  dateOfBirth: varchar("dateOfBirth", { length: 16 }),
+  phone: varchar("phone", { length: 20 }),
+  ssnLast4: varchar("ssnLast4", { length: 4 }), // store only last 4 for display
+  // Address (IRS form layout)
+  streetAddress: varchar("streetAddress", { length: 255 }),
+  aptSuite: varchar("aptSuite", { length: 64 }),
+  city: varchar("city", { length: 128 }),
+  zip: varchar("zip", { length: 16 }),
+  // Business info
+  businessName: varchar("businessName", { length: 255 }),
+  businessType: varchar("businessType", { length: 32 }),
+  ein: varchar("ein", { length: 20 }),
   // Tax profile
   filingStatus: varchar("filingStatus", { length: 32 }),
   state: varchar("state", { length: 2 }),

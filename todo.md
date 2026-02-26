@@ -171,3 +171,18 @@
 
 ## Bugs
 - [x] beta_pro not in subscriptionTier enum — added to mysqlEnum and pushed migration
+
+## Profile Fixes
+- [ ] Profile/tax info not saving — fix the save mutation
+- [ ] Split name into First Name, Middle Initial, Last Name (IRS form layout)
+- [ ] Split address into Street Address, Apt/Suite, City, State, ZIP (IRS form layout)
+- [ ] Add SSN/ITIN field (masked, for tax prep use)
+- [ ] Add Date of Birth field
+- [ ] Add Phone Number field
+
+## Profile Page Rewrite
+- [ ] Completely rewrite Profile.tsx using tRPC (remove all Supabase references)
+- [ ] Fix profile save — currently broken
+- [ ] IRS-layout fields: First / Middle Initial / Last Name
+- [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
+- [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN

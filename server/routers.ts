@@ -638,9 +638,25 @@ const profileRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
     return ctx.user;
   }),
-
   update: protectedProcedure
     .input(z.object({
+      // Personal info
+      firstName: z.string().optional(),
+      middleInitial: z.string().max(4).optional(),
+      lastName: z.string().optional(),
+      dateOfBirth: z.string().optional(),
+      phone: z.string().optional(),
+      ssnLast4: z.string().max(4).optional(),
+      // Address
+      streetAddress: z.string().optional(),
+      aptSuite: z.string().optional(),
+      city: z.string().optional(),
+      zip: z.string().optional(),
+      // Business
+      businessName: z.string().optional(),
+      businessType: z.string().optional(),
+      ein: z.string().optional(),
+      // Tax profile
       filingStatus: z.string().optional(),
       state: z.string().optional(),
       selfEmployed: z.boolean().optional(),
@@ -650,13 +666,12 @@ const profileRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
-      const { users } = await import("../drizzle/schema");
       await db.update(users)
         .set(input)
         .where(eq(users.id, ctx.user.id));
       return { success: true };
     }),
-});
+});;
 
 // ─── Billing Router ─────────────────────────────────────────────────────────
 const billingRouter = router({
