@@ -275,6 +275,47 @@ export type ReturnDocument = typeof returnDocuments.$inferSelect;
 export type InsertReturnDocument = typeof returnDocuments.$inferInsert;
 
 // ─── E-File Submissions ───────────────────────────────────────────────────────
+// ─── SmartBooks Academy Tables ──────────────────────────────────────────────
+export const academyCourses = mysqlTable("academy_courses", {
+  id: int("id").autoincrement().primaryKey(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  title: text("title").notNull(),
+  description: text("description"),
+  track: varchar("track", { length: 64 }).notNull(), // gig_worker | freelancer | bookkeeping | business
+  icon: varchar("icon", { length: 64 }),
+  isPremium: int("isPremium").default(0).notNull(), // 0=free, 1=premium
+  sortOrder: int("sortOrder").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const academyLessons = mysqlTable("academy_lessons", {
+  id: int("id").autoincrement().primaryKey(),
+  courseId: int("courseId").notNull(),
+  slug: varchar("slug", { length: 100 }).notNull(),
+  title: text("title").notNull(),
+  content: text("content").notNull(), // markdown content
+  duration: varchar("duration", { length: 32 }), // e.g. "5 min"
+  isPremium: int("isPremium").default(0).notNull(),
+  upsellType: varchar("upsellType", { length: 64 }), // remote_returns | notary | upgrade
+  sortOrder: int("sortOrder").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const academyProgress = mysqlTable("academy_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  lessonSlug: varchar("lessonSlug", { length: 100 }).notNull(),
+  completedAt: timestamp("completedAt").defaultNow().notNull(),
+});
+
+export const leadMagnets = mysqlTable("lead_magnets", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull(),
+  name: varchar("name", { length: 255 }),
+  source: varchar("source", { length: 64 }).default("academy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const efileSubmissions = mysqlTable("efile_submissions", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),

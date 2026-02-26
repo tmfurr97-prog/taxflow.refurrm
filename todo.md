@@ -93,3 +93,29 @@
 - [x] Add "Remote Returns" to AppShell sidebar navigation
 - [x] "Prior Year Return" checklist item for new clients (upload last filed return for carryover data, AGI, depreciation schedules)
 - [x] "First-time client" flag on remote return to highlight prior year return as required
+
+## SmartBooks Academy - Learning Portal
+- [x] Academy landing page with 4 course tracks and free/premium gating
+- [x] Course track 1: Tax Basics for Gig Workers (4 lessons)
+- [x] Course track 2: Self-Employed & Freelancer Finances (4 lessons)
+- [x] Course track 3: Small Business Bookkeeping 101 (4 lessons)
+- [x] Course track 4: Start & Protect Your Business (4 lessons)
+- [x] Lesson viewer page with progress tracking
+- [x] Free lesson preview (first lesson of each track unlocked)
+- [x] Premium gating with upgrade CTA for locked lessons
+- [x] Upsell CTAs: Remote Returns after tax lessons, Notary after business lessons
+- [x] Lead magnet: Free "Gig Worker Tax Starter Kit" email capture
+- [x] Course progress saved to database per user
+- [x] DB schema: courses, lessons, user_progress tables
+- [x] tRPC backend: academy router with course/lesson/progress procedures
+- [x] Add Academy to AppShell sidebar navigation
+- [x] Affiliate link placeholders in lesson content
+
+## Pricing Page Rebuild
+- [x] Free tier ($0) with limited features
+- [x] Essential tier ($9.99/mo or $99/yr)
+- [x] Pro tier ($24.99/mo or $199/yr)
+- [x] Business tier ($39.99/mo or $349/yr)
+- [x] À la carte add-ons section (Remote Return, State Return, Notary, Audit Defense, Bookkeeping Cleanup, Prior Year Return)
+- [x] Annual/monthly toggle with savings callout
+- [x] "Less than a tank of gas" messaging

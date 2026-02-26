@@ -25,6 +25,7 @@ const navItems = [
   { icon: Users, label: 'Remote Returns', path: '/remote-returns', badge: 'Human' },
   { icon: NotebookPen, label: 'Notary Services', path: '/notary' },
   { icon: Database, label: 'Backups', path: '/backups' },
+  { icon: BookOpen, label: 'Academy', path: '/academy' },
   { icon: User, label: 'Profile', path: '/profile' },
 ];
 

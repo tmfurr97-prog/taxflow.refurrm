@@ -36,6 +36,7 @@ import Backups from "./components/pages/Backups";
 import EFile from "./components/pages/EFile";
 import RemoteReturns from "./components/pages/RemoteReturns";
 import CryptoTaxes from "./components/pages/CryptoTaxes";
+import Academy from "./components/pages/Academy";
 import { QuarterlyPayments } from "./components/QuarterlyPayments";
 
 function Router() {
@@ -89,6 +90,9 @@ function Router() {
       </Route>
       <Route path="/backups">
         {() => <AppShell><Backups /></AppShell>}
+      </Route>
+      <Route path="/academy">
+        {() => <AppShell><Academy /></AppShell>}
       </Route>
       <Route path="/profile">
         {() => <AppShell><Profile /></AppShell>}

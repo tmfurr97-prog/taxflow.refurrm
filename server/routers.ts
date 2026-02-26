@@ -431,6 +431,56 @@ const efileRouter = router({
     }),
 });
 
+// ─── Academy Router ──────────────────────────────────────────────────────
+const academyRouter = router({
+  getProgress: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return [];
+    const { academyProgress } = await import("../drizzle/schema");
+    return db.select().from(academyProgress).where(eq(academyProgress.userId, ctx.user.id));
+  }),
+
+  markLessonComplete: protectedProcedure
+    .input(z.object({ lessonSlug: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { academyProgress } = await import("../drizzle/schema");
+      // Upsert — only insert if not already completed
+      const existing = await db.select().from(academyProgress)
+        .where(eq(academyProgress.userId, ctx.user.id))
+        .limit(100);
+      const alreadyDone = existing.some((p: { lessonSlug: string }) => p.lessonSlug === input.lessonSlug);
+      if (!alreadyDone) {
+        await db.insert(academyProgress).values({
+          userId: ctx.user.id,
+          lessonSlug: input.lessonSlug,
+        });
+      }
+      return { success: true };
+    }),
+
+  captureLeadMagnet: publicProcedure
+    .input(z.object({ email: z.string().email(), name: z.string().optional() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { leadMagnets } = await import("../drizzle/schema");
+      await db.insert(leadMagnets).values({
+        email: input.email,
+        name: input.name ?? null,
+        source: "academy",
+      });
+      // Notify owner of new lead
+      const { notifyOwner } = await import("./_core/notification");
+      await notifyOwner({
+        title: "New Lead Magnet Signup",
+        content: `${input.name ?? input.email} signed up for the Gig Worker Tax Starter Kit.`,
+      });
+      return { success: true };
+    }),
+});
+
 // ─── Remote Returns Router ──────────────────────────────────────────────────────
 const remoteReturnsRouter = router({
   list: protectedProcedure.query(async ({ ctx }) => {
@@ -597,7 +647,7 @@ export const appRouter = router({
   audit: auditRouter,
   efile: efileRouter,
   profile: profileRouter,
-  remoteReturns: remoteReturnsRouter,
+   remoteReturns: remoteReturnsRouter,
+  academy: academyRouter,
 });
-
 export type AppRouter = typeof appRouter;
