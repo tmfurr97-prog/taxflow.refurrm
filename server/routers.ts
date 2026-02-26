@@ -8,11 +8,14 @@ import { z } from "zod";
 import {
   chatMessages, receipts, taxDocuments, transactions,
   quarterlyPayments, businessEntities, cryptoTransactions,
-  auditItems, backups, notarySessions, efileSubmissions, mileageLogs
+  auditItems, backups, notarySessions, efileSubmissions, mileageLogs,
+  users
 } from "../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
+import { getStripe } from "./stripe";
+import { STRIPE_PLANS, ALACARTE_ITEMS, type AlacarteKey } from "../shared/stripeProducts";
 
 // ─── TaxGPT AI Router ─────────────────────────────────────────────────────────
 const taxgptRouter = router({
@@ -627,6 +630,96 @@ const profileRouter = router({
     }),
 });
 
+// ─── Billing Router ─────────────────────────────────────────────────────────
+const billingRouter = router({
+  getSubscription: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+    const result = await db.select({
+      subscriptionTier: users.subscriptionTier,
+      subscriptionStatus: users.subscriptionStatus,
+      stripeCustomerId: users.stripeCustomerId,
+      stripeSubscriptionId: users.stripeSubscriptionId,
+    }).from(users).where(eq(users.id, ctx.user.id)).limit(1);
+    return result[0] || null;
+  }),
+
+  createCheckout: protectedProcedure
+    .input(z.object({
+      priceId: z.string(),
+      origin: z.string(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const stripe = getStripe();
+      const session = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        payment_method_types: ["card"],
+        line_items: [{ price: input.priceId, quantity: 1 }],
+        customer_email: ctx.user.email || undefined,
+        client_reference_id: ctx.user.id.toString(),
+        metadata: {
+          user_id: ctx.user.id.toString(),
+          customer_email: ctx.user.email || "",
+          customer_name: ctx.user.name || "",
+        },
+        success_url: `${input.origin}/dashboard?subscription=success`,
+        cancel_url: `${input.origin}/pricing?canceled=true`,
+        allow_promotion_codes: true,
+      });
+      return { url: session.url };
+    }),
+
+  createAlacarteCheckout: protectedProcedure
+    .input(z.object({
+      itemKey: z.string(),
+      origin: z.string(),
+      metadata: z.record(z.string(), z.string()).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const stripe = getStripe();
+      const item = ALACARTE_ITEMS[input.itemKey as AlacarteKey];
+      if (!item) throw new Error("Invalid item");
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: ["card"],
+        line_items: [{
+          price_data: {
+            currency: "usd",
+            unit_amount: item.amount,
+            product_data: { name: item.name },
+          },
+          quantity: 1,
+        }],
+        customer_email: ctx.user.email || undefined,
+        client_reference_id: ctx.user.id.toString(),
+        metadata: {
+          user_id: ctx.user.id.toString(),
+          item_key: input.itemKey,
+          ...input.metadata,
+        },
+        success_url: `${input.origin}/dashboard?payment=success`,
+        cancel_url: `${input.origin}/pricing?canceled=true`,
+        allow_promotion_codes: true,
+      });
+      return { url: session.url };
+    }),
+
+  cancelSubscription: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("Database unavailable");
+    const result = await db.select({ stripeSubscriptionId: users.stripeSubscriptionId })
+      .from(users).where(eq(users.id, ctx.user.id)).limit(1);
+    const subId = result[0]?.stripeSubscriptionId;
+    if (!subId) throw new Error("No active subscription");
+    const stripe = getStripe();
+    await stripe.subscriptions.cancel(subId);
+    await db.update(users)
+      .set({ subscriptionStatus: "canceled", subscriptionTier: "free", stripeSubscriptionId: null })
+      .where(eq(users.id, ctx.user.id));
+    return { success: true };
+  }),
+});
+
 // ─── App Router ───────────────────────────────────────────────────────────────
 export const appRouter = router({
   system: systemRouter,
@@ -647,7 +740,8 @@ export const appRouter = router({
   audit: auditRouter,
   efile: efileRouter,
   profile: profileRouter,
-   remoteReturns: remoteReturnsRouter,
+  remoteReturns: remoteReturnsRouter,
   academy: academyRouter,
+  billing: billingRouter,
 });
 export type AppRouter = typeof appRouter;

@@ -18,9 +18,10 @@ export const users = mysqlTable("users", {
   homeOwner: boolean("homeOwner").default(false),
   dependents: int("dependents").default(0),
   // Subscription
-  subscriptionTier: mysqlEnum("subscriptionTier", ["free", "weekly", "monthly", "annual"]).default("free"),
+  subscriptionTier: mysqlEnum("subscriptionTier", ["free", "essential", "pro", "business"]).default("free"),
   subscriptionStatus: varchar("subscriptionStatus", { length: 32 }).default("inactive"),
   stripeCustomerId: varchar("stripeCustomerId", { length: 64 }),
+  stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 64 }),
   // Referral
   referralCode: varchar("referralCode", { length: 16 }),
   referredBy: varchar("referredBy", { length: 16 }),

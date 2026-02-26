@@ -119,3 +119,16 @@
 - [x] À la carte add-ons section (Remote Return, State Return, Notary, Audit Defense, Bookkeeping Cleanup, Prior Year Return)
 - [x] Annual/monthly toggle with savings callout
 - [x] "Less than a tank of gas" messaging
+
+## Stripe Integration
+- [x] Check existing Stripe products/prices in account
+- [x] Create products: Free, Essential, Pro, Business subscription tiers
+- [x] Create prices: monthly and annual for each tier
+- [x] Create à la carte payment links (Remote Return, State Return, Notary, Audit Defense, Bookkeeping Cleanup, Prior Year Return)
+- [x] Add Stripe feature scaffold to project
+- [x] Add STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY secrets (auto-injected)
+- [x] Wire up subscription checkout flow from Pricing page
+- [x] Add subscription status to user profile (subscriptionTier, subscriptionStatus in DB)
+- [x] Add webhook handler for subscription events (created, updated, cancelled)
+- [ ] Gate premium features based on subscription tier (future)
+- [x] Add billing tRPC router: getSubscription, createCheckout, createAlacarteCheckout, cancelSubscription
