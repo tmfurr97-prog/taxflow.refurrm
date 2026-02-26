@@ -168,3 +168,6 @@
 
 ## Calendly Integration
 - [x] Add "Book a Free Consultation" button to landing page hero linking to https://calendly.com/refurrm-llc/30min
+
+## Bugs
+- [x] beta_pro not in subscriptionTier enum — added to mysqlEnum and pushed migration

@@ -18,7 +18,7 @@ export const users = mysqlTable("users", {
   homeOwner: boolean("homeOwner").default(false),
   dependents: int("dependents").default(0),
   // Subscription
-  subscriptionTier: mysqlEnum("subscriptionTier", ["free", "essential", "pro", "business"]).default("free"),
+  subscriptionTier: mysqlEnum("subscriptionTier", ["free", "essential", "pro", "business", "beta_pro"]).default("free"),
   subscriptionStatus: varchar("subscriptionStatus", { length: 32 }).default("inactive"),
   stripeCustomerId: varchar("stripeCustomerId", { length: 64 }),
   stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 64 }),
