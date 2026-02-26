@@ -1,9 +1,11 @@
 import { CryptoDashboard } from '@/components/CryptoDashboard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bitcoin, TrendingUp, DollarSign, FileText } from 'lucide-react';
+import { FeatureGate } from '@/components/FeatureGate';
 
 export default function CryptoTaxes() {
   return (
+    <FeatureGate feature="crypto" fullPage upgradeMessage="Crypto tax tracking is available on the Pro plan. Track gains, losses, and auto-generate Form 8949.">
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -68,5 +70,6 @@ export default function CryptoTaxes() {
         <CryptoDashboard />
       </div>
     </div>
+    </FeatureGate>
   );
 }

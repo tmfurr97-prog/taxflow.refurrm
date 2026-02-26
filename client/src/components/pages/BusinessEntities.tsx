@@ -1,9 +1,11 @@
 import EntityDashboard from '@/components/EntityDashboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Building2, FileText, AlertCircle, TrendingUp } from 'lucide-react';
+import { FeatureGate } from '@/components/FeatureGate';
 
 export default function BusinessEntities() {
   return (
+    <FeatureGate feature="business_entities" fullPage upgradeMessage="Business Entity Management is available on the Pro plan. Manage LLCs, S-Corps, and multi-entity compliance.">
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -68,5 +70,6 @@ export default function BusinessEntities() {
         <EntityDashboard />
       </div>
     </div>
+    </FeatureGate>
   );
 }

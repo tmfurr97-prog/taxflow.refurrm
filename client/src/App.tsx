@@ -38,6 +38,7 @@ import RemoteReturns from "./components/pages/RemoteReturns";
 import CryptoTaxes from "./components/pages/CryptoTaxes";
 import Academy from "./components/pages/Academy";
 import { QuarterlyPayments } from "./components/QuarterlyPayments";
+import AdminReturns from "./components/pages/AdminReturns";
 
 function Router() {
   return (
@@ -96,6 +97,9 @@ function Router() {
       </Route>
       <Route path="/profile">
         {() => <AppShell><Profile /></AppShell>}
+      </Route>
+      <Route path="/admin/returns">
+        {() => <AppShell><AdminReturns /></AppShell>}
       </Route>
 
       {/* Fallback */}

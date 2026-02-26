@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { Send, Bot, User, Sparkles, RefreshCw, BookOpen, Calculator, FileText, Shield } from 'lucide-react';
 import { Streamdown } from 'streamdown';
 import { nanoid } from 'nanoid';
+import { FeatureGate } from '@/components/FeatureGate';
 
 const QUICK_QUESTIONS = [
   { icon: Calculator, text: 'How do I calculate my quarterly taxes?' },
@@ -16,7 +17,7 @@ const QUICK_QUESTIONS = [
   { icon: Shield, text: 'How do I handle an IRS audit notice?' },
 ];
 
-export default function TaxGPTPage() {
+function TaxGPTPageInner() {
   const [sessionId] = useState(() => nanoid());
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
@@ -52,6 +53,7 @@ export default function TaxGPTPage() {
   };
 
   return (
+    <FeatureGate feature="taxgpt_basic" fullPage upgradeMessage="TaxGPT AI is available on the Essential plan and above. Upgrade to get 24/7 AI tax answers.">
     <div className="min-h-screen bg-slate-950 text-white flex flex-col">
       {/* Header */}
       <div className="border-b border-slate-800 p-4">
@@ -172,5 +174,10 @@ export default function TaxGPTPage() {
         </div>
       </div>
     </div>
+    </FeatureGate>
   );
+}
+
+export default function TaxGPTPage() {
+  return <TaxGPTPageInner />;
 }

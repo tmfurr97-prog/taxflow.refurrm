@@ -132,3 +132,15 @@
 - [x] Add webhook handler for subscription events (created, updated, cancelled)
 - [ ] Gate premium features based on subscription tier (future)
 - [x] Add billing tRPC router: getSubscription, createCheckout, createAlacarteCheckout, cancelSubscription
+
+## Phase 2 - Finishing Touches
+- [x] Real S3 file uploads for Remote Returns checklist items
+- [x] Admin Returns Dashboard at /admin/returns
+- [x] Subscription feature gating (Free vs paid tiers)
+- [x] Landing page full polish and conversion optimization
+
+## Legal Compliance (EFIN/PTIN)
+- [x] Update e-file copy: "filed through our authorized e-file partner (TaxxSavage)" — not direct IRS submission
+- [x] Update Remote Returns copy: "prepared by SmartBooks24, e-filed through licensed partner"
+- [x] Add preparer disclosure footer: PTIN + EIN + "E-filing performed by authorized ERO partner"
+- [x] Remove any language implying direct EFIN ownership until obtained

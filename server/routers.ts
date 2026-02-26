@@ -601,11 +601,39 @@ const remoteReturnsRouter = router({
     const db = await getDb();
     if (!db) throw new Error("Database unavailable");
     const { remoteReturns } = await import("../drizzle/schema");
-    return db.select().from(remoteReturns).orderBy(remoteReturns.createdAt);
+    return db.select().from(remoteReturns).orderBy(desc(remoteReturns.createdAt));
   }),
+  // Admin: get a single return with all documents
+  adminGetById: protectedProcedure
+    .input(z.object({ returnId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      if (ctx.user.role !== "admin") throw new Error("Forbidden");
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { remoteReturns, returnDocuments } = await import("../drizzle/schema");
+      const [ret] = await db.select().from(remoteReturns)
+        .where(eq(remoteReturns.id, input.returnId)).limit(1);
+      if (!ret) throw new Error("Not found");
+      const docs = await db.select().from(returnDocuments)
+        .where(eq(returnDocuments.returnId, input.returnId));
+      return { ...ret, documents: docs };
+    }),
+  // Delete a document (user can delete their own)
+  deleteDocument: protectedProcedure
+    .input(z.object({ documentId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { returnDocuments } = await import("../drizzle/schema");
+      const [doc] = await db.select().from(returnDocuments)
+        .where(and(eq(returnDocuments.id, input.documentId), eq(returnDocuments.userId, ctx.user.id)))
+        .limit(1);
+      if (!doc) throw new Error("Document not found");
+      await db.delete(returnDocuments).where(eq(returnDocuments.id, input.documentId));
+      return { success: true };
+    }),
 });
-
-// ─── User Profile Router ──────────────────────────────────────────────────────
+// ─── User Profile Routerr ──────────────────────────────────────────────────────
 const profileRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
     return ctx.user;

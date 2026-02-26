@@ -1,9 +1,11 @@
 import { AuditDefenseHub } from '@/components/AuditDefenseHub';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, FileText, AlertTriangle, CheckCircle } from 'lucide-react';
+import { FeatureGate } from '@/components/FeatureGate';
 
 export default function AuditDefense() {
   return (
+    <FeatureGate feature="audit_defense" fullPage upgradeMessage="Audit Defense is available on the Pro plan. Get IRS correspondence tracking, audit trail, and professional support.">
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -68,5 +70,6 @@ export default function AuditDefense() {
         <AuditDefenseHub />
       </div>
     </div>
+    </FeatureGate>
   );
 }

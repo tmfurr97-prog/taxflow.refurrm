@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Building2, Shield, Bitcoin, Receipt,
   CreditCard, User, LogOut, Menu, X, Send, Database,
   FileText, BookOpen, ChevronLeft, ChevronRight, Home,
-  DollarSign, NotebookPen, Users
+  DollarSign, NotebookPen, Users, ShieldCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getLoginUrl } from '@/const';
@@ -122,6 +122,27 @@ export default function AppShell({ children }: AppShellProps) {
 
         {/* Nav items */}
         <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-1">
+          {user?.role === 'admin' && (
+            <Link href="/admin/returns">
+              <div
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all group",
+                  location.startsWith('/admin')
+                    ? "bg-red-500/15 text-red-400 font-medium"
+                    : "text-slate-400 hover:bg-slate-800 hover:text-white"
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <ShieldCheck className={cn("w-5 h-5 shrink-0", location.startsWith('/admin') ? "text-red-400" : "")} />
+                {sidebarOpen && <span className="text-sm truncate">Admin: Returns</span>}
+                {!sidebarOpen && (
+                  <div className="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                    Admin: Returns
+                  </div>
+                )}
+              </div>
+            </Link>
+          )}
           {navItems.map((item) => {
             const isActive = location === item.path || location.startsWith(item.path + '/');
             return (
