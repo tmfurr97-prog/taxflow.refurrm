@@ -317,6 +317,30 @@ export const leadMagnets = mysqlTable("lead_magnets", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+// ─── Promo Codes (Beta Access) ───────────────────────────────────────────────
+export const promoCodes = mysqlTable("promo_codes", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 32 }).notNull().unique(),
+  label: varchar("label", { length: 128 }), // e.g. "Beta Tester - Jane"
+  tierGrant: varchar("tierGrant", { length: 32 }).notNull().default("beta_pro"),
+  maxUses: int("maxUses").notNull().default(1),
+  usedCount: int("usedCount").notNull().default(0),
+  expiresAt: timestamp("expiresAt"),
+  isActive: boolean("isActive").notNull().default(true),
+  createdBy: int("createdBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type PromoCode = typeof promoCodes.$inferSelect;
+export type InsertPromoCode = typeof promoCodes.$inferInsert;
+
+export const promoRedemptions = mysqlTable("promo_redemptions", {
+  id: int("id").autoincrement().primaryKey(),
+  codeId: int("codeId").notNull(),
+  userId: int("userId").notNull(),
+  redeemedAt: timestamp("redeemedAt").defaultNow().notNull(),
+});
+export type PromoRedemption = typeof promoRedemptions.$inferSelect;
+
 export const efileSubmissions = mysqlTable("efile_submissions", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),

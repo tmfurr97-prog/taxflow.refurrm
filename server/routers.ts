@@ -9,7 +9,7 @@ import {
   chatMessages, receipts, taxDocuments, transactions,
   quarterlyPayments, businessEntities, cryptoTransactions,
   auditItems, backups, notarySessions, efileSubmissions, mileageLogs,
-  users
+  users, promoCodes, promoRedemptions
 } from "../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { storagePut } from "./storage";
@@ -748,6 +748,115 @@ const billingRouter = router({
   }),
 });
 
+// ─── Promo Codes Router ─────────────────────────────────────────────────────
+const promoCodesRouter = router({
+  // Admin: generate a new promo code
+  generate: protectedProcedure
+    .input(z.object({
+      label: z.string().optional(),
+      maxUses: z.number().min(1).max(100).default(1),
+      tierGrant: z.string().default("beta_pro"),
+      expiresInDays: z.number().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.role !== "admin") throw new Error("Forbidden");
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const code = `BETA-${nanoid(8).toUpperCase()}`;
+      const expiresAt = input.expiresInDays
+        ? new Date(Date.now() + input.expiresInDays * 86400000)
+        : undefined;
+      await db.insert(promoCodes).values({
+        code,
+        label: input.label,
+        tierGrant: input.tierGrant,
+        maxUses: input.maxUses,
+        usedCount: 0,
+        isActive: true,
+        createdBy: ctx.user.id,
+        expiresAt,
+      });
+      return { code };
+    }),
+
+  // Admin: list all promo codes with redemption info
+  adminList: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user.role !== "admin") throw new Error("Forbidden");
+    const db = await getDb();
+    if (!db) return [];
+    const codes = await db.select().from(promoCodes).orderBy(desc(promoCodes.createdAt));
+    // For each code, get redemptions
+    const results = await Promise.all(codes.map(async (c) => {
+      const redemptions = await db
+        .select({ userId: promoRedemptions.userId, redeemedAt: promoRedemptions.redeemedAt })
+        .from(promoRedemptions)
+        .where(eq(promoRedemptions.codeId, c.id));
+      return { ...c, redemptions };
+    }));
+    return results;
+  }),
+
+  // Admin: revoke a code
+  revoke: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.role !== "admin") throw new Error("Forbidden");
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      await db.update(promoCodes).set({ isActive: false }).where(eq(promoCodes.id, input.id));
+      return { success: true };
+    }),
+
+  // User: redeem a promo code
+  redeem: protectedProcedure
+    .input(z.object({ code: z.string().min(1).max(64) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const normalizedCode = input.code.trim().toUpperCase();
+      // Find the code
+      const [promoCode] = await db.select().from(promoCodes)
+        .where(eq(promoCodes.code, normalizedCode)).limit(1);
+      if (!promoCode) throw new Error("Invalid promo code");
+      if (!promoCode.isActive) throw new Error("This promo code has been deactivated");
+      if (promoCode.expiresAt && promoCode.expiresAt < new Date()) throw new Error("This promo code has expired");
+      if (promoCode.usedCount >= promoCode.maxUses) throw new Error("This promo code has reached its usage limit");
+      // Check if user already redeemed this code
+      const [existing] = await db.select().from(promoRedemptions)
+        .where(and(eq(promoRedemptions.codeId, promoCode.id), eq(promoRedemptions.userId, ctx.user.id)))
+        .limit(1);
+      if (existing) throw new Error("You have already redeemed this code");
+      // Apply the tier grant
+      await db.update(users)
+        .set({ subscriptionTier: promoCode.tierGrant as "free" | "essential" | "pro" | "business", subscriptionStatus: "beta" })
+        .where(eq(users.id, ctx.user.id));
+      // Record redemption
+      await db.insert(promoRedemptions).values({ codeId: promoCode.id, userId: ctx.user.id });
+      // Increment used count
+      await db.update(promoCodes)
+        .set({ usedCount: promoCode.usedCount + 1 })
+        .where(eq(promoCodes.id, promoCode.id));
+      return { success: true, tierGrant: promoCode.tierGrant, message: `Beta Pro access activated! Welcome to TaxFlow.` };
+    }),
+
+  // User: check if they have an active promo redemption
+  myRedemption: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+    const [redemption] = await db.select({
+      code: promoCodes.code,
+      label: promoCodes.label,
+      tierGrant: promoCodes.tierGrant,
+      redeemedAt: promoRedemptions.redeemedAt,
+    })
+      .from(promoRedemptions)
+      .innerJoin(promoCodes, eq(promoRedemptions.codeId, promoCodes.id))
+      .where(eq(promoRedemptions.userId, ctx.user.id))
+      .limit(1);
+    return redemption || null;
+  }),
+});
+
 // ─── App Router ───────────────────────────────────────────────────────────────
 export const appRouter = router({
   system: systemRouter,
@@ -771,5 +880,6 @@ export const appRouter = router({
   remoteReturns: remoteReturnsRouter,
   academy: academyRouter,
   billing: billingRouter,
+  promoCodes: promoCodesRouter,
 });
 export type AppRouter = typeof appRouter;

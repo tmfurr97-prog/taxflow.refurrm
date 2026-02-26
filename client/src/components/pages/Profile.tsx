@@ -12,6 +12,7 @@ import { Loader2, User, FileText, Settings, Shield, Gift, CreditCard, MapPin } f
 import SecuritySection from '@/components/SecuritySection';
 import { ReferralSystem } from '@/components/ReferralSystem';
 import SubscriptionManagement from '@/components/SubscriptionManagement';
+import PromoCodeRedemption from '@/components/PromoCodeRedemption';
 import { stateTaxData } from '@/data/stateTaxData';
 
 export default function Profile() {
@@ -231,7 +232,10 @@ export default function Profile() {
           </TabsContent>
 
           <TabsContent value="subscription">
-            <SubscriptionManagement />
+            <div className="space-y-4">
+              <PromoCodeRedemption />
+              <SubscriptionManagement />
+            </div>
           </TabsContent>
 
           <TabsContent value="security">

@@ -144,3 +144,13 @@
 - [x] Update Remote Returns copy: "prepared by SmartBooks24, e-filed through licensed partner"
 - [x] Add preparer disclosure footer: PTIN + EIN + "E-filing performed by authorized ERO partner"
 - [x] Remove any language implying direct EFIN ownership until obtained
+
+## Beta Promo Code System
+- [x] DB schema: promo_codes table (code, tier, max_uses, used_count, expires_at, created_by)
+- [x] DB schema: promo_redemptions table (user_id, code_id, redeemed_at)
+- [x] tRPC backend: promoCodes.generate (admin only), adminList, redeem, revoke, myRedemption
+- [x] Feature gating: recognize "beta_pro" tier as equivalent to Pro for all platform features
+- [x] Admin UI: /admin/promo-codes page to generate, view, and revoke codes
+- [x] User UI: redeem code from Profile → Subscription tab
+- [x] Pre-generate codes on demand from admin page (no limit, max 5 active at a time recommended)
+- [x] Exclusions: Remote Returns and à la carte services remain paid even with promo tier

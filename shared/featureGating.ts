@@ -48,19 +48,26 @@ const FEATURE_MIN_TIER: Record<FeatureKey, PlanTier> = {
   document_vault:      'essential',
 };
 
-export function hasFeature(userTier: PlanTier | null | undefined, feature: FeatureKey): boolean {
-  const tier = userTier ?? 'free';
+/**
+ * Check if a user's tier grants access to a feature.
+ * 'beta_pro' is treated as Pro for all platform features.
+ * Remote Returns and à la carte services are always paid separately.
+ */
+export function hasFeature(userTier: PlanTier | string | null | undefined, feature: FeatureKey): boolean {
+  // beta_pro maps to Pro for all platform features
+  const normalizedTier: PlanTier = userTier === 'beta_pro' ? 'pro' : ((userTier as PlanTier) ?? 'free');
   const required = FEATURE_MIN_TIER[feature];
-  return TIER_RANK[tier] >= TIER_RANK[required];
+  return TIER_RANK[normalizedTier] >= TIER_RANK[required];
 }
 
 export function getMinTierForFeature(feature: FeatureKey): PlanTier {
   return FEATURE_MIN_TIER[feature];
 }
 
-export const TIER_DISPLAY_NAMES: Record<PlanTier, string> = {
+export const TIER_DISPLAY_NAMES: Record<PlanTier | 'beta_pro', string> = {
   free: 'Free',
   essential: 'Essential',
   pro: 'Pro',
   business: 'Business',
+  beta_pro: 'Beta Pro',
 };
