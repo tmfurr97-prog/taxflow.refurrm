@@ -6,7 +6,7 @@ import {
   ArrowRight, CheckCircle, Star, TrendingUp, Shield, Bot, Receipt,
   DollarSign, Building2, Bitcoin, FileText, Users, BookOpen,
   Zap, Clock, Award, Sparkles, ChevronRight, Lock, Phone,
-  Mail, Twitter, Linkedin, Menu, X
+  Mail, Twitter, Linkedin, Menu, X, CalendarDays
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -165,6 +165,11 @@ export default function Landing() {
                     View Pricing
                   </Button>
                 </Link>
+                <a href="https://calendly.com/refurrm-llc/30min" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="border-emerald-700 text-emerald-400 hover:bg-emerald-950 bg-transparent text-lg px-8 h-14 gap-2 w-full">
+                    <CalendarDays className="w-5 h-5" /> Book a Free Consultation
+                  </Button>
+                </a>
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
                 <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-emerald-500" /> No credit card required</span>

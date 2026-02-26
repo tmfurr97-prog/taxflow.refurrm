@@ -165,3 +165,6 @@
 
 ## Bugs
 - [x] Receipts page: "Upload New" / "All Receipts" tab text unreadable (grey on grey) — fixed muted-foreground to oklch(0.72)
+
+## Calendly Integration
+- [x] Add "Book a Free Consultation" button to landing page hero linking to https://calendly.com/refurrm-llc/30min
