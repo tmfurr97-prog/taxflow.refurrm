@@ -1,22 +1,29 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import {
+  int, mysqlEnum, mysqlTable, text, timestamp,
+  varchar, decimal, boolean, json
+} from "drizzle-orm/mysql-core";
 
-/**
- * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
- */
+// ─── Users ───────────────────────────────────────────────────────────────────
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  // Tax profile
+  filingStatus: varchar("filingStatus", { length: 32 }),
+  state: varchar("state", { length: 2 }),
+  selfEmployed: boolean("selfEmployed").default(false),
+  homeOwner: boolean("homeOwner").default(false),
+  dependents: int("dependents").default(0),
+  // Subscription
+  subscriptionTier: mysqlEnum("subscriptionTier", ["free", "weekly", "monthly", "annual"]).default("free"),
+  subscriptionStatus: varchar("subscriptionStatus", { length: 32 }).default("inactive"),
+  stripeCustomerId: varchar("stripeCustomerId", { length: 64 }),
+  // Referral
+  referralCode: varchar("referralCode", { length: 16 }),
+  referredBy: varchar("referredBy", { length: 16 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -25,4 +32,193 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+// ─── Tax Documents ────────────────────────────────────────────────────────────
+export const taxDocuments = mysqlTable("tax_documents", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  documentType: varchar("documentType", { length: 32 }).notNull(), // W-2, 1099-NEC, 1099-K, etc.
+  fileName: varchar("fileName", { length: 255 }),
+  fileUrl: varchar("fileUrl", { length: 1024 }),
+  fileKey: varchar("fileKey", { length: 512 }),
+  status: mysqlEnum("status", ["pending", "processing", "verified", "rejected"]).default("pending"),
+  extractedData: json("extractedData"),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── Receipts ─────────────────────────────────────────────────────────────────
+export const receipts = mysqlTable("receipts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  vendor: varchar("vendor", { length: 255 }),
+  amount: decimal("amount", { precision: 10, scale: 2 }),
+  date: varchar("date", { length: 32 }),
+  category: varchar("category", { length: 64 }),
+  description: text("description"),
+  imageUrl: varchar("imageUrl", { length: 1024 }),
+  imageKey: varchar("imageKey", { length: 512 }),
+  isDeductible: boolean("isDeductible").default(true),
+  ocrData: json("ocrData"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── Mileage Logs ─────────────────────────────────────────────────────────────
+export const mileageLogs = mysqlTable("mileage_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  date: varchar("date", { length: 32 }),
+  startLocation: varchar("startLocation", { length: 255 }),
+  endLocation: varchar("endLocation", { length: 255 }),
+  miles: decimal("miles", { precision: 8, scale: 2 }),
+  purpose: varchar("purpose", { length: 255 }),
+  category: varchar("category", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── Transactions (Bank / Plaid) ──────────────────────────────────────────────
+export const transactions = mysqlTable("transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  plaidTransactionId: varchar("plaidTransactionId", { length: 128 }),
+  accountId: varchar("accountId", { length: 128 }),
+  amount: decimal("amount", { precision: 10, scale: 2 }),
+  date: varchar("date", { length: 32 }),
+  description: varchar("description", { length: 512 }),
+  merchantName: varchar("merchantName", { length: 255 }),
+  category: varchar("category", { length: 64 }),
+  taxCategory: varchar("taxCategory", { length: 64 }),
+  isDeductible: boolean("isDeductible").default(false),
+  isReviewed: boolean("isReviewed").default(false),
+  receiptId: int("receiptId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── Business Entities ────────────────────────────────────────────────────────
+export const businessEntities = mysqlTable("business_entities", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  entityName: varchar("entityName", { length: 255 }).notNull(),
+  entityType: varchar("entityType", { length: 32 }).notNull(), // LLC, S-Corp, C-Corp, Sole Prop
+  ein: varchar("ein", { length: 20 }),
+  state: varchar("state", { length: 2 }),
+  formationDate: varchar("formationDate", { length: 32 }),
+  registeredAgent: varchar("registeredAgent", { length: 255 }),
+  status: mysqlEnum("status", ["active", "inactive", "dissolved"]).default("active"),
+  complianceData: json("complianceData"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── Quarterly Tax Payments ───────────────────────────────────────────────────
+export const quarterlyPayments = mysqlTable("quarterly_payments", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  quarter: int("quarter").notNull(), // 1-4
+  dueDate: varchar("dueDate", { length: 32 }),
+  estimatedAmount: decimal("estimatedAmount", { precision: 10, scale: 2 }),
+  paidAmount: decimal("paidAmount", { precision: 10, scale: 2 }),
+  paidDate: varchar("paidDate", { length: 32 }),
+  confirmationNumber: varchar("confirmationNumber", { length: 64 }),
+  status: mysqlEnum("status", ["upcoming", "due", "paid", "overdue"]).default("upcoming"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── Crypto Transactions ──────────────────────────────────────────────────────
+export const cryptoTransactions = mysqlTable("crypto_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  asset: varchar("asset", { length: 32 }),
+  transactionType: varchar("transactionType", { length: 32 }), // buy, sell, trade, earn
+  quantity: decimal("quantity", { precision: 18, scale: 8 }),
+  priceUsd: decimal("priceUsd", { precision: 18, scale: 2 }),
+  totalUsd: decimal("totalUsd", { precision: 18, scale: 2 }),
+  costBasis: decimal("costBasis", { precision: 18, scale: 2 }),
+  gainLoss: decimal("gainLoss", { precision: 18, scale: 2 }),
+  holdingPeriod: varchar("holdingPeriod", { length: 16 }), // short, long
+  exchange: varchar("exchange", { length: 64 }),
+  date: varchar("date", { length: 32 }),
+  txHash: varchar("txHash", { length: 128 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── Audit Defense ────────────────────────────────────────────────────────────
+export const auditItems = mysqlTable("audit_items", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  irsNoticeType: varchar("irsNoticeType", { length: 64 }),
+  noticeDate: varchar("noticeDate", { length: 32 }),
+  responseDeadline: varchar("responseDeadline", { length: 32 }),
+  status: mysqlEnum("status", ["open", "in_progress", "resolved", "closed"]).default("open"),
+  description: text("description"),
+  documentUrl: varchar("documentUrl", { length: 1024 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── Backups ──────────────────────────────────────────────────────────────────
+export const backups = mysqlTable("backups", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  backupType: varchar("backupType", { length: 32 }), // full, receipts, documents
+  fileUrl: varchar("fileUrl", { length: 1024 }),
+  fileKey: varchar("fileKey", { length: 512 }),
+  fileSize: int("fileSize"),
+  status: mysqlEnum("status", ["creating", "ready", "failed"]).default("creating"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── Notary Sessions ──────────────────────────────────────────────────────────
+export const notarySessions = mysqlTable("notary_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sessionType: varchar("sessionType", { length: 32 }).notNull(), // RON, general
+  serviceType: varchar("serviceType", { length: 64 }), // acknowledgment, jurat, etc.
+  scheduledAt: timestamp("scheduledAt"),
+  completedAt: timestamp("completedAt"),
+  status: mysqlEnum("status", ["scheduled", "in_progress", "completed", "cancelled"]).default("scheduled"),
+  documentName: varchar("documentName", { length: 255 }),
+  documentUrl: varchar("documentUrl", { length: 1024 }),
+  documentKey: varchar("documentKey", { length: 512 }),
+  signerName: varchar("signerName", { length: 255 }),
+  signerEmail: varchar("signerEmail", { length: 320 }),
+  witnessRequired: boolean("witnessRequired").default(false),
+  price: decimal("price", { precision: 8, scale: 2 }),
+  notes: text("notes"),
+  meetingLink: varchar("meetingLink", { length: 512 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── TaxGPT Chat History ──────────────────────────────────────────────────────
+export const chatMessages = mysqlTable("chat_messages", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sessionId: varchar("sessionId", { length: 64 }),
+  role: mysqlEnum("role", ["user", "assistant", "system"]).notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── E-File Submissions ───────────────────────────────────────────────────────
+export const efileSubmissions = mysqlTable("efile_submissions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  taxYear: int("taxYear").notNull(),
+  submissionType: varchar("submissionType", { length: 32 }), // federal, state
+  stateCode: varchar("stateCode", { length: 2 }),
+  status: mysqlEnum("status", ["draft", "validating", "submitted", "accepted", "rejected"]).default("draft"),
+  confirmationNumber: varchar("confirmationNumber", { length: 64 }),
+  submittedAt: timestamp("submittedAt"),
+  acceptedAt: timestamp("acceptedAt"),
+  rejectionReason: text("rejectionReason"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
