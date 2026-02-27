@@ -85,9 +85,7 @@ export default function Landing() {
           <div className="flex items-center justify-between h-16">
             <Link href="/">
               <div className="flex items-center gap-2 cursor-pointer">
-                <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                  <DollarSign className="w-5 h-5 text-white" />
-                </div>
+                <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-9 h-9" />
                 <div>
                   <span className="text-white font-bold text-lg leading-none">TaxFlow</span>
                   <span className="text-emerald-400 text-xs block leading-none">SmartBooks24</span>
@@ -285,73 +283,58 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Founder Story */}
+      {/* Founder Section */}
       <section className="py-24 px-4 bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Visual card */}
-            <div className="relative">
-              <div className="bg-gradient-to-br from-emerald-900/40 to-teal-900/30 rounded-2xl p-10 border border-emerald-500/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <div className="relative">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-3xl">
-                      👩🏽‍💼
-                    </div>
-                    <div>
-                      <p className="text-white font-bold text-lg">Teresa</p>
-                      <p className="text-emerald-400 text-sm">Founder, SmartBooks24</p>
-                      <p className="text-slate-500 text-xs mt-0.5">PTIN Holder · CPA Candidate · Tax Enthusiast since 1997</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 mb-8">
-                    <div className="text-center p-4 bg-slate-900/60 rounded-xl border border-slate-700">
-                      <p className="text-2xl font-bold text-emerald-400">1997</p>
-                      <p className="text-slate-400 text-xs mt-1">Fell in love with taxes</p>
-                    </div>
-                    <div className="text-center p-4 bg-slate-900/60 rounded-xl border border-slate-700">
-                      <p className="text-2xl font-bold text-emerald-400">Harley</p>
-                      <p className="text-slate-400 text-xs mt-1">The reason this exists</p>
-                    </div>
-                    <div className="text-center p-4 bg-slate-900/60 rounded-xl border border-slate-700">
-                      <p className="text-2xl font-bold text-emerald-400">Now</p>
-                      <p className="text-slate-400 text-xs mt-1">Built for you</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {["W-2 & 1099", "Gig Workers", "Self-Employed", "Small Business", "Crypto", "Side Hustles"].map(tag => (
-                      <span key={tag} className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full">{tag}</span>
+            {/* Left: Photo */}
+            <div className="relative flex justify-center lg:justify-start">
+              <div className="relative">
+                <img
+                  src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663385311818/eamCeJpJxMgMnjcb.png"
+                  alt="Teresa Furr — Founder, SmartBooks24"
+                  className="w-80 lg:w-96 rounded-2xl object-cover object-top shadow-2xl shadow-black/60"
+                  style={{ maxHeight: '520px' }}
+                />
+                <div className="absolute bottom-4 left-4 right-4 bg-slate-950/80 backdrop-blur-sm rounded-xl px-4 py-3 border border-slate-700">
+                  <p className="text-white font-semibold text-sm">Teresa Furr</p>
+                  <p className="text-emerald-400 text-xs">Founder · SmartBooks24 / TaxFlow</p>
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
+                    {["PTIN Holder", "EIN", "EFIN via TaxxSavage", "CPA Candidate", "EA in Progress"].map(c => (
+                      <span key={c} className="text-slate-400 text-xs">{c}</span>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right: Story */}
+            {/* Right: What we do */}
             <div>
-              <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 mb-6">Built by a Real Preparer</Badge>
-              <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
-                A lifelong obsession.<br />
-                <span className="text-emerald-400">Finally turned into something.</span>
+              <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 mb-6">Real Preparer. Real Books.</Badge>
+              <h2 className="text-4xl font-bold text-white mb-3 leading-tight">
+                TaxFlow with SmartBooks Academy
               </h2>
-              <div className="space-y-4 text-slate-300 leading-relaxed">
-                <p>
-                  I&rsquo;ve been fascinated by taxes since 1997. Not because it&rsquo;s glamorous — it&rsquo;s not — but because I watched people around me overpay, miss deductions, and get blindsided by bills that were completely avoidable. I just knew there was a better way.
-                </p>
-                <p>
-                  For years I helped family and friends for free. Then my daughter Harley went off to college, and suddenly I had way too much time on my hands and no more excuses. So I got serious. Got my PTIN. Started studying for my CPA. And built the tool I always wished existed.
-                </p>
-                <p>
-                  SmartBooks24 is what happens when someone who genuinely loves this stuff stops doing it for free and starts doing it right — with AI that works year-round and a real human who actually knows your situation.
-                </p>
-                <p className="text-emerald-400 font-medium">
-                  When you work with SmartBooks24, you get someone who genuinely cares — not just about your refund, but about your financial future.
-                </p>
+              <p className="text-xl text-emerald-400 font-medium mb-8">
+                Bookkeeping for small business.<br />
+                Clean books. Clear decisions.
+              </p>
+              <div className="grid grid-cols-2 gap-3 mb-8">
+                {[
+                  { label: "Monthly Bookkeeping", desc: "Consistent, hands-off financial tracking" },
+                  { label: "Catch-Up & Cleanup", desc: "Get months or years of books current" },
+                  { label: "Reconciliations", desc: "Accounts matched, discrepancies resolved" },
+                  { label: "Simple Reports", desc: "P&L, balance sheet, what you actually need" },
+                ].map(item => (
+                  <div key={item.label} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
+                    <p className="text-white font-semibold text-sm mb-1">{item.label}</p>
+                    <p className="text-slate-400 text-xs leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
               </div>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/remote-returns">
                   <Button className="bg-emerald-500 hover:bg-emerald-600 text-white gap-2 h-11 px-6">
-                    File with Teresa <ArrowRight className="w-4 h-4" />
+                    Work with Teresa <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
                 <Link href="/pricing">
@@ -424,9 +407,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                  <DollarSign className="w-5 h-5 text-white" />
-                </div>
+                <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-9 h-9" />
                 <div>
                   <p className="text-white font-bold leading-none">TaxFlow</p>
                   <p className="text-emerald-400 text-xs">SmartBooks24 by ReFurrm</p>

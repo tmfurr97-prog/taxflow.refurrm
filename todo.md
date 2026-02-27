@@ -186,3 +186,8 @@
 - [ ] IRS-layout fields: First / Middle Initial / Last Name
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
+
+## Logo & Branding Update
+- [x] Replace nav dollar-sign icon with TF badge SVG logo (uploaded by Teresa)
+- [x] Update favicon with TF favicon SVG
+- [x] Rewrite/remove corny founder section (emoji, 1997/Harley/Now cards) — replaced with real photo + professional copy
