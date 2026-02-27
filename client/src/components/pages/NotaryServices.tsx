@@ -41,7 +41,7 @@ const STATUS_COLORS: Record<string, string> = {
 export default function NotaryServices() {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<typeof RON_SERVICES[0] | null>(null);
-  const [sessionType, setSessionType] = useState<'RON' | 'general'>('RON');
+  const [sessionType, setSessionType] = useState<'RON' | 'general'>('general');
   const [form, setForm] = useState({
     signerName: '',
     signerEmail: '',
@@ -93,7 +93,7 @@ export default function NotaryServices() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">Notary Services</h1>
-            <p className="text-slate-400 mt-1">Remote Online Notarization (RON) & General Notary Services</p>
+            <p className="text-slate-400 mt-1">Mobile & In-Person Notary Services — Local Availability</p>
           </div>
           <Dialog open={bookingOpen} onOpenChange={setBookingOpen}>
             <DialogTrigger asChild>
@@ -109,20 +109,21 @@ export default function NotaryServices() {
 
               <Tabs value={sessionType} onValueChange={(v) => setSessionType(v as 'RON' | 'general')}>
                 <TabsList className="bg-slate-800 border-slate-700 w-full">
-                  <TabsTrigger value="RON" className="flex-1 data-[state=active]:bg-emerald-500 data-[state=active]:text-white">
+                  <TabsTrigger value="RON" disabled className="flex-1 opacity-50 cursor-not-allowed">
                     <Video className="w-4 h-4 mr-2" />
-                    Remote Online (RON)
+                    Remote Online (RON) — Coming Soon
                   </TabsTrigger>
                   <TabsTrigger value="general" className="flex-1 data-[state=active]:bg-emerald-500 data-[state=active]:text-white">
                     <MapPin className="w-4 h-4 mr-2" />
-                    General Notary
+                    Mobile & In-Person
                   </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="RON" className="mt-4">
-                  <p className="text-slate-400 text-sm mb-4">
-                    Notarize documents from anywhere via secure video call. You'll receive a meeting link after booking.
-                  </p>
+                  <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-center">
+                    <p className="text-yellow-400 font-medium text-sm">Remote Online Notarization (RON) is coming soon.</p>
+                    <p className="text-slate-400 text-xs mt-1">Mobile and in-person notary services are available now — book below.</p>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     {RON_SERVICES.map((service) => (
                       <div
@@ -148,7 +149,7 @@ export default function NotaryServices() {
 
                 <TabsContent value="general" className="mt-4">
                   <p className="text-slate-400 text-sm mb-4">
-                    Traditional in-person notarization services.
+                    Mobile and in-person notarization — available locally. We come to you or meet at a convenient location.
                   </p>
                   <div className="grid grid-cols-1 gap-3 mb-4">
                     {GENERAL_SERVICES.map((service) => (
@@ -282,8 +283,8 @@ export default function NotaryServices() {
                 <Shield className="w-5 h-5 text-purple-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">RON</p>
-                <p className="text-slate-400 text-sm">Certified Notary</p>
+                <p className="text-2xl font-bold text-white">Local</p>
+                <p className="text-slate-400 text-sm">Mobile & In-Person</p>
               </div>
             </CardContent>
           </Card>
@@ -299,21 +300,21 @@ export default function NotaryServices() {
                 </div>
                 <div>
                   <CardTitle className="text-white">Remote Online Notarization</CardTitle>
-                  <CardDescription className="text-slate-400">Notarize from anywhere, anytime</CardDescription>
+                  <CardDescription className="text-slate-400">Coming soon</CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2 text-sm text-slate-300">
+              <ul className="space-y-2 text-sm text-slate-400">
                 {['Secure video call session', 'Identity verification included', 'Digital seal & signature', 'Legally valid in 40+ states', 'Documents delivered digitally', 'Available 7 days a week'].map(item => (
-                  <li key={item} className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <li key={item} className="flex items-center gap-2 opacity-50">
+                    <Clock className="w-4 h-4 text-slate-500 shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 p-3 bg-blue-500/10 rounded-lg">
-                <p className="text-blue-400 text-sm font-medium">Starting at $25 per notarial act</p>
+              <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                <p className="text-yellow-400 text-sm font-medium">Coming Soon — join the waitlist via consultation booking</p>
               </div>
             </CardContent>
           </Card>
@@ -326,13 +327,13 @@ export default function NotaryServices() {
                 </div>
                 <div>
                   <CardTitle className="text-white">General Notary Services</CardTitle>
-                  <CardDescription className="text-slate-400">Traditional in-person notarization</CardDescription>
+                  <CardDescription className="text-slate-400">Mobile & in-person — available locally now</CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm text-slate-300">
-                {['In-person appointments', 'All standard notarial acts', 'Certified true copies', 'Apostille assistance', 'Mobile notary available', 'Same-day service'].map(item => (
+                {['Mobile notary — we come to you', 'In-person appointments available', 'All standard notarial acts', 'Certified true copies', 'Apostille assistance', 'Same-day service available'].map(item => (
                   <li key={item} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
                     {item}

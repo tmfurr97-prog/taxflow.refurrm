@@ -187,6 +187,12 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Nav Logo Fix
+- [ ] Swap nav/footer logo from full circular logo to favicon (TF monogram only) — full logo too fine at small size
+
+## Notary Services Update
+- [x] Mark RON (Remote Online Notarization) as "Coming Soon" — mobile & in-person available locally
+
 ## Logo & Branding Update
 - [x] Replace nav dollar-sign icon with TF badge SVG logo (uploaded by Teresa)
 - [x] Update favicon with TF favicon SVG
