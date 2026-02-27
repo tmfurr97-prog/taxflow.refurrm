@@ -85,7 +85,7 @@ export default function Landing() {
           <div className="flex items-center justify-between h-16">
             <Link href="/">
               <div className="flex items-center gap-2 cursor-pointer">
-                <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-9 h-9" />
+                <img src="/favicon.svg" alt="TaxFlow" className="w-9 h-9" />
                 <div>
                   <span className="text-white font-bold text-lg leading-none">TaxFlow</span>
                   <span className="text-emerald-400 text-xs block leading-none">SmartBooks24</span>
@@ -407,7 +407,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-9 h-9" />
+                <img src="/favicon.svg" alt="TaxFlow" className="w-9 h-9" />
                 <div>
                   <p className="text-white font-bold leading-none">TaxFlow</p>
                   <p className="text-emerald-400 text-xs">SmartBooks24 by ReFurrm</p>

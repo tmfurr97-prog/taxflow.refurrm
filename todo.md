@@ -188,7 +188,7 @@
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
 ## Nav Logo Fix
-- [ ] Swap nav/footer logo from full circular logo to favicon (TF monogram only) — full logo too fine at small size
+- [x] Swap nav/footer logo from full circular logo to favicon (TF monogram only) — full logo too fine at small size
 
 ## Notary Services Update
 - [x] Mark RON (Remote Online Notarization) as "Coming Soon" — mobile & in-person available locally

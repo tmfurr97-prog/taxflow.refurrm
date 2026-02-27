@@ -55,7 +55,7 @@ export default function AppShell({ children }: AppShellProps) {
       <div className="flex items-center justify-center min-h-screen bg-slate-950">
         <div className="flex flex-col items-center gap-6 p-8 max-w-md w-full text-center">
           <div className="w-16 h-16 flex items-center justify-center">
-            <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-14 h-14" />
+            <img src="/favicon.svg" alt="TaxFlow" className="w-14 h-14" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white mb-2">Sign in to TaxFlow</h1>
@@ -104,7 +104,7 @@ export default function AppShell({ children }: AppShellProps) {
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 h-16 border-b border-slate-800 shrink-0">
           <div className="w-8 h-8 flex items-center justify-center shrink-0">
-            <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-8 h-8" />
+            <img src="/favicon.svg" alt="TaxFlow" className="w-8 h-8" />
           </div>
           {sidebarOpen && (
             <div className="min-w-0">
@@ -231,7 +231,7 @@ export default function AppShell({ children }: AppShellProps) {
           </button>
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 flex items-center justify-center">
-              <img src="/taxflow-logo.svg" alt="TaxFlow" className="w-6 h-6" />
+              <img src="/favicon.svg" alt="TaxFlow" className="w-6 h-6" />
             </div>
             <span className="text-white font-bold text-sm">TaxFlow</span>
           </div>
