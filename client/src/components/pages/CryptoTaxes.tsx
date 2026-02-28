@@ -22,8 +22,8 @@ export default function CryptoTaxes() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$45,230</div>
-              <p className="text-xs text-green-600">+12.5% this month</p>
+              <div className="text-2xl font-bold text-gray-400">—</div>
+              <p className="text-xs text-muted-foreground">Connect exchange to track</p>
             </CardContent>
           </Card>
 
@@ -35,7 +35,7 @@ export default function CryptoTaxes() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$8,450</div>
+              <div className="text-2xl font-bold">$0</div>
               <p className="text-xs text-muted-foreground">Year to date</p>
             </CardContent>
           </Card>
@@ -48,7 +48,7 @@ export default function CryptoTaxes() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$2,028</div>
+              <div className="text-2xl font-bold">$0</div>
               <p className="text-xs text-muted-foreground">Estimated</p>
             </CardContent>
           </Card>
@@ -61,7 +61,7 @@ export default function CryptoTaxes() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">342</div>
+              <div className="text-2xl font-bold">0</div>
               <p className="text-xs text-muted-foreground">This tax year</p>
             </CardContent>
           </Card>

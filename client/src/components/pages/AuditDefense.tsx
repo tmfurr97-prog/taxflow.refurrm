@@ -1,9 +1,16 @@
 import { AuditDefenseHub } from '@/components/AuditDefenseHub';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Shield, FileText, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Shield, FileText, AlertTriangle } from 'lucide-react';
 import { FeatureGate } from '@/components/FeatureGate';
+import { trpc } from '@/lib/trpc';
 
 export default function AuditDefense() {
+  const { data: auditItems = [] } = trpc.audit.list.useQuery();
+  const { data: receipts = [] } = trpc.receipts.list.useQuery({});
+
+  const irsLetters = auditItems.filter((a: any) => a.type === 'irs_letter').length;
+  const docCount = receipts.length;
+
   return (
     <FeatureGate feature="audit_defense" fullPage upgradeMessage="Audit Defense is available on the Pro plan. Get IRS correspondence tracking, audit trail, and professional support.">
     <div className="min-h-screen bg-gray-50">
@@ -13,7 +20,7 @@ export default function AuditDefense() {
           <p className="text-gray-600">Complete audit trail, IRS correspondence tracking, and professional collaboration</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -22,8 +29,8 @@ export default function AuditDefense() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">Low</div>
-              <p className="text-xs text-muted-foreground">Overall score: 23/100</p>
+              <div className="text-2xl font-bold text-gray-400">—</div>
+              <p className="text-xs text-muted-foreground">Add documents to calculate</p>
             </CardContent>
           </Card>
 
@@ -35,7 +42,7 @@ export default function AuditDefense() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">247</div>
+              <div className="text-2xl font-bold">{docCount}</div>
               <p className="text-xs text-muted-foreground">Audit-ready docs</p>
             </CardContent>
           </Card>
@@ -48,21 +55,8 @@ export default function AuditDefense() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
+              <div className="text-2xl font-bold">{irsLetters}</div>
               <p className="text-xs text-muted-foreground">Active correspondence</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                Compliance
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">98%</div>
-              <p className="text-xs text-muted-foreground">Documentation rate</p>
             </CardContent>
           </Card>
         </div>

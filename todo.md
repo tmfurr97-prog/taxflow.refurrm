@@ -187,6 +187,13 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Full Fake Stats Sweep
+- [x] Business Entities: zero out hardcoded 3 entities, 85% compliance, 2 deadlines, $12.5K savings
+  - [x] Audit all other inner pages for hardcoded stats (Crypto, Audit Defense, Quarterly, E-File, etc.)
+
+## Receipts Component Mismatch Fix
+- [ ] Fix user view rendering old Receipts component instead of ReceiptManagerV2 (admin has full version, user has incomplete version)
+
 ## Sidebar Restore + CSV Import
 - [x] Restore all 13 sidebar nav items in AppShell.tsx
 - [x] Add CSV import for receipts -- papaparse, auto-column mapping, 5-row preview, bulk insert via tRPC bulkCreate
@@ -196,7 +203,7 @@
 - [x] Add user preference: autoCategorize boolean to users table or profile settings
 - [x] Add tRPC procedures: mileage.list, mileage.create, mileage.delete, homeOffice.save, homeOffice.get
 - [x] Add manual receipt entry form (vendor, amount, date, category, description -- no file required)
-- [ ] Add autoCategorize preference toggle to user profile settings UI (deferred -- can set via profile.update)
+- [x] Add autoCategorize preference toggle to user profile settings UI (Profile → Tax Profile tab → AI Preferences section)
 - [x] Wire AI auto-categorization into /api/upload/receipt using invokeLLM (category, vendor, amount, date)
 - [x] Rebuild MileageTrackerV2 component using tRPC (replaced Supabase TripRecorder/MileageLogManager/VehicleExpenseTracker)
 - [x] Rebuild HomeOfficeCalculatorV2 component using tRPC (replaced Supabase-wired version)

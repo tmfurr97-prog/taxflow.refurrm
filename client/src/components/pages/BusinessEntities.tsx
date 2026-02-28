@@ -1,9 +1,18 @@
+import { useMemo } from 'react';
 import EntityDashboard from '@/components/EntityDashboard';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building2, FileText, AlertCircle, TrendingUp } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Building2, AlertCircle } from 'lucide-react';
 import { FeatureGate } from '@/components/FeatureGate';
+import { trpc } from '@/lib/trpc';
 
 export default function BusinessEntities() {
+  const { data: entities = [] } = trpc.entities.list.useQuery();
+
+  const entityCount = entities.length;
+  const upcomingDeadlines = entities.filter((e: any) =>
+    e.nextFilingDate && new Date(e.nextFilingDate) > new Date()
+  ).length;
+
   return (
     <FeatureGate feature="business_entities" fullPage upgradeMessage="Business Entity Management is available on the Pro plan. Manage LLCs, S-Corps, and multi-entity compliance.">
     <div className="min-h-screen bg-gray-50">
@@ -13,7 +22,7 @@ export default function BusinessEntities() {
           <p className="text-gray-600">Manage your business entities, compliance, and tax optimization</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -22,7 +31,7 @@ export default function BusinessEntities() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">3</div>
+              <div className="text-2xl font-bold">{entityCount}</div>
               <p className="text-xs text-muted-foreground">Active entities</p>
             </CardContent>
           </Card>
@@ -30,39 +39,13 @@ export default function BusinessEntities() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <FileText className="h-4 w-4 text-green-600" />
-                Compliance
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">85%</div>
-              <p className="text-xs text-muted-foreground">Up to date</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
                 <AlertCircle className="h-4 w-4 text-orange-600" />
-                Deadlines
+                Upcoming Deadlines
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">2</div>
-              <p className="text-xs text-muted-foreground">Upcoming</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-purple-600" />
-                Savings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$12.5K</div>
-              <p className="text-xs text-muted-foreground">Tax savings YTD</p>
+              <div className="text-2xl font-bold">{upcomingDeadlines}</div>
+              <p className="text-xs text-muted-foreground">Filing deadlines ahead</p>
             </CardContent>
           </Card>
         </div>

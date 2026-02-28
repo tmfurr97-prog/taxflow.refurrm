@@ -1,8 +1,16 @@
 import SubscriptionManagement from '@/components/SubscriptionManagement';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CreditCard, Calendar, TrendingUp, Award } from 'lucide-react';
+import { CreditCard, Award } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
 
 export default function Subscriptions() {
+  const { data: subscription } = trpc.billing.getSubscription.useQuery();
+  const { data: profile } = trpc.profile.get.useQuery();
+
+  const tier = subscription?.subscriptionTier ?? 'free';
+  const tierLabel = tier === 'free' ? 'Free' : tier === 'essential' ? 'Essential' : tier === 'pro' ? 'Pro' : tier === 'business' ? 'Business' : tier === 'beta_pro' ? 'Beta Pro' : 'Free';
+  const memberSince = profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '—';
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -11,7 +19,7 @@ export default function Subscriptions() {
           <p className="text-gray-600">Manage your subscription, billing history, and payment methods</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -20,34 +28,8 @@ export default function Subscriptions() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Pro</div>
-              <p className="text-xs text-muted-foreground">$29/month</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-green-600" />
-                Next Billing
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">Dec 15</div>
-              <p className="text-xs text-muted-foreground">2024</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-purple-600" />
-                Total Saved
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$2,450</div>
-              <p className="text-xs text-muted-foreground">In tax savings</p>
+              <div className="text-2xl font-bold">{tierLabel}</div>
+              <p className="text-xs text-muted-foreground capitalize">{subscription?.subscriptionStatus ?? 'inactive'}</p>
             </CardContent>
           </Card>
 
@@ -59,8 +41,8 @@ export default function Subscriptions() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Jan 2024</div>
-              <p className="text-xs text-muted-foreground">11 months</p>
+              <div className="text-2xl font-bold">{memberSince}</div>
+              <p className="text-xs text-muted-foreground">Account created</p>
             </CardContent>
           </Card>
         </div>

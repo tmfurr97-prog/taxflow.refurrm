@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  ArrowRight, CheckCircle, Star, TrendingUp, Shield, Bot, Receipt,
+  ArrowRight, CheckCircle, TrendingUp, Shield, Bot, Receipt,
   DollarSign, Building2, Bitcoin, FileText, Users, BookOpen,
   Zap, Clock, Award, Sparkles, ChevronRight, Lock, Phone,
   Mail, Twitter, Linkedin, Menu, X, CalendarDays
@@ -29,36 +29,9 @@ const FEATURES = [
   { icon: BookOpen, title: "SmartBooks Academy", desc: "Tax education courses, guides, and resources to make you financially literate.", tier: "Essential+", color: "text-orange-400" },
 ];
 
-const TESTIMONIALS = [
-  {
-    name: "Jessica Martinez",
-    role: "Independent Consultant",
-    content: "TaxFlow helped me organize a year of chaotic receipts in just one afternoon. Game changer for my business.",
-    rating: 5,
-    avatar: "JM",
-  },
-  {
-    name: "David Park",
-    role: "E-commerce Seller",
-    content: "The automated expense tracking alone is worth it. I found deductions I did not even know existed.",
-    rating: 5,
-    avatar: "DP",
-  },
-  {
-    name: "Amanda Foster",
-    role: "Creative Agency Owner",
-    content: "Finally ditched my expensive accountant. TaxFlow gives me the same results at a fraction of the cost.",
-    rating: 5,
-    avatar: "AF",
-  },
-];
 
-const STATS = [
-  { value: "250K+", label: "Happy Users" },
-  { value: "5M+", label: "Deductions Found" },
-  { value: "4.9/5", label: "Average Rating" },
-  { value: "99.8%", label: "Filing Success" },
-];
+
+
 
 const HOW_IT_WORKS = [
   { step: "01", title: "Sign up free", desc: "Create your account in 30 seconds. No credit card required." },
@@ -182,28 +155,13 @@ export default function Landing() {
                 </div>
                 <img src="https://d64gsuwffb70l.cloudfront.net/68e7f2c7e795b22e67db6507_1762416634673_ecd9eff4.webp" alt="TaxFlow Dashboard Preview" className="w-full rounded-lg" />
               </div>
-              <div className="absolute -top-4 -right-4 bg-emerald-500 text-gray-900 px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg">4.9 Rating</div>
-              <div className="absolute -bottom-4 -left-4 bg-gray-100 border border-gray-200 text-gray-900 px-4 py-2 rounded-xl text-sm shadow-lg">
-                <span className="text-emerald-400 font-bold">5M+</span> deductions found
-              </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-12 border-y border-gray-200 bg-white/50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {STATS.map((stat, i) => (
-              <div key={i}>
-                <p className="text-3xl lg:text-4xl font-bold text-emerald-400">{stat.value}</p>
-                <p className="text-gray-500 text-sm mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Features */}
       <section id="features" className="py-24 px-4">
@@ -250,35 +208,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/20 mb-4">Real Stories</Badge>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">People love TaxFlow</h2>
-            <p className="text-xl text-gray-500">Join thousands who have simplified their tax lives</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="bg-white border border-gray-200 rounded-xl p-6">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-600 mb-6 leading-relaxed italic">&ldquo;{t.content}&rdquo;</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 font-bold text-sm">{t.avatar}</div>
-                  <div>
-                    <p className="text-gray-900 font-medium text-sm">{t.name}</p>
-                    <p className="text-gray-500 text-xs">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Founder Section */}
       <section className="py-24 px-4 bg-white">

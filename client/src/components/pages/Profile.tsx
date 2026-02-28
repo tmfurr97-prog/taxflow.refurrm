@@ -73,6 +73,7 @@ export default function Profile() {
   const [selfEmployed, setSelfEmployed] = useState(false);
   const [homeOwner, setHomeOwner] = useState(false);
   const [dependents, setDependents] = useState(0);
+  const [autoCategorize, setAutoCategorize] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -95,6 +96,7 @@ export default function Profile() {
       setSelfEmployed(user.selfEmployed || false);
       setHomeOwner(user.homeOwner || false);
       setDependents(user.dependents || 0);
+      setAutoCategorize(user.autoCategorize !== false);
     }
   }, [user]);
 
@@ -121,7 +123,7 @@ export default function Profile() {
   };
 
   const handleSaveTaxProfile = () => {
-    updateMutation.mutate({ filingStatus, state: taxState, selfEmployed, homeOwner, dependents });
+    updateMutation.mutate({ filingStatus, state: taxState, selfEmployed, homeOwner, dependents, autoCategorize });
   };
 
   if (isLoading) {
@@ -342,6 +344,22 @@ export default function Profile() {
                     className="h-4 w-4 rounded border-border accent-emerald-500"
                   />
                   <span className="text-sm text-foreground">I own my home (mortgage interest deduction may apply)</span>
+                </label>
+              </div>
+              <Separator />
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-foreground">AI Preferences</p>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={autoCategorize}
+                    onChange={e => setAutoCategorize(e.target.checked)}
+                    className="h-4 w-4 rounded border-border accent-emerald-500"
+                  />
+                  <div>
+                    <span className="text-sm text-foreground">Auto-categorize receipts on upload</span>
+                    <p className="text-xs text-muted-foreground">AI will automatically assign a category and deductibility when you upload a receipt. You can always edit the result.</p>
+                  </div>
                 </label>
               </div>
               <Button onClick={handleSaveTaxProfile} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-gray-900">
