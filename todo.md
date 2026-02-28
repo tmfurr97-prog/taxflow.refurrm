@@ -188,8 +188,8 @@
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
 ## Sidebar Restore + CSV Import
-- [ ] Restore all 13 sidebar nav items in AppShell.tsx
-- [ ] Add CSV import for receipts (map date, vendor, amount, category columns)
+- [x] Restore all 13 sidebar nav items in AppShell.tsx
+- [x] Add CSV import for receipts -- papaparse, auto-column mapping, 5-row preview, bulk insert via tRPC bulkCreate
 
 ## AI Auto-Categorize + Mileage/Home Office Rebuild
 - [x] Add home_office_data table to schema, push migration (mileage_logs already existed)

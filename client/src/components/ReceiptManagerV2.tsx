@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, Plus, Trash2, Search, FileText, Sparkles, Pencil } from 'lucide-react';
+import { Upload, Plus, Trash2, Search, FileText, Sparkles, FileSpreadsheet } from 'lucide-react';
+import Papa from 'papaparse';
 
 const CATEGORIES = [
   "Office Supplies", "Meals & Entertainment", "Travel", "Software & Subscriptions",
@@ -59,7 +60,67 @@ export function ReceiptManagerV2() {
     onSuccess: () => utils.receipts.list.invalidate(),
   });
 
+  const bulkCreate = trpc.receipts.bulkCreate.useMutation({
+    onSuccess: () => utils.receipts.list.invalidate(),
+  });
 
+  // CSV import state
+  const csvInputRef = useRef<HTMLInputElement>(null);
+  const [showCsvImport, setShowCsvImport] = useState(false);
+  const [csvRows, setCsvRows] = useState<Record<string, string>[]>([]);
+  const [csvHeaders, setCsvHeaders] = useState<string[]>([]);
+  const [csvMapping, setCsvMapping] = useState<{ vendor: string; amount: string; date: string; category: string; description: string }>({
+    vendor: '', amount: '', date: '', category: '', description: '',
+  });
+  const [csvImporting, setCsvImporting] = useState(false);
+
+  const handleCsvFile = (file: File) => {
+    Papa.parse<Record<string, string>>(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        const headers = results.meta.fields || [];
+        setCsvHeaders(headers);
+        setCsvRows(results.data as Record<string, string>[]);
+        // Auto-map common column names
+        const lower = headers.map(h => h.toLowerCase());
+        const find = (keys: string[]) => headers[lower.findIndex(h => keys.some(k => h.includes(k)))] || '';
+        setCsvMapping({
+          vendor: find(['vendor', 'merchant', 'store', 'payee', 'description', 'name']),
+          amount: find(['amount', 'total', 'cost', 'price', 'charge', 'debit']),
+          date: find(['date', 'time', 'posted', 'transaction']),
+          category: find(['category', 'type', 'class']),
+          description: find(['description', 'memo', 'note', 'detail']),
+        });
+        setShowCsvImport(true);
+      },
+      error: () => toast({ title: 'Failed to parse CSV', variant: 'destructive' }),
+    });
+  };
+
+  const handleCsvImport = async () => {
+    if (csvRows.length === 0) return;
+    setCsvImporting(true);
+    try {
+      const rows = csvRows.map(row => ({
+        vendor: csvMapping.vendor ? row[csvMapping.vendor] : undefined,
+        amount: csvMapping.amount ? row[csvMapping.amount]?.replace(/[^0-9.]/g, '') : undefined,
+        date: csvMapping.date ? row[csvMapping.date] : undefined,
+        category: csvMapping.category ? row[csvMapping.category] : undefined,
+        description: csvMapping.description ? row[csvMapping.description] : undefined,
+      }));
+      const result = await bulkCreate.mutateAsync({ rows, taxYear });
+      toast({ title: `Imported ${result.inserted} receipts` });
+      setShowCsvImport(false);
+      setCsvRows([]);
+      setCsvHeaders([]);
+    } catch (err: any) {
+      toast({ title: 'Import failed', description: err.message, variant: 'destructive' });
+    } finally {
+      setCsvImporting(false);
+      if (csvInputRef.current) csvInputRef.current.value = '';
+    }
+  };
 
   // File upload handler
   const handleFileUpload = async (files: FileList | null) => {
@@ -154,6 +215,17 @@ export function ReceiptManagerV2() {
         <Button variant="outline" onClick={() => setShowManualEntry(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Enter Manually
+        </Button>
+        <input
+          ref={csvInputRef}
+          type="file"
+          accept=".csv"
+          className="hidden"
+          onChange={e => { if (e.target.files?.[0]) handleCsvFile(e.target.files[0]); }}
+        />
+        <Button variant="outline" onClick={() => csvInputRef.current?.click()}>
+          <FileSpreadsheet className="h-4 w-4 mr-2" />
+          Import CSV
         </Button>
       </div>
 
@@ -290,6 +362,73 @@ export function ReceiptManagerV2() {
             <Button variant="outline" onClick={() => setPendingReceipt(null)}>Cancel</Button>
             <Button className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={handleConfirmAI}>
               Confirm & Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* CSV Import Dialog */}
+      <Dialog open={showCsvImport} onOpenChange={v => { if (!v) { setShowCsvImport(false); setCsvRows([]); setCsvHeaders([]); } }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5 text-emerald-600" />
+              Import CSV
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <p className="text-sm text-gray-500">{csvRows.length} rows detected. Map your CSV columns to receipt fields.</p>
+            <div className="grid grid-cols-2 gap-3">
+              {(['vendor', 'amount', 'date', 'category', 'description'] as const).map(field => (
+                <div key={field}>
+                  <Label className="text-xs capitalize">{field}</Label>
+                  <Select
+                    value={csvMapping[field] || '__none__'}
+                    onValueChange={v => setCsvMapping(m => ({ ...m, [field]: v === '__none__' ? '' : v }))}
+                  >
+                    <SelectTrigger><SelectValue placeholder="-- skip --" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__">-- skip --</SelectItem>
+                      {csvHeaders.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+              ))}
+            </div>
+            {csvRows.length > 0 && (
+              <div className="border rounded-md overflow-auto max-h-36">
+                <table className="text-xs w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      {['vendor', 'amount', 'date', 'category'].filter(f => csvMapping[f as keyof typeof csvMapping]).map(f => (
+                        <th key={f} className="px-2 py-1 text-left font-medium text-gray-600 capitalize">{f}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {csvRows.slice(0, 5).map((row, i) => (
+                      <tr key={i} className="border-t">
+                        {['vendor', 'amount', 'date', 'category'].filter(f => csvMapping[f as keyof typeof csvMapping]).map(f => (
+                          <td key={f} className="px-2 py-1 text-gray-700 truncate max-w-[100px]">
+                            {row[csvMapping[f as keyof typeof csvMapping]] || ''}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {csvRows.length > 5 && <p className="text-xs text-gray-400 px-2 py-1">...and {csvRows.length - 5} more rows</p>}
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setShowCsvImport(false); setCsvRows([]); setCsvHeaders([]); }}>Cancel</Button>
+            <Button
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={handleCsvImport}
+              disabled={csvImporting || csvRows.length === 0}
+            >
+              {csvImporting ? 'Importing...' : `Import ${csvRows.length} Rows`}
             </Button>
           </DialogFooter>
         </DialogContent>

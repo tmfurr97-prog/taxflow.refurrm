@@ -142,6 +142,36 @@ const receiptsRouter = router({
         .where(and(eq(receipts.id, input.id), eq(receipts.userId, ctx.user.id)));
       return { success: true };
     }),
+
+  bulkCreate: protectedProcedure
+    .input(z.object({
+      rows: z.array(z.object({
+        vendor: z.string().optional(),
+        amount: z.string().optional(),
+        date: z.string().optional(),
+        category: z.string().optional(),
+        description: z.string().optional(),
+      })),
+      taxYear: z.number().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const year = input.taxYear || new Date().getFullYear();
+      if (input.rows.length === 0) return { inserted: 0 };
+      await db.insert(receipts).values(
+        input.rows.map(r => ({
+          userId: ctx.user.id,
+          taxYear: year,
+          vendor: r.vendor || undefined,
+          amount: r.amount || undefined,
+          date: r.date || undefined,
+          category: r.category || undefined,
+          description: r.description || undefined,
+        }))
+      );
+      return { inserted: input.rows.length };
+    }),
 });
 
 // ─── Documents Router ─────────────────────────────────────────────────────────

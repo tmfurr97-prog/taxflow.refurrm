@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, name, email, firstName, lastName, phone, streetAddress, city, state, zip, businessName, ein, filingStatus, updatedAt FROM users LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3aSQ2isK7sgeomn.root --database D2X9Y6m5hZkrjwFqZFWRus --execute SELECT id, name, email, firstName, lastName, phone, streetAddress, city, state, zip, businessName, ein, filingStatus, updatedAt FROM users LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Teresa Furr",
+      "email": "tmfurr97@icloud.com",
+      "firstName": "",
+      "lastName": "",
+      "phone": "3373814690",
+      "streetAddress": "502 Block Street",
+      "city": "Lake Charles",
+      "state": "LA",
+      "zip": "70615",
+      "businessName": "",
+      "ein": "41-3628528",
+      "filingStatus": "head_of_household",
+      "updatedAt": "2026-02-28 05:10:23"
+    },
+    {
+      "id": "690009",
+      "name": "Teresa Furr",
+      "email": "harleygirley97@gmail.com",
+      "firstName": "NULL",
+      "lastName": "NULL",
+      "phone": "NULL",
+      "streetAddress": "NULL",
+      "city": "NULL",
+      "state": "NULL",
+      "zip": "NULL",
+      "businessName": "NULL",
+      "ein": "NULL",
+      "filingStatus": "NULL",
+      "updatedAt": "2026-02-28 03:41:55"
+    },
+    {
+      "id": "690012",
+      "name": "TREE",
+      "email": "TREE@REFURRM.ORG",
+      "firstName": "",
+      "lastName": "",
+      "phone": "3373814690",
+      "streetAddress": "502 Block Street",
+      "city": "Lake Charles",
+      "state": "LA",
+      "zip": "70615",
+      "businessName": "",
+      "ein": "41-3628528",
+      "filingStatus": "NULL",
+      "updatedAt": "2026-02-28 05:10:42"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tfirstName\tlastName\tphone\tstreetAddress\tcity\tstate\tzip\tbusinessName\tein\tfilingStatus\tupdatedAt\n1\tTeresa Furr\ttmfurr97@icloud.com\t\t\t3373814690\t502 Block Street\tLake Charles\tLA\t70615\t\t41-3628528\thead_of_household\t2026-02-28 05:10:23\n690009\tTeresa Furr\tharleygirley97@gmail.com\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\t2026-02-28 03:41:55\n690012\tTREE\tTREE@REFURRM.ORG\t\t\t3373814690\t502 Block Street\tLake Charles\tLA\t70615\t\t41-3628528\tNULL\t2026-02-28 05:10:42\n",
+  "stderr": "",
+  "execution_time_ms": 432
+}
