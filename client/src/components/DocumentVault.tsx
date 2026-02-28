@@ -69,7 +69,7 @@ const DocumentVault: React.FC = () => {
             <form onSubmit={handleLogin} className="space-y-4">
               <input type="email" placeholder="Email Address" className="w-full bg-[#F9FAFB] border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#18453B]" />
               <input type="password" placeholder="Password" className="w-full bg-[#F9FAFB] border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#18453B]" />
-              <button type="submit" className="w-full bg-[#18453B] text-white font-bold py-3.5 rounded-xl uppercase tracking-wider">Access Vault</button>
+              <button type="submit" className="w-full bg-[#18453B] text-gray-900 font-bold py-3.5 rounded-xl uppercase tracking-wider">Access Vault</button>
             </form>
           </div>
         </div>
@@ -93,7 +93,7 @@ const DocumentVault: React.FC = () => {
         <div className="grid lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1 space-y-2">
             {['All Documents', 'W2s', '1099s', 'Receipts'].map((label, i) => (
-              <button key={i} onClick={() => setActiveFolder(label.toLowerCase())} className={`w-full text-left px-5 py-3.5 rounded-xl text-sm font-bold transition-all ${activeFolder === label.toLowerCase() ? 'bg-[#18453B] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
+              <button key={i} onClick={() => setActiveFolder(label.toLowerCase())} className={`w-full text-left px-5 py-3.5 rounded-xl text-sm font-bold transition-all ${activeFolder === label.toLowerCase() ? 'bg-[#18453B] text-gray-900' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
             ))}
           </div>
           <div className="lg:col-span-3 space-y-6">

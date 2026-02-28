@@ -58,7 +58,7 @@ const PricingSection: React.FC = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {tiers.map((tier, idx) => (
             <div key={idx} className={`bg-white rounded-2xl p-8 border ${tier.highlight ? 'border-[#18453B] shadow-2xl ring-4 ring-[#18453B]/5' : 'border-gray-200'} relative`}>
-              {tier.highlight && <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#18453B] text-white text-[10px] font-black px-4 py-1.5 rounded-full tracking-widest uppercase">Most Popular</span>}
+              {tier.highlight && <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#18453B] text-gray-900 text-[10px] font-black px-4 py-1.5 rounded-full tracking-widest uppercase">Most Popular</span>}
               <h3 className="text-[#0A1628] text-xl font-bold mb-2">{tier.name}</h3>
               <p className="text-gray-400 text-xs mb-8">{tier.description}</p>
               <div className="mb-8"><span className="text-4xl font-black text-[#0A1628]">{tier.price}</span><span className="text-gray-400 text-sm">{tier.period}</span></div>
@@ -67,7 +67,7 @@ const PricingSection: React.FC = () => {
                   <li key={i} className="flex items-center gap-3 text-sm text-[#0A1628] font-medium"><svg className="w-4 h-4 text-[#18453B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>{f}</li>
                 ))}
               </ul>
-              <button className={`w-full py-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${tier.highlight ? 'bg-[#18453B] text-white hover:bg-[#0D3328]' : 'bg-gray-100 text-[#0A1628] hover:bg-gray-200'}`}>{tier.cta}</button>
+              <button className={`w-full py-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${tier.highlight ? 'bg-[#18453B] text-gray-900 hover:bg-[#0D3328]' : 'bg-gray-100 text-[#0A1628] hover:bg-gray-200'}`}>{tier.cta}</button>
             </div>
           ))}
         </div>

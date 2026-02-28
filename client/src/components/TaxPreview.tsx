@@ -12,7 +12,7 @@ const TaxPreview: React.FC = () => {
 
   return (
     <div>
-      <div className="bg-gradient-to-br from-green-600 to-green-800 text-white p-8 rounded-xl mb-6">
+      <div className="bg-gradient-to-br from-green-600 to-green-800 text-gray-900 p-8 rounded-xl mb-6">
         <h2 className="text-3xl font-bold mb-2">Tax Preview Ready</h2>
         <p className="text-green-100 mb-6">January 1-15 upload window is open for W-2s, 1099s, and 1098-Ts</p>
         
@@ -72,7 +72,7 @@ const TaxPreview: React.FC = () => {
             </p>
           </div>
 
-          <button className="w-full mt-6 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700">
+          <button className="w-full mt-6 py-4 bg-blue-600 text-gray-900 font-bold rounded-lg hover:bg-blue-700">
             Download Form 1040 Preview (PDF)
           </button>
         </div>

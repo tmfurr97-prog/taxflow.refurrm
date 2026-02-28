@@ -44,7 +44,7 @@ const BlogSection: React.FC = () => {
         <div className="flex flex-wrap justify-center gap-2 mb-12">
           {categories.map((cat) => (
             <button key={cat} onClick={() => { setActiveCategory(cat); setVisibleCount(6); }}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${activeCategory === cat ? 'bg-[#18453B] text-white shadow-sm' : 'bg-white text-[#6B7280] hover:text-[#0A1628] border border-gray-200 hover:border-gray-300'}`}>{cat}</button>
+              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${activeCategory === cat ? 'bg-[#18453B] text-gray-900 shadow-sm' : 'bg-white text-[#6B7280] hover:text-[#0A1628] border border-gray-200 hover:border-gray-300'}`}>{cat}</button>
           ))}
         </div>
 
@@ -55,7 +55,7 @@ const BlogSection: React.FC = () => {
               <div className="relative h-44 overflow-hidden">
                 <img src={BLOG_IMAGES[idx % BLOG_IMAGES.length]} alt={article.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                <span className="absolute top-3 left-3 bg-[#18453B] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">{article.category}</span>
+                <span className="absolute top-3 left-3 bg-[#18453B] text-gray-900 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">{article.category}</span>
               </div>
               <div className="p-5">
                 <div className="flex items-center gap-3 text-[#9CA3AF] text-xs mb-3"><span>{article.date}</span><span className="w-1 h-1 rounded-full bg-gray-300" /><span>{article.readTime} read</span></div>

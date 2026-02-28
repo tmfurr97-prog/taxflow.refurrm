@@ -60,7 +60,7 @@ export function MatchedPairCard({ pair, onUnmatch }: MatchedPairCardProps) {
             </Badge>
           ))}
         </div>
-        <Badge className={`${confidenceColor} text-white`}>
+        <Badge className={`${confidenceColor} text-gray-900`}>
           {confidenceText} ({Math.round(pair.confidence * 100)}%)
         </Badge>
       </div>

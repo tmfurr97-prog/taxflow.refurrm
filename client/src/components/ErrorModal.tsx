@@ -29,7 +29,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ isOpen, title, message, onRetry
           {onRetry && (
             <button 
               onClick={onRetry}
-              className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+              className="flex-1 px-4 py-3 bg-blue-600 text-gray-900 rounded-lg hover:bg-blue-700 font-semibold"
             >
               Retry
             </button>

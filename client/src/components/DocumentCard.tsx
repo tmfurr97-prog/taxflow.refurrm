@@ -41,7 +41,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
         {amount && <span className="font-semibold">{amount}</span>}
       </div>
       <div className="flex gap-2 mt-3">
-        <button onClick={onView} className="flex-1 px-3 py-1.5 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">
+        <button onClick={onView} className="flex-1 px-3 py-1.5 bg-blue-600 text-gray-900 rounded text-xs hover:bg-blue-700">
           View
         </button>
         <button onClick={onDelete} className="px-3 py-1.5 bg-red-50 text-red-600 rounded text-xs hover:bg-red-100">

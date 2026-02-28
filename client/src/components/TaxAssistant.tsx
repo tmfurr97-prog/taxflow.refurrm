@@ -119,7 +119,7 @@ export function TaxAssistant({ userContext, documentContent }: TaxAssistantProps
 
   return (
     <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-white rounded-lg shadow-2xl z-50 flex flex-col">
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-t-lg flex items-center justify-between">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-gray-900 p-4 rounded-t-lg flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5" />
           <h3 className="font-semibold">SmartBooks24 AI Assistant</h3>
@@ -128,7 +128,7 @@ export function TaxAssistant({ userContext, documentContent }: TaxAssistantProps
           variant="ghost"
           size="icon"
           onClick={() => setIsOpen(false)}
-          className="text-white hover:bg-white/20"
+          className="text-gray-900 hover:bg-white/20"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -161,7 +161,7 @@ export function TaxAssistant({ userContext, documentContent }: TaxAssistantProps
               <div
                 className={`max-w-[80%] rounded-lg p-3 ${
                   message.role === 'user'
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-blue-600 text-gray-900'
                     : 'bg-gray-100 text-gray-900'
                 }`}
               >

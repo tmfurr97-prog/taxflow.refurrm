@@ -58,7 +58,7 @@ const RONServices: React.FC = () => {
           <div className="grid sm:grid-cols-3 gap-8">
             {[{ step: '01', title: 'Schedule a Session', desc: 'Select your service and pick a time that works for you.' }, { step: '02', title: 'Join Video Call', desc: 'Connect via secure video with a certified notary public.' }, { step: '03', title: 'Sign & Receive', desc: 'E-sign your documents and receive notarized copies promptly.' }].map((s, i) => (
               <div key={i} className="text-center">
-                <div className="w-10 h-10 rounded-full bg-[#18453B] flex items-center justify-center mx-auto mb-3 text-white font-bold text-sm">{s.step}</div>
+                <div className="w-10 h-10 rounded-full bg-[#18453B] flex items-center justify-center mx-auto mb-3 text-gray-900 font-bold text-sm">{s.step}</div>
                 <h4 className="text-[#0A1628] font-bold text-sm mb-1">{s.title}</h4>
                 <p className="text-[#6B7280] text-xs">{s.desc}</p>
               </div>
@@ -77,24 +77,24 @@ const RONServices: React.FC = () => {
 
               {booked ? (
                 <div className="p-8 text-center">
-                  <div className="w-16 h-16 rounded-full bg-[#18453B] flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg></div>
+                  <div className="w-16 h-16 rounded-full bg-[#18453B] flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg></div>
                   <h4 className="text-[#0A1628] text-xl font-bold mb-2">Session Scheduled!</h4>
                   <p className="text-[#6B7280] text-sm mb-4">Check your email for the video call link and instructions.</p>
-                  <button onClick={() => setShowBooking(false)} className="bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold px-8 py-3 rounded-lg text-sm">Done</button>
+                  <button onClick={() => setShowBooking(false)} className="bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold px-8 py-3 rounded-lg text-sm">Done</button>
                 </div>
               ) : (
                 <form onSubmit={handleBook} className="p-6 space-y-5">
                   <div>
                     <span className="text-[#4A5568] text-xs uppercase tracking-wider font-medium block mb-2">Select Date</span>
                     <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
-                      {getNextDays().map((day) => (<button key={day.date} type="button" onClick={() => setSelectedDate(day.date)} className={`p-2 rounded-lg text-xs text-center transition-all ${selectedDate === day.date ? 'bg-[#18453B] text-white' : 'bg-[#F9FAFB] text-[#6B7280] hover:bg-gray-100 border border-gray-200'}`}>{day.label}</button>))}
+                      {getNextDays().map((day) => (<button key={day.date} type="button" onClick={() => setSelectedDate(day.date)} className={`p-2 rounded-lg text-xs text-center transition-all ${selectedDate === day.date ? 'bg-[#18453B] text-gray-900' : 'bg-[#F9FAFB] text-[#6B7280] hover:bg-gray-100 border border-gray-200'}`}>{day.label}</button>))}
                     </div>
                   </div>
                   {selectedDate && (
                     <div>
                       <span className="text-[#4A5568] text-xs uppercase tracking-wider font-medium block mb-2">Select Time</span>
                       <div className="grid grid-cols-4 gap-2">
-                        {timeSlots.map((time) => (<button key={time} type="button" onClick={() => setSelectedTime(time)} className={`py-2 rounded-lg text-xs transition-all ${selectedTime === time ? 'bg-[#1B365D] text-white' : 'bg-[#F9FAFB] text-[#6B7280] hover:bg-gray-100 border border-gray-200'}`}>{time}</button>))}
+                        {timeSlots.map((time) => (<button key={time} type="button" onClick={() => setSelectedTime(time)} className={`py-2 rounded-lg text-xs transition-all ${selectedTime === time ? 'bg-[#1B365D] text-gray-900' : 'bg-[#F9FAFB] text-[#6B7280] hover:bg-gray-100 border border-gray-200'}`}>{time}</button>))}
                       </div>
                     </div>
                   )}
@@ -103,7 +103,7 @@ const RONServices: React.FC = () => {
                     <input type="email" required value={bookingForm.email} onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })} placeholder="Email Address" className={inputClass} />
                     <input type="tel" value={bookingForm.phone} onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })} placeholder="Phone (optional)" className={inputClass} />
                   </div>
-                  <button type="submit" disabled={!selectedDate || !selectedTime} className="w-full bg-[#18453B] hover:bg-[#0D3328] disabled:opacity-40 text-white font-semibold py-3.5 rounded-lg text-sm uppercase tracking-wider shadow-sm">
+                  <button type="submit" disabled={!selectedDate || !selectedTime} className="w-full bg-[#18453B] hover:bg-[#0D3328] disabled:opacity-40 text-gray-900 font-semibold py-3.5 rounded-lg text-sm uppercase tracking-wider shadow-sm">
                     Confirm Session — {ronServices.find(s => s.id === selectedService)?.price}
                   </button>
                 </form>

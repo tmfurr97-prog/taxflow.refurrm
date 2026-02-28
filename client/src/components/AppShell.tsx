@@ -31,10 +31,10 @@ export default function AppShell({ children }: AppShellProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-950">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading TaxFlow...</p>
+          <p className="text-gray-500 text-sm">Loading TaxFlow...</p>
         </div>
       </div>
     );
@@ -42,14 +42,14 @@ export default function AppShell({ children }: AppShellProps) {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-950">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center gap-6 p-8 max-w-md w-full text-center">
           <div className="w-16 h-16 flex items-center justify-center">
             <img src="/favicon.svg" alt="TaxFlow" className="w-14 h-14" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white mb-2">Sign in to TaxFlow</h1>
-            <p className="text-slate-400 text-sm">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign in to TaxFlow</h1>
+            <p className="text-gray-500 text-sm">
               Access your year-round tax automation dashboard.
             </p>
           </div>
@@ -60,7 +60,7 @@ export default function AppShell({ children }: AppShellProps) {
           >
             Sign In
           </Button>
-          <Link href="/" className="text-sm text-slate-500 hover:text-slate-300 transition-colors">
+          <Link href="/" className="text-sm text-gray-500 hover:text-gray-600 transition-colors">
             ← Back to home
           </Link>
         </div>
@@ -73,7 +73,7 @@ export default function AppShell({ children }: AppShellProps) {
     : user?.email?.slice(0, 2).toUpperCase() ?? 'TF';
 
   return (
-    <div className="flex h-screen bg-slate-950 overflow-hidden">
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div
@@ -85,25 +85,25 @@ export default function AppShell({ children }: AppShellProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-300 z-50",
+          "flex flex-col bg-white border-r border-gray-200 transition-all duration-300 z-50",
           "fixed lg:relative h-full",
           sidebarOpen ? "w-64" : "w-16",
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 px-4 h-16 border-b border-slate-800 shrink-0">
+        <div className="flex items-center gap-3 px-4 h-16 border-b border-gray-200 shrink-0">
           <div className="w-8 h-8 flex items-center justify-center shrink-0">
             <img src="/favicon.svg" alt="TaxFlow" className="w-8 h-8" />
           </div>
           {sidebarOpen && (
             <div className="min-w-0">
-              <p className="text-white font-bold text-sm leading-none">TaxFlow</p>
+              <p className="text-gray-900 font-bold text-sm leading-none">TaxFlow</p>
             </div>
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="ml-auto hidden lg:flex items-center justify-center w-6 h-6 text-slate-400 hover:text-white transition-colors"
+            className="ml-auto hidden lg:flex items-center justify-center w-6 h-6 text-gray-500 hover:text-gray-900 transition-colors"
           >
             {sidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
           </button>
@@ -119,14 +119,14 @@ export default function AppShell({ children }: AppShellProps) {
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all group",
                     location === '/admin/returns'
                       ? "bg-red-500/15 text-red-400 font-medium"
-                      : "text-slate-400 hover:bg-slate-800 hover:text-white"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <ShieldCheck className={cn("w-5 h-5 shrink-0", location === '/admin/returns' ? "text-red-400" : "")} />
                   {sidebarOpen && <span className="text-sm truncate">Admin: Returns</span>}
                   {!sidebarOpen && (
-                    <div className="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                    <div className="absolute left-16 bg-gray-100 text-gray-900 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
                       Admin: Returns
                     </div>
                   )}
@@ -138,14 +138,14 @@ export default function AppShell({ children }: AppShellProps) {
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all group",
                     location === '/admin/promo-codes'
                       ? "bg-red-500/15 text-red-400 font-medium"
-                      : "text-slate-400 hover:bg-slate-800 hover:text-white"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <ShieldCheck className={cn("w-5 h-5 shrink-0", location === '/admin/promo-codes' ? "text-red-400" : "")} />
                   {sidebarOpen && <span className="text-sm truncate">Admin: Promo Codes</span>}
                   {!sidebarOpen && (
-                    <div className="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                    <div className="absolute left-16 bg-gray-100 text-gray-900 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
                       Admin: Promo Codes
                     </div>
                   )}
@@ -162,14 +162,14 @@ export default function AppShell({ children }: AppShellProps) {
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all group",
                     isActive
                       ? "bg-emerald-500/15 text-emerald-400 font-medium"
-                      : "text-slate-400 hover:bg-slate-800 hover:text-white"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-emerald-400" : "")} />
                   {sidebarOpen && <span className="text-sm truncate">{item.label}</span>}
                   {!sidebarOpen && (
-                    <div className="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                    <div className="absolute left-16 bg-gray-100 text-gray-900 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
                       {item.label}
                     </div>
                   )}
@@ -180,7 +180,7 @@ export default function AppShell({ children }: AppShellProps) {
         </nav>
 
         {/* User footer */}
-        <div className="border-t border-slate-800 p-3 shrink-0">
+        <div className="border-t border-gray-200 p-3 shrink-0">
           <div className={cn("flex items-center gap-3", !sidebarOpen && "justify-center")}>
             <Avatar className="w-8 h-8 shrink-0">
               <AvatarFallback className="bg-emerald-500/20 text-emerald-400 text-xs font-semibold">
@@ -189,16 +189,16 @@ export default function AppShell({ children }: AppShellProps) {
             </Avatar>
             {sidebarOpen && (
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-medium truncate">
+                <p className="text-gray-900 text-sm font-medium truncate">
                   {user?.name || user?.email?.split('@')[0] || 'User'}
                 </p>
-                <p className="text-slate-500 text-xs truncate">{user?.email}</p>
+                <p className="text-gray-500 text-xs truncate">{user?.email}</p>
               </div>
             )}
             {sidebarOpen && (
               <button
                 onClick={() => logout()}
-                className="text-slate-500 hover:text-red-400 transition-colors"
+                className="text-gray-500 hover:text-red-400 transition-colors"
                 title="Sign out"
               >
                 <LogOut className="w-4 h-4" />
@@ -211,10 +211,10 @@ export default function AppShell({ children }: AppShellProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Mobile header */}
-        <header className="lg:hidden flex items-center gap-3 h-14 px-4 bg-slate-900 border-b border-slate-800 shrink-0">
+        <header className="lg:hidden flex items-center gap-3 h-14 px-4 bg-white border-b border-gray-200 shrink-0">
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="text-slate-400 hover:text-white"
+            className="text-gray-500 hover:text-gray-900"
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -222,12 +222,12 @@ export default function AppShell({ children }: AppShellProps) {
             <div className="w-6 h-6 flex items-center justify-center">
               <img src="/favicon.svg" alt="TaxFlow" className="w-6 h-6" />
             </div>
-            <span className="text-white font-bold text-sm">TaxFlow</span>
+            <span className="text-gray-900 font-bold text-sm">TaxFlow</span>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-slate-950">
+        <main className="flex-1 overflow-y-auto bg-gray-50">
           {children}
         </main>
       </div>

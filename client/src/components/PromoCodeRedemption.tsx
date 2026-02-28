@@ -40,8 +40,8 @@ export default function PromoCodeRedemption() {
 
   if (myRedemption.isLoading) {
     return (
-      <Card className="bg-slate-900 border-slate-800">
-        <CardContent className="p-4 flex items-center gap-2 text-slate-500">
+      <Card className="bg-white border-gray-200">
+        <CardContent className="p-4 flex items-center gap-2 text-gray-500">
           <RefreshCw className="w-4 h-4 animate-spin" />
           <span className="text-sm">Loading...</span>
         </CardContent>
@@ -50,9 +50,9 @@ export default function PromoCodeRedemption() {
   }
 
   return (
-    <Card className="bg-slate-900 border-slate-800">
+    <Card className="bg-white border-gray-200">
       <CardHeader className="pb-3">
-        <CardTitle className="text-white text-base flex items-center gap-2">
+        <CardTitle className="text-gray-900 text-base flex items-center gap-2">
           <Ticket className="w-4 h-4 text-emerald-400" />
           Beta Access Code
         </CardTitle>
@@ -70,19 +70,19 @@ export default function PromoCodeRedemption() {
                 </Badge>
               </div>
               {redemption && (
-                <p className="text-slate-400 text-xs mt-1">
+                <p className="text-gray-500 text-xs mt-1">
                   Code <code className="text-emerald-400 font-mono">{redemption.code}</code> redeemed on{" "}
                   {new Date(redemption.redeemedAt).toLocaleDateString()}
                 </p>
               )}
-              <p className="text-slate-500 text-xs mt-1">
+              <p className="text-gray-500 text-xs mt-1">
                 You have full access to TaxGPT, Crypto, Audit Defense, Business Entities, and SmartBooks Academy.
               </p>
             </div>
           </div>
         ) : (
           <div className="space-y-3">
-            <p className="text-slate-400 text-sm">
+            <p className="text-gray-500 text-sm">
               Have a beta invite code? Enter it below to unlock Pro-tier access for free.
             </p>
             <div className="flex gap-2">
@@ -95,7 +95,7 @@ export default function PromoCodeRedemption() {
                     redeemMutation.mutate({ code: code.trim() });
                   }
                 }}
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 font-mono"
+                className="bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-500 font-mono"
               />
               <Button
                 onClick={() => redeemMutation.mutate({ code: code.trim() })}

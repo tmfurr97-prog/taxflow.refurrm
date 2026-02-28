@@ -211,7 +211,7 @@ const StepPersonalInfo: React.FC<Props> = ({ data, onChange, onNext }) => {
       <div className="flex justify-end pt-4 border-t border-gray-100">
         <button
           onClick={handleNext}
-          className="bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold px-8 py-3 rounded-lg text-sm transition-colors flex items-center gap-2"
+          className="bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold px-8 py-3 rounded-lg text-sm transition-colors flex items-center gap-2"
         >
           Continue
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

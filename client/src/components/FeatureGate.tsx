@@ -41,10 +41,10 @@ function UpgradeBanner({
             <Lock className="w-8 h-8 text-amber-400" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
               {tierName} Plan Required
             </h2>
-            <p className="text-slate-400">{message}</p>
+            <p className="text-gray-500">{message}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/pricing">
@@ -55,12 +55,12 @@ function UpgradeBanner({
               </Button>
             </Link>
             <Link href="/dashboard">
-              <Button variant="outline" className="border-slate-700 text-slate-300 hover:bg-slate-800 bg-transparent w-full sm:w-auto">
+              <Button variant="outline" className="border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent w-full sm:w-auto">
                 Back to Dashboard
               </Button>
             </Link>
           </div>
-          <p className="text-slate-600 text-xs">
+          <p className="text-gray-600 text-xs">
             No contracts. Cancel anytime. Your data is always preserved.
           </p>
         </div>

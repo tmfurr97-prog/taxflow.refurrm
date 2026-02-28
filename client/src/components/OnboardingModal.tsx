@@ -102,7 +102,7 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onComplete })
                   <li>✓ No data sharing with third parties</li>
                 </ul>
               </div>
-              <button className="w-full py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+              <button className="w-full py-3 bg-red-600 text-gray-900 rounded-lg hover:bg-red-700 transition-colors">
                 Delete My Account & Data
               </button>
             </div>
@@ -111,14 +111,14 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onComplete })
           {step === 4 && (
             <div>
               <h3 className="text-lg font-semibold mb-4">Choose Your Plan</h3>
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6 rounded-xl mb-4">
+              <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-gray-900 p-6 rounded-xl mb-4">
                 <div className="text-sm text-blue-100 mb-2">BEST VALUE</div>
                 <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-4xl font-bold">$249</span>
                   <span className="text-lg">/year</span>
                 </div>
                 <p className="text-blue-100 mb-4">Simple Plan for freelancers & creators</p>
-                <div className="bg-green-500 text-white px-3 py-1 rounded-full text-sm inline-block mb-4">
+                <div className="bg-green-500 text-gray-900 px-3 py-1 rounded-full text-sm inline-block mb-4">
                   7-Day Free Trial
 
                 </div>
@@ -144,7 +144,7 @@ const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onComplete })
             <button 
               onClick={handleNext} 
               disabled={step === 1 && !termsAccepted}
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 bg-blue-600 text-gray-900 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {step === 4 ? 'Start Free Trial' : 'Continue'}
             </button>

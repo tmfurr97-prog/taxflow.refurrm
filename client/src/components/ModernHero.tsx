@@ -8,7 +8,7 @@ interface ModernHeroProps {
 
 const ModernHero: React.FC<ModernHeroProps> = ({ onGetStarted }) => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-teal via-teal-dark to-charcoal text-white">
+    <div className="relative overflow-hidden bg-gradient-to-br from-teal via-teal-dark to-charcoal text-gray-900">
       <div className="absolute inset-0 bg-black/10"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
@@ -43,7 +43,7 @@ const ModernHero: React.FC<ModernHeroProps> = ({ onGetStarted }) => {
                   const featuresSection = document.getElementById('features');
                   featuresSection?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-teal text-lg px-8 py-6 h-auto font-semibold"
+                className="border-2 border-white bg-white/10 backdrop-blur-sm text-gray-900 hover:bg-white hover:text-teal text-lg px-8 py-6 h-auto font-semibold"
               >
                 Learn More
               </Button>

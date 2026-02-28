@@ -8,7 +8,7 @@ const PilotBanner: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 relative">
+    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-gray-900 py-3 px-4 relative">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2 flex-1">
           <Sparkles className="h-5 w-5 flex-shrink-0" />
@@ -22,7 +22,7 @@ const PilotBanner: React.FC = () => {
           variant="ghost"
           size="sm"
           onClick={() => setIsVisible(false)}
-          className="text-white hover:bg-white/20 ml-4"
+          className="text-gray-900 hover:bg-white/20 ml-4"
         >
           <X className="h-4 w-4" />
         </Button>

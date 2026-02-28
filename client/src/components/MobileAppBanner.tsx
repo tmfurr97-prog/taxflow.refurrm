@@ -19,7 +19,7 @@ const MobileAppBanner: React.FC = () => {
               ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="https://sa.www4.irs.gov/wmr/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#1B365D] hover:bg-[#0A1628] text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-sm">
+              <a href="https://sa.www4.irs.gov/wmr/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#1B365D] hover:bg-[#0A1628] text-gray-900 font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-sm">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 Check IRS Refund Status
               </a>
@@ -34,7 +34,7 @@ const MobileAppBanner: React.FC = () => {
                   <div className="flex items-center justify-between px-6 py-2 text-[#0A1628] text-[10px]"><span>9:41</span><div className="flex items-center gap-1"><div className="w-4 h-2 border border-gray-400 rounded-sm"><div className="w-3/4 h-full bg-[#18453B] rounded-sm" /></div></div></div>
                   <div className="px-5 pb-6">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-8 h-8 rounded-lg bg-[#18453B] flex items-center justify-center"><svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg></div>
+                      <div className="w-8 h-8 rounded-lg bg-[#18453B] flex items-center justify-center"><svg className="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg></div>
                       <span className="text-[#0A1628] font-bold text-xs">SmartBooks24</span>
                     </div>
                     <div className="bg-white rounded-xl p-4 mb-3 border border-gray-100"><span className="text-[#6B7280] text-[10px] uppercase tracking-wider">Return Status</span><div className="flex items-center gap-2 mt-1"><div className="w-2 h-2 rounded-full bg-[#18453B] animate-pulse" /><span className="text-[#18453B] font-bold text-sm">Accepted by IRS</span></div></div>

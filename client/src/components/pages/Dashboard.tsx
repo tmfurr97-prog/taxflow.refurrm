@@ -82,13 +82,13 @@ export default function Dashboard() {
   const firstName = user?.name?.split(' ')[0] || 'there';
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Page header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white">Welcome back, {firstName}</h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-gray-900">Welcome back, {firstName}</h1>
+          <p className="text-gray-500 text-sm mt-1">
             {taxYear} tax year &mdash; {receipts.length === 0
               ? 'Start by uploading your first document.'
               : `${receipts.length} document${receipts.length !== 1 ? 's' : ''} in your library.`}
@@ -97,10 +97,10 @@ export default function Dashboard() {
 
         {/* PRIMARY ACTION: Upload */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-white mb-4">Upload Documents</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Upload Documents</h2>
           <div
             className={`border-2 border-dashed rounded-xl p-12 text-center transition-all cursor-pointer ${
-              isDragging ? 'border-emerald-400 bg-emerald-500/5' : 'border-slate-700 hover:border-emerald-600 hover:bg-slate-900'
+              isDragging ? 'border-emerald-400 bg-emerald-500/5' : 'border-gray-200 hover:border-emerald-600 hover:bg-white'
             }`}
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={() => setIsDragging(false)}
@@ -110,13 +110,13 @@ export default function Dashboard() {
             {uploading ? (
               <div className="flex flex-col items-center gap-3">
                 <Loader2 className="w-10 h-10 text-emerald-400 animate-spin" />
-                <p className="text-slate-400 text-sm">Uploading...</p>
+                <p className="text-gray-500 text-sm">Uploading...</p>
               </div>
             ) : (
               <>
-                <Upload className="w-12 h-12 mx-auto text-slate-600 mb-4" />
-                <p className="text-white font-medium mb-1">Drop files here or click to browse</p>
-                <p className="text-slate-500 text-sm">PDF, JPEG, PNG, WEBP &mdash; up to 20MB each</p>
+                <Upload className="w-12 h-12 mx-auto text-gray-600 mb-4" />
+                <p className="text-gray-900 font-medium mb-1">Drop files here or click to browse</p>
+                <p className="text-gray-500 text-sm">PDF, JPEG, PNG, WEBP &mdash; up to 20MB each</p>
               </>
             )}
             <input
@@ -133,30 +133,30 @@ export default function Dashboard() {
         {/* Receipt library */}
         {receipts.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold text-white mb-4">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
               Receipt Library
-              <span className="ml-2 text-sm font-normal text-slate-500">{taxYear}</span>
+              <span className="ml-2 text-sm font-normal text-gray-500">{taxYear}</span>
             </h2>
             <div className="space-y-2">
               {receipts.map((r: any) => (
-                <Card key={r.id} className="bg-slate-900 border-slate-800">
+                <Card key={r.id} className="bg-white border-gray-200">
                   <CardContent className="flex items-center gap-4 py-3 px-4">
-                    <div className="w-8 h-8 flex items-center justify-center bg-slate-800 rounded-lg shrink-0">
-                      {r.imageUrl ? <Image className="w-4 h-4 text-emerald-400" /> : <FileText className="w-4 h-4 text-slate-400" />}
+                    <div className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg shrink-0">
+                      {r.imageUrl ? <Image className="w-4 h-4 text-emerald-400" /> : <FileText className="w-4 h-4 text-gray-500" />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm font-medium truncate">{r.description || r.vendor || 'Untitled'}</p>
-                      <p className="text-slate-500 text-xs">{r.date} &mdash; {r.category}</p>
+                      <p className="text-gray-900 text-sm font-medium truncate">{r.description || r.vendor || 'Untitled'}</p>
+                      <p className="text-gray-500 text-xs">{r.date} &mdash; {r.category}</p>
                     </div>
                     {r.amount && (
                       <span className="text-emerald-400 text-sm font-semibold shrink-0">${r.amount}</span>
                     )}
-                    <Badge variant="secondary" className="bg-slate-800 text-slate-400 text-xs shrink-0">
+                    <Badge variant="secondary" className="bg-gray-100 text-gray-500 text-xs shrink-0">
                       {r.isDeductible ? 'Deductible' : 'Non-deductible'}
                     </Badge>
                     <div className="flex items-center gap-1 shrink-0">
                       {r.imageUrl && (
-                        <Button size="icon" variant="ghost" className="w-7 h-7 text-slate-500 hover:text-white" asChild>
+                        <Button size="icon" variant="ghost" className="w-7 h-7 text-gray-500 hover:text-gray-900" asChild>
                           <a href={r.imageUrl} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="w-3.5 h-3.5" />
                           </a>
@@ -165,7 +165,7 @@ export default function Dashboard() {
                       <Button
                         size="icon"
                         variant="ghost"
-                        className="w-7 h-7 text-slate-500 hover:text-red-400"
+                        className="w-7 h-7 text-gray-500 hover:text-red-400"
                         onClick={() => deleteReceipt.mutate({ id: r.id })}
                         disabled={deleteReceipt.isPending}
                       >

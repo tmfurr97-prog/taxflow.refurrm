@@ -64,7 +64,7 @@ const Features: React.FC = () => {
             </div>
           </section>
 
-          <section className="bg-charcoal text-white p-12 rounded-lg">
+          <section className="bg-charcoal text-gray-900 p-12 rounded-lg">
             <h2 className="text-3xl font-bold mb-6">Security You Can Trust</h2>
             <p className="text-lg mb-6">Your data deserves protection. TaxFlow uses enterprise-grade encryption.</p>
             <ul className="space-y-3">
@@ -92,19 +92,19 @@ const Features: React.FC = () => {
                 <p className="text-2xl font-bold text-charcoal">$24.99/month</p>
                 <p className="text-gray-600">Monthly Plan</p>
               </div>
-              <div className="p-6 border-2 border-teal rounded-lg bg-teal text-white">
+              <div className="p-6 border-2 border-teal rounded-lg bg-teal text-gray-900">
                 <p className="text-2xl font-bold">$249/year</p>
                 <p>Annual Plan</p>
               </div>
             </div>
             <Link href="/pricing">
-              <Button size="lg" className="bg-teal hover:bg-teal-dark text-white">
+              <Button size="lg" className="bg-teal hover:bg-teal-dark text-gray-900">
                 View Pricing Details
               </Button>
             </Link>
           </section>
 
-          <section className="text-center py-12 bg-gradient-to-r from-teal to-blue-500 text-white rounded-lg">
+          <section className="text-center py-12 bg-gradient-to-r from-teal to-blue-500 text-gray-900 rounded-lg">
             <h2 className="text-4xl font-bold mb-4">Automate. Simplify. File with Confidence.</h2>
             <Link href="/signup">
               <Button size="lg" className="bg-white text-teal hover:bg-gray-100 mt-6">

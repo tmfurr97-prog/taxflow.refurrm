@@ -50,10 +50,10 @@ const ADDONS = [
 ];
 
 const colorStyles: Record<string, { ring: string; btn: string; icon: string; check: string }> = {
-  slate: { ring: 'border-slate-700', btn: 'bg-slate-700 hover:bg-slate-600 text-white', icon: 'bg-slate-800 text-slate-400', check: 'text-slate-400' },
-  blue: { ring: 'border-blue-700/50', btn: 'bg-blue-600 hover:bg-blue-700 text-white', icon: 'bg-blue-500/20 text-blue-400', check: 'text-blue-400' },
-  emerald: { ring: 'border-emerald-500/60 ring-2 ring-emerald-500/20', btn: 'bg-emerald-600 hover:bg-emerald-700 text-white', icon: 'bg-emerald-500/20 text-emerald-400', check: 'text-emerald-400' },
-  violet: { ring: 'border-violet-700/50', btn: 'bg-violet-600 hover:bg-violet-700 text-white', icon: 'bg-violet-500/20 text-violet-400', check: 'text-violet-400' },
+  slate: { ring: 'border-gray-200', btn: 'bg-gray-200 hover:bg-slate-600 text-gray-900', icon: 'bg-gray-100 text-gray-500', check: 'text-gray-500' },
+  blue: { ring: 'border-blue-700/50', btn: 'bg-blue-600 hover:bg-blue-700 text-gray-900', icon: 'bg-blue-500/20 text-blue-400', check: 'text-blue-400' },
+  emerald: { ring: 'border-emerald-500/60 ring-2 ring-emerald-500/20', btn: 'bg-emerald-600 hover:bg-emerald-700 text-gray-900', icon: 'bg-emerald-500/20 text-emerald-400', check: 'text-emerald-400' },
+  violet: { ring: 'border-violet-700/50', btn: 'bg-violet-600 hover:bg-violet-700 text-gray-900', icon: 'bg-violet-500/20 text-violet-400', check: 'text-violet-400' },
 };
 
 export default function Pricing() {
@@ -106,26 +106,26 @@ export default function Pricing() {
   const isPending = createCheckout.isPending || createAlacarteCheckout.isPending;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="max-w-6xl mx-auto px-4 py-16">
         {/* Hero */}
         <div className="text-center mb-12">
           <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 mb-4">Simple, transparent pricing</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Less than what you'd pay<br /><span className="text-emerald-400">to file your taxes.</span>
           </h1>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto">
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
             SmartBooks24 works all year so you're never scrambling in April. Start free — upgrade when you're ready.
           </p>
           <div className="flex items-center justify-center gap-4 mt-8">
-            <span className={cn('text-sm font-medium', !isAnnual ? 'text-white' : 'text-slate-500')}>Monthly</span>
+            <span className={cn('text-sm font-medium', !isAnnual ? 'text-gray-900' : 'text-gray-500')}>Monthly</span>
             <button
               onClick={() => setIsAnnual(!isAnnual)}
-              className={cn('relative w-14 h-7 rounded-full transition-colors', isAnnual ? 'bg-emerald-600' : 'bg-slate-700')}
+              className={cn('relative w-14 h-7 rounded-full transition-colors', isAnnual ? 'bg-emerald-600' : 'bg-gray-200')}
             >
               <div className={cn('absolute top-1 w-5 h-5 bg-white rounded-full shadow transition-transform', isAnnual ? 'translate-x-8' : 'translate-x-1')} />
             </button>
-            <span className={cn('text-sm font-medium flex items-center gap-2', isAnnual ? 'text-white' : 'text-slate-500')}>
+            <span className={cn('text-sm font-medium flex items-center gap-2', isAnnual ? 'text-gray-900' : 'text-gray-500')}>
               Annual <Badge className="bg-emerald-500/20 text-emerald-400 border-0 text-xs">Save up to 2 months</Badge>
             </span>
           </div>
@@ -149,10 +149,10 @@ export default function Pricing() {
               : null;
 
             return (
-              <div key={plan.tier} className={cn('relative bg-slate-900 border rounded-2xl p-6 flex flex-col', styles.ring, meta.popular ? 'shadow-lg shadow-emerald-500/10' : '')}>
+              <div key={plan.tier} className={cn('relative bg-white border rounded-2xl p-6 flex flex-col', styles.ring, meta.popular ? 'shadow-lg shadow-emerald-500/10' : '')}>
                 {meta.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-emerald-600 text-white border-0 px-3 py-1 text-xs font-semibold">⭐ Most Popular</Badge>
+                    <Badge className="bg-emerald-600 text-gray-900 border-0 px-3 py-1 text-xs font-semibold">⭐ Most Popular</Badge>
                   </div>
                 )}
                 <div className="flex items-center gap-3 mb-4">
@@ -160,15 +160,15 @@ export default function Pricing() {
                     <PlanIcon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold">{plan.name}</h3>
-                    <p className="text-slate-500 text-xs">{meta.tagline}</p>
+                    <h3 className="text-gray-900 font-bold">{plan.name}</h3>
+                    <p className="text-gray-500 text-xs">{meta.tagline}</p>
                   </div>
                 </div>
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1">
-                    {plan.monthlyAmount > 0 && <span className="text-slate-400 text-lg">$</span>}
-                    <span className="text-white text-4xl font-bold">{displayPrice.replace('$', '')}</span>
-                    <span className="text-slate-500 text-sm">{period}</span>
+                    {plan.monthlyAmount > 0 && <span className="text-gray-500 text-lg">$</span>}
+                    <span className="text-gray-900 text-4xl font-bold">{displayPrice.replace('$', '')}</span>
+                    <span className="text-gray-500 text-sm">{period}</span>
                   </div>
                   {savings && <p className="text-emerald-400 text-xs mt-1">{savings}</p>}
                 </div>
@@ -183,7 +183,7 @@ export default function Pricing() {
                   {plan.features.map((f) => (
                     <div key={f} className="flex items-start gap-2.5">
                       <Check className={cn('w-4 h-4 mt-0.5 shrink-0', styles.check)} />
-                      <span className="text-slate-300 text-sm">{f}</span>
+                      <span className="text-gray-600 text-sm">{f}</span>
                     </div>
                   ))}
                   {meta.locked.map((f) => (
@@ -191,7 +191,7 @@ export default function Pricing() {
                       <div className="w-4 h-4 mt-0.5 shrink-0 flex items-center justify-center">
                         <div className="w-3 h-0.5 bg-slate-600 rounded" />
                       </div>
-                      <span className="text-slate-500 text-sm line-through">{f}</span>
+                      <span className="text-gray-500 text-sm line-through">{f}</span>
                     </div>
                   ))}
                 </div>
@@ -203,17 +203,17 @@ export default function Pricing() {
         {/* À la carte */}
         <div className="mb-16">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-white mb-2">À La Carte Services</h2>
-            <p className="text-slate-400">Only pay for what you need. Add services to any plan — even the free one.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">À La Carte Services</h2>
+            <p className="text-gray-500">Only pay for what you need. Add services to any plan — even the free one.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {ADDONS.map((addon) => {
               const AddonIcon = addon.icon;
               return (
-                <div key={addon.key} className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-colors">
+                <div key={addon.key} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-200 transition-colors">
                   <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center shrink-0">
-                      <AddonIcon className="w-5 h-5 text-slate-400" />
+                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+                      <AddonIcon className="w-5 h-5 text-gray-500" />
                     </div>
                     {addon.badge && (
                       <Badge className={cn('text-xs border-0', addon.badgeColor === 'emerald' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400')}>
@@ -221,14 +221,14 @@ export default function Pricing() {
                       </Badge>
                     )}
                   </div>
-                  <h3 className="text-white font-semibold text-sm mb-1">{addon.title}</h3>
-                  <p className="text-slate-500 text-xs mb-4 leading-relaxed">{addon.desc}</p>
+                  <h3 className="text-gray-900 font-semibold text-sm mb-1">{addon.title}</h3>
+                  <p className="text-gray-500 text-xs mb-4 leading-relaxed">{addon.desc}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-emerald-400 font-bold">{addon.price}</span>
                     <Button
                       size="sm"
                       variant="outline"
-                      className="text-xs h-7 border-slate-600 hover:bg-slate-800 bg-transparent"
+                      className="text-xs h-7 border-gray-300 hover:bg-gray-100 bg-transparent"
                       onClick={() => handleAlacarte(addon.key)}
                       disabled={isPending}
                     >
@@ -243,8 +243,8 @@ export default function Pricing() {
         </div>
 
         {/* FAQ */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 mb-12">
-          <h3 className="text-white font-bold text-xl mb-6 text-center">Common Questions</h3>
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 mb-12">
+          <h3 className="text-gray-900 font-bold text-xl mb-6 text-center">Common Questions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { q: 'Can I cancel anytime?', a: 'Yes. No contracts, no cancellation fees. Cancel from your profile settings and your access continues until the end of your billing period.' },
@@ -255,8 +255,8 @@ export default function Pricing() {
               { q: 'Can I use this for business AND personal taxes?', a: 'Yes. The Pro plan handles both. The Business plan supports multiple entities — perfect if you have an LLC plus personal income.' },
             ].map(({ q, a }) => (
               <div key={q}>
-                <p className="text-white font-semibold text-sm mb-1">{q}</p>
-                <p className="text-slate-400 text-sm leading-relaxed">{a}</p>
+                <p className="text-gray-900 font-semibold text-sm mb-1">{q}</p>
+                <p className="text-gray-500 text-sm leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
@@ -264,16 +264,16 @@ export default function Pricing() {
 
         {/* Test card note */}
         <div className="text-center mb-8">
-          <p className="text-slate-500 text-xs">
-            Testing? Use card <code className="bg-slate-800 px-2 py-0.5 rounded text-slate-300">4242 4242 4242 4242</code> with any future date and any CVC.
+          <p className="text-gray-500 text-xs">
+            Testing? Use card <code className="bg-gray-100 px-2 py-0.5 rounded text-gray-600">4242 4242 4242 4242</code> with any future date and any CVC.
           </p>
         </div>
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <p className="text-slate-400 text-sm mb-4">Still not sure? Start free — no credit card required.</p>
+          <p className="text-gray-500 text-sm mb-4">Still not sure? Start free — no credit card required.</p>
           <Button
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 text-base"
+            className="bg-emerald-600 hover:bg-emerald-700 text-gray-900 px-8 py-3 text-base"
             onClick={() => isAuthenticated ? navigate('/dashboard') : (window.location.href = getLoginUrl())}
           >
             Get Started Free <ArrowRight className="w-4 h-4 ml-2" />

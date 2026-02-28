@@ -46,7 +46,7 @@ const HowItWorks: React.FC = () => {
                   alt={step.title}
                   className="w-full h-48 object-cover rounded-lg shadow-lg"
                 />
-                <div className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-lg">
+                <div className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-emerald-600 text-gray-900 flex items-center justify-center font-bold text-lg shadow-lg">
                   {index + 1}
                 </div>
               </div>

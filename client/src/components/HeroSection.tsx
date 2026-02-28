@@ -13,7 +13,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="relative bg-gradient-to-br from-brand-black via-brand-aqua to-brand-black text-white overflow-hidden">
+    <div className="relative bg-gradient-to-br from-brand-black via-brand-aqua to-brand-black text-gray-900 overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <img 
           src="https://d64gsuwffb70l.cloudfront.net/68e7f2c7e795b22e67db6507_1760713229618_d5a4bb79.webp" 
@@ -27,7 +27,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
         <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
           <Button 
             variant="ghost" 
-            className="text-white hover:bg-white/10"
+            className="text-gray-900 hover:bg-white/10"
             onClick={() => setLocation('/profile')}
           >
             <User className="mr-2 h-4 w-4" />
@@ -35,7 +35,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
           </Button>
           <Button 
             variant="ghost" 
-            className="text-white hover:bg-white/10"
+            className="text-gray-900 hover:bg-white/10"
             onClick={() => signOut()}
           >
             <LogOut className="h-4 w-4" />
@@ -46,7 +46,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
       <div className="relative max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-block bg-brand-aqua text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
+            <div className="inline-block bg-brand-aqua text-gray-900 px-4 py-2 rounded-full text-sm font-semibold mb-6">
               7-Day Free Trial • No Credit Card Required
             </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
@@ -65,12 +65,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
             <div className="flex flex-wrap gap-4 mb-8">
               <button 
                 onClick={onGetStarted}
-                className="px-8 py-4 bg-brand-aqua text-white font-bold rounded-lg hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl"
+                className="px-8 py-4 bg-brand-aqua text-gray-900 font-bold rounded-lg hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl"
               >
                 Start Free Trial
               </button>
 
-              <button className="px-8 py-4 bg-white bg-opacity-10 backdrop-blur text-white font-bold rounded-lg hover:bg-opacity-20 transition-all border-2 border-white border-opacity-30">
+              <button className="px-8 py-4 bg-white bg-opacity-10 backdrop-blur text-gray-900 font-bold rounded-lg hover:bg-opacity-20 transition-all border-2 border-white border-opacity-30">
                 Watch Demo
               </button>
             </div>

@@ -187,6 +187,13 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Light Mode Theme Overhaul
+- [x] Switch ThemeProvider to defaultTheme="light"
+- [x] Rewrite CSS variables in index.css for light backgrounds, dark text, emerald accents
+- [x] Update Landing.tsx slate-950/slate-900 backgrounds to white/gray
+- [x] Update AppShell.tsx sidebar to light theme
+- [x] Update Dashboard.tsx and all inner pages to light theme (global sed replacement across all .tsx files)
+
 ## Landing Nav & Receipt Upload
 - [x] Remove SmartBooks24 sub-text from public landing page nav
 - [x] Wire receipt upload to S3 + DB persistence — /api/upload/receipt endpoint, multer + storagePut, saves to receipts table, dashboard loads from DB via tRPC, delete works

@@ -42,7 +42,7 @@ const AIAssistantSection: React.FC = () => {
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
             <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full">
-              <Sparkles className="h-8 w-8 text-white" />
+              <Sparkles className="h-8 w-8 text-gray-900" />
             </div>
           </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">

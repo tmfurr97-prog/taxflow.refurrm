@@ -20,7 +20,7 @@ const NotFound = () => {
         <p className="text-sm text-gray-500 mb-6">Redirecting to home in 3 seconds...</p>
         <button 
           onClick={() => setLocation("/")}
-          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-6 py-3 bg-blue-600 text-gray-900 font-semibold rounded-lg hover:bg-blue-700 transition-colors"
         >
           Return to Home Now
         </button>

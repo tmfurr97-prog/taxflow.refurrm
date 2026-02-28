@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <button
                 onClick={() => setFunnelOpen(true)}
-                className="bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold px-8 py-4 rounded-xl text-sm uppercase tracking-widest transition-all duration-300 shadow-lg shadow-[#18453B]/15 hover:shadow-[#18453B]/25 hover:-translate-y-0.5"
+                className="bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold px-8 py-4 rounded-xl text-sm uppercase tracking-widest transition-all duration-300 shadow-lg shadow-[#18453B]/15 hover:shadow-[#18453B]/25 hover:-translate-y-0.5"
               >
                 Get Started Free
               </button>
@@ -122,7 +122,7 @@ const QuickForm: React.FC<{ onOpenFull: () => void }> = ({ onOpenFull }) => {
     return (
       <div className="text-center py-8">
         <div className="w-14 h-14 rounded-full bg-[#18453B] flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-7 h-7 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -153,7 +153,7 @@ const QuickForm: React.FC<{ onOpenFull: () => void }> = ({ onOpenFull }) => {
           <input type="checkbox" checked={form.sms_opt_in} onChange={(e) => setForm({ ...form, sms_opt_in: e.target.checked })} className="sr-only" />
           <div className={`w-5 h-5 rounded border-2 transition-all flex items-center justify-center ${form.sms_opt_in ? 'bg-[#18453B] border-[#18453B]' : 'border-gray-300 group-hover:border-gray-400'}`}>
             {form.sms_opt_in && (
-              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <svg className="w-3 h-3 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             )}
@@ -163,7 +163,7 @@ const QuickForm: React.FC<{ onOpenFull: () => void }> = ({ onOpenFull }) => {
       </label>
 
       <button type="submit" disabled={loading}
-        className="w-full bg-[#18453B] hover:bg-[#0D3328] disabled:opacity-50 text-white font-semibold py-3.5 rounded-lg text-sm uppercase tracking-widest transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-center gap-2">
+        className="w-full bg-[#18453B] hover:bg-[#0D3328] disabled:opacity-50 text-gray-900 font-semibold py-3.5 rounded-lg text-sm uppercase tracking-widest transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-center gap-2">
         {loading ? (
           <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />

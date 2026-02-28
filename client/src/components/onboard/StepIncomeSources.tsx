@@ -440,7 +440,7 @@ const StepIncomeSources: React.FC<Props> = ({ data, onChange, onNext, onBack }) 
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Back
         </button>
-        <button onClick={handleNext} className="bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold px-8 py-3 rounded-lg text-sm transition-colors flex items-center gap-2">
+        <button onClick={handleNext} className="bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold px-8 py-3 rounded-lg text-sm transition-colors flex items-center gap-2">
           Continue
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
         </button>

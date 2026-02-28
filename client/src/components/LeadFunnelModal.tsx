@@ -29,7 +29,7 @@ const LeadFunnelModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ i
               <div className="space-y-4">
                 <input type="text" placeholder="Full Name" className="w-full bg-[#F9FAFB] border border-gray-200 rounded-xl px-4 py-3.5 focus:border-[#18453B] outline-none transition-all" />
                 <input type="email" placeholder="Email Address" className="w-full bg-[#F9FAFB] border border-gray-200 rounded-xl px-4 py-3.5 focus:border-[#18453B] outline-none transition-all" />
-                <button onClick={nextStep} className="w-full bg-[#18453B] text-white font-bold py-4 rounded-xl uppercase tracking-widest hover:bg-[#0D3328] transition-shadow shadow-lg shadow-[#18453B]/20">Next: Security Opt-in</button>
+                <button onClick={nextStep} className="w-full bg-[#18453B] text-gray-900 font-bold py-4 rounded-xl uppercase tracking-widest hover:bg-[#0D3328] transition-shadow shadow-lg shadow-[#18453B]/20">Next: Security Opt-in</button>
               </div>
             </div>
           )}
@@ -51,7 +51,7 @@ const LeadFunnelModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ i
                     Enable real-time <strong>Smart Alerts</strong>. I want the AI to flag non-deductible spending and audit risks as they happen.
                   </span>
                 </label>
-                <button onClick={nextStep} className="w-full bg-[#18453B] text-white font-bold py-4 rounded-xl uppercase tracking-widest hover:bg-[#0D3328] transition-all">Next: Finalize</button>
+                <button onClick={nextStep} className="w-full bg-[#18453B] text-gray-900 font-bold py-4 rounded-xl uppercase tracking-widest hover:bg-[#0D3328] transition-all">Next: Finalize</button>
               </div>
             </div>
           )}
@@ -63,7 +63,7 @@ const LeadFunnelModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ i
               </div>
               <h3 className="text-2xl font-black text-[#0A1628] mb-2 uppercase tracking-tight">Access Granted</h3>
               <p className="text-[#6B7280] mb-8">Your account is initialized. The Shadow Accountant is ready to review your first document.</p>
-              <button onClick={() => { onClose(); setLocation('/onboard'); }} className="w-full bg-[#18453B] text-white font-bold py-4 rounded-xl uppercase tracking-widest hover:bg-[#0D3328] transition-all">Go to Command Center</button>
+              <button onClick={() => { onClose(); setLocation('/onboard'); }} className="w-full bg-[#18453B] text-gray-900 font-bold py-4 rounded-xl uppercase tracking-widest hover:bg-[#0D3328] transition-all">Go to Command Center</button>
             </div>
           )}
         </div>

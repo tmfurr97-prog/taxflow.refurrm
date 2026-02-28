@@ -18,11 +18,11 @@ const STATUS_OPTIONS = [
   { value: 'in_review',     label: 'In Review',       color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
   { value: 'ready_to_sign', label: 'Ready to Sign',   color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
   { value: 'filed',         label: 'Filed',           color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
-  { value: 'draft',         label: 'Draft',           color: 'bg-slate-500/20 text-slate-400 border-slate-500/30' },
+  { value: 'draft',         label: 'Draft',           color: 'bg-slate-500/20 text-gray-500 border-slate-500/30' },
 ];
 
 function getStatusStyle(status: string) {
-  return STATUS_OPTIONS.find(s => s.value === status)?.color ?? 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+  return STATUS_OPTIONS.find(s => s.value === status)?.color ?? 'bg-slate-500/20 text-gray-500 border-slate-500/30';
 }
 function getStatusLabel(status: string) {
   return STATUS_OPTIONS.find(s => s.value === status)?.label ?? status;
@@ -37,7 +37,7 @@ function formatFileSize(bytes: number) {
 function FileTypeIcon({ mimeType }: { mimeType: string }) {
   if (mimeType === 'application/pdf') return <FileText className="w-4 h-4 text-red-400" />;
   if (mimeType.startsWith('image/')) return <ImageIcon className="w-4 h-4 text-blue-400" />;
-  return <FileIcon className="w-4 h-4 text-slate-400" />;
+  return <FileIcon className="w-4 h-4 text-gray-500" />;
 }
 
 type ReturnRow = {
@@ -73,32 +73,32 @@ function ReturnDetailPanel({ returnId, onClose }: { returnId: number; onClose: (
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-white font-semibold text-lg">Return #{data.id} — Tax Year {data.taxYear}</h3>
-          <p className="text-slate-400 text-sm">User ID: {data.userId} · {data.isNewClient ? 'New Client' : 'Returning Client'}</p>
+          <h3 className="text-gray-900 font-semibold text-lg">Return #{data.id} — Tax Year {data.taxYear}</h3>
+          <p className="text-gray-500 text-sm">User ID: {data.userId} · {data.isNewClient ? 'New Client' : 'Returning Client'}</p>
         </div>
-        <Button variant="ghost" size="sm" onClick={onClose} className="text-slate-400 hover:text-white">✕ Close</Button>
+        <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-500 hover:text-gray-900">✕ Close</Button>
       </div>
 
       {/* Status Update */}
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-gray-100 border-gray-200">
         <CardContent className="pt-4 pb-4">
           <div className="flex items-center gap-4 flex-wrap">
             <div>
-              <p className="text-slate-400 text-xs mb-1">Current Status</p>
+              <p className="text-gray-500 text-xs mb-1">Current Status</p>
               <Badge className={`${getStatusStyle(data.status ?? '')} border`}>{getStatusLabel(data.status ?? '')}</Badge>
             </div>
             <div className="flex-1 min-w-[200px]">
-              <p className="text-slate-400 text-xs mb-1">Update Status</p>
+              <p className="text-gray-500 text-xs mb-1">Update Status</p>
               <Select
                 value={data.status ?? undefined}
                 onValueChange={(val) => updateMutation.mutate({ returnId: data.id, status: val as "submitted" | "docs_received" | "in_review" | "ready_to_sign" | "filed" | "draft" | "rejected" })}
               >
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white h-9">
+                <SelectTrigger className="bg-gray-200 border-gray-300 text-gray-900 h-9">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700">
+                <SelectContent className="bg-gray-100 border-gray-200">
                   {STATUS_OPTIONS.map(opt => (
-                    <SelectItem key={opt.value} value={opt.value} className="text-white hover:bg-slate-700">
+                    <SelectItem key={opt.value} value={opt.value} className="text-gray-900 hover:bg-gray-200">
                       {opt.label}
                     </SelectItem>
                   ))}
@@ -106,10 +106,10 @@ function ReturnDetailPanel({ returnId, onClose }: { returnId: number; onClose: (
               </Select>
             </div>
             <div>
-              <p className="text-slate-400 text-xs mb-1">Checklist</p>
+              <p className="text-gray-500 text-xs mb-1">Checklist</p>
               <div className="flex items-center gap-2">
                 <Progress value={data.checklistCompletePct ?? 0} className="h-2 w-24" />
-                <span className="text-white text-sm">{data.checklistCompletePct ?? 0}%</span>
+                <span className="text-gray-900 text-sm">{data.checklistCompletePct ?? 0}%</span>
               </div>
             </div>
           </div>
@@ -118,47 +118,47 @@ function ReturnDetailPanel({ returnId, onClose }: { returnId: number; onClose: (
 
       {/* Client Notes */}
       {data.clientNotes && (
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-gray-100 border-gray-200">
           <CardHeader className="pb-2">
-            <CardTitle className="text-white text-sm flex items-center gap-2">
-              <FileText className="w-4 h-4 text-slate-400" /> Client Notes
+            <CardTitle className="text-gray-900 text-sm flex items-center gap-2">
+              <FileText className="w-4 h-4 text-gray-500" /> Client Notes
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-300 text-sm whitespace-pre-wrap">{data.clientNotes}</p>
+            <p className="text-gray-600 text-sm whitespace-pre-wrap">{data.clientNotes}</p>
           </CardContent>
         </Card>
       )}
 
       {/* Documents */}
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-gray-100 border-gray-200">
         <CardHeader className="pb-2">
-          <CardTitle className="text-white text-sm flex items-center gap-2">
-            <Download className="w-4 h-4 text-slate-400" /> Uploaded Documents ({docs.length})
+          <CardTitle className="text-gray-900 text-sm flex items-center gap-2">
+            <Download className="w-4 h-4 text-gray-500" /> Uploaded Documents ({docs.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
           {docs.length === 0 ? (
-            <p className="text-slate-500 text-sm text-center py-4">No documents uploaded yet.</p>
+            <p className="text-gray-500 text-sm text-center py-4">No documents uploaded yet.</p>
           ) : (
             <div className="space-y-2">
               {docs.map((doc: any) => (
-                <div key={doc.id} className="flex items-center gap-3 p-3 bg-slate-700 rounded-lg">
+                <div key={doc.id} className="flex items-center gap-3 p-3 bg-gray-200 rounded-lg">
                   <FileTypeIcon mimeType={doc.mimeType} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">{doc.fileName}</p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-sm text-gray-900 truncate">{doc.fileName}</p>
+                    <p className="text-xs text-gray-500">
                       {doc.checklistCategory && <span className="mr-2 capitalize">{doc.checklistCategory.replace(/_/g, ' ')}</span>}
                       {formatFileSize(doc.fileSize)}
                     </p>
                   </div>
                   <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 border-slate-600 text-slate-300 hover:bg-slate-600 bg-transparent">
+                    <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 border-gray-300 text-gray-600 hover:bg-slate-600 bg-transparent">
                       <Eye className="w-3 h-3" /> View
                     </Button>
                   </a>
                   <a href={doc.fileUrl} download={doc.fileName}>
-                    <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 border-slate-600 text-slate-300 hover:bg-slate-600 bg-transparent">
+                    <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 border-gray-300 text-gray-600 hover:bg-slate-600 bg-transparent">
                       <Download className="w-3 h-3" /> Download
                     </Button>
                   </a>
@@ -170,7 +170,7 @@ function ReturnDetailPanel({ returnId, onClose }: { returnId: number; onClose: (
       </Card>
 
       {/* Timestamps */}
-      <div className="text-xs text-slate-600 flex gap-4">
+      <div className="text-xs text-gray-600 flex gap-4">
         <span>Created: {new Date(data.createdAt).toLocaleString()}</span>
         <span>Updated: {new Date(data.updatedAt).toLocaleString()}</span>
       </div>
@@ -190,10 +190,10 @@ export default function AdminReturns() {
   // Not admin
   if (!user) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-emerald-400 mx-auto mb-4" />
-          <p className="text-slate-400">Loading...</p>
+          <p className="text-gray-500">Loading...</p>
         </div>
       </div>
     );
@@ -201,12 +201,12 @@ export default function AdminReturns() {
 
   if (user?.role !== 'admin') {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
-        <Card className="bg-slate-900 border-slate-800 max-w-md w-full">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+        <Card className="bg-white border-gray-200 max-w-md w-full">
           <CardContent className="pt-8 pb-8 text-center">
             <Shield className="w-12 h-12 text-red-400 mx-auto mb-4" />
-            <h2 className="text-white text-xl font-bold mb-2">Access Denied</h2>
-            <p className="text-slate-400 text-sm">This page is restricted to admin users only.</p>
+            <h2 className="text-gray-900 text-xl font-bold mb-2">Access Denied</h2>
+            <p className="text-gray-500 text-sm">This page is restricted to admin users only.</p>
           </CardContent>
         </Card>
       </div>
@@ -223,24 +223,24 @@ export default function AdminReturns() {
   }, {} as Record<string, number>) ?? {};
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
-      <div className="bg-slate-900 border-b border-slate-800 p-6">
+      <div className="bg-white border-b border-gray-200 p-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Shield className="w-5 h-5 text-emerald-400" />
-                <h1 className="text-2xl font-bold text-white">Admin — Returns Dashboard</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Admin — Returns Dashboard</h1>
                 <Badge className="bg-red-500/20 text-red-400 border-red-500/30 border text-xs">Admin Only</Badge>
               </div>
-              <p className="text-slate-400 text-sm">Manage all client tax return submissions</p>
+              <p className="text-gray-500 text-sm">Manage all client tax return submissions</p>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={() => refetch()}
-              className="border-slate-700 text-slate-300 hover:bg-slate-800 bg-transparent gap-2"
+              className="border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent gap-2"
             >
               <RefreshCw className="w-4 h-4" /> Refresh
             </Button>
@@ -255,11 +255,11 @@ export default function AdminReturns() {
                 className={`p-3 rounded-lg border transition-all text-left ${
                   statusFilter === opt.value
                     ? 'border-emerald-500 bg-emerald-500/10'
-                    : 'border-slate-800 bg-slate-900 hover:border-slate-700'
+                    : 'border-gray-200 bg-white hover:border-gray-200'
                 }`}
               >
-                <p className="text-2xl font-bold text-white">{statusCounts[opt.value] ?? 0}</p>
-                <p className="text-xs text-slate-400 mt-0.5">{opt.label}</p>
+                <p className="text-2xl font-bold text-gray-900">{statusCounts[opt.value] ?? 0}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{opt.label}</p>
               </button>
             ))}
           </div>
@@ -273,12 +273,12 @@ export default function AdminReturns() {
           <>
             {/* Filter Bar */}
             <div className="flex items-center gap-3 mb-4 flex-wrap">
-              <span className="text-slate-400 text-sm">Filter by status:</span>
+              <span className="text-gray-500 text-sm">Filter by status:</span>
               <Button
                 size="sm"
                 variant={statusFilter === 'all' ? 'default' : 'outline'}
                 onClick={() => setStatusFilter('all')}
-                className={statusFilter === 'all' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-slate-700 text-slate-300 hover:bg-slate-800 bg-transparent'}
+                className={statusFilter === 'all' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent'}
               >
                 All ({returns?.length ?? 0})
               </Button>
@@ -288,7 +288,7 @@ export default function AdminReturns() {
                   size="sm"
                   variant={statusFilter === opt.value ? 'default' : 'outline'}
                   onClick={() => setStatusFilter(opt.value)}
-                  className={statusFilter === opt.value ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-slate-700 text-slate-300 hover:bg-slate-800 bg-transparent'}
+                  className={statusFilter === opt.value ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent'}
                 >
                   {opt.label} ({statusCounts[opt.value]})
                 </Button>
@@ -301,10 +301,10 @@ export default function AdminReturns() {
                 <Loader2 className="w-8 h-8 animate-spin text-emerald-400" />
               </div>
             ) : filteredReturns.length === 0 ? (
-              <Card className="bg-slate-900 border-slate-800">
+              <Card className="bg-white border-gray-200">
                 <CardContent className="py-16 text-center">
-                  <FileText className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                  <p className="text-slate-400">No returns found{statusFilter !== 'all' ? ` with status "${getStatusLabel(statusFilter)}"` : ''}.</p>
+                  <FileText className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-500">No returns found{statusFilter !== 'all' ? ` with status "${getStatusLabel(statusFilter)}"` : ''}.</p>
                 </CardContent>
               </Card>
             ) : (
@@ -312,23 +312,23 @@ export default function AdminReturns() {
                 {filteredReturns.map((ret) => (
                   <Card
                     key={ret.id}
-                    className="bg-slate-900 border-slate-800 hover:border-slate-700 transition-colors cursor-pointer"
+                    className="bg-white border-gray-200 hover:border-gray-200 transition-colors cursor-pointer"
                     onClick={() => setSelectedReturn(ret.id)}
                   >
                     <CardContent className="py-4">
                       <div className="flex items-center gap-4 flex-wrap">
                         {/* Return ID + Year */}
                         <div className="min-w-[80px]">
-                          <p className="text-white font-semibold">#{ret.id}</p>
-                          <p className="text-slate-500 text-xs">TY {ret.taxYear}</p>
+                          <p className="text-gray-900 font-semibold">#{ret.id}</p>
+                          <p className="text-gray-500 text-xs">TY {ret.taxYear}</p>
                         </div>
 
                         {/* User */}
                         <div className="flex items-center gap-2 flex-1 min-w-[120px]">
-                          <User className="w-4 h-4 text-slate-500 shrink-0" />
+                          <User className="w-4 h-4 text-gray-500 shrink-0" />
                           <div>
-                            <p className="text-slate-300 text-sm">User #{ret.userId}</p>
-                            <p className="text-slate-600 text-xs">{ret.isNewClient ? 'New client' : 'Returning client'}</p>
+                            <p className="text-gray-600 text-sm">User #{ret.userId}</p>
+                            <p className="text-gray-600 text-xs">{ret.isNewClient ? 'New client' : 'Returning client'}</p>
                           </div>
                         </div>
 
@@ -340,7 +340,7 @@ export default function AdminReturns() {
                         {/* Progress */}
                         <div className="flex items-center gap-2 min-w-[120px]">
                           <Progress value={ret.checklistCompletePct ?? 0} className="h-1.5 w-20" />
-                          <span className="text-slate-400 text-xs">{ret.checklistCompletePct ?? 0}%</span>
+                          <span className="text-gray-500 text-xs">{ret.checklistCompletePct ?? 0}%</span>
                         </div>
 
                         {/* Notes indicator */}
@@ -353,11 +353,11 @@ export default function AdminReturns() {
 
                         {/* Date */}
                         <div className="text-right ml-auto">
-                          <p className="text-slate-500 text-xs">{new Date(ret.createdAt).toLocaleDateString()}</p>
-                          <p className="text-slate-600 text-xs">{new Date(ret.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                          <p className="text-gray-500 text-xs">{new Date(ret.createdAt).toLocaleDateString()}</p>
+                          <p className="text-gray-600 text-xs">{new Date(ret.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
 
-                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                        <ChevronRight className="w-4 h-4 text-gray-600" />
                       </div>
                     </CardContent>
                   </Card>

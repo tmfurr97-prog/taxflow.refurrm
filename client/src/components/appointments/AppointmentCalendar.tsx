@@ -158,18 +158,18 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
           <button
             onClick={goToPrevMonth}
             disabled={!canGoPrev}
-            className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-1.5 rounded-lg text-gray-900/80 hover:text-gray-900 hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h3 className="text-white font-semibold text-lg">
+          <h3 className="text-gray-900 font-semibold text-lg">
             {MONTH_NAMES[currentMonth]} {currentYear}
           </h3>
           <button
             onClick={goToNextMonth}
-            className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition"
+            className="p-1.5 rounded-lg text-gray-900/80 hover:text-gray-900 hover:bg-white/10 transition"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -211,7 +211,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
                   ${disabled
                     ? 'text-gray-300 cursor-not-allowed'
                     : selected
-                      ? 'bg-[#18453B] text-white shadow-md shadow-[#18453B]/25 scale-105'
+                      ? 'bg-[#18453B] text-gray-900 shadow-md shadow-[#18453B]/25 scale-105'
                       : 'text-gray-700 hover:bg-[#18453B]/10 hover:text-[#18453B]'
                   }
                 `}
@@ -264,7 +264,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
                       ${booked
                         ? 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed line-through'
                         : selected
-                          ? 'bg-[#18453B] text-white border-[#18453B] shadow-md shadow-[#18453B]/20'
+                          ? 'bg-[#18453B] text-gray-900 border-[#18453B] shadow-md shadow-[#18453B]/20'
                           : 'bg-white text-gray-700 border-gray-200 hover:border-[#18453B] hover:text-[#18453B]'
                       }
                     `}

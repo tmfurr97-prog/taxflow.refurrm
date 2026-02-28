@@ -245,7 +245,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
           className={`
             w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2
             ${isReady && !isSubmitting
-              ? 'bg-[#18453B] hover:bg-[#0D3328] text-white shadow-lg shadow-[#18453B]/25 hover:shadow-xl hover:shadow-[#18453B]/30'
+              ? 'bg-[#18453B] hover:bg-[#0D3328] text-gray-900 shadow-lg shadow-[#18453B]/25 hover:shadow-xl hover:shadow-[#18453B]/30'
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }
           `}

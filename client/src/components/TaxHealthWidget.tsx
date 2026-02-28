@@ -7,23 +7,23 @@ export default function TaxHealthWidget() {
   const hasData = healthScore > 0;
 
   return (
-    <Card className="bg-slate-900 border-slate-800">
+    <Card className="bg-white border-gray-200">
       <CardHeader>
-        <CardTitle className="text-white flex items-center gap-2 text-base">
+        <CardTitle className="text-gray-900 flex items-center gap-2 text-base">
           <TrendingUp className="h-5 w-5 text-emerald-400" />
           Tax Health Score
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-center py-2">
-          <div className="text-5xl font-bold text-slate-500">{healthScore}%</div>
-          <p className="text-sm text-slate-500 mt-1">No data yet</p>
+          <div className="text-5xl font-bold text-gray-500">{healthScore}%</div>
+          <p className="text-sm text-gray-500 mt-1">No data yet</p>
         </div>
 
         {!hasData && (
-          <div className="flex items-start gap-2 p-3 bg-slate-800 rounded-lg">
+          <div className="flex items-start gap-2 p-3 bg-gray-100 rounded-lg">
             <AlertCircle className="h-5 w-5 text-yellow-400 shrink-0 mt-0.5" />
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-gray-500">
               Upload your first document to start building your Tax Health Score.
             </p>
           </div>

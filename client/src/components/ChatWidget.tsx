@@ -201,18 +201,18 @@ const ChatWidget: React.FC = () => {
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         {isOpen ? (
-          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-6 h-6 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-6 h-6 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
         )}
 
         {/* Unread Badge */}
         {!isOpen && unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center animate-bounce">
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-gray-900 text-xs font-bold rounded-full flex items-center justify-center animate-bounce">
             {unreadCount}
           </span>
         )}
@@ -231,19 +231,19 @@ const ChatWidget: React.FC = () => {
           <div className="bg-gradient-to-r from-[#18453B] to-[#1B365D] px-5 py-4 flex items-center gap-3 flex-shrink-0">
             <div className="relative">
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-5 h-5 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47 2.47a2.25 2.25 0 01-1.59.659H9.06a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V5.846a2.25 2.25 0 00-1.276-2.028l-.25-.125a6.776 6.776 0 00-6.948 0l-.25.125A2.25 2.25 0 009 5.846V14.5" />
                 </svg>
               </div>
               <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 rounded-full border-2 border-[#18453B]" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-white font-semibold text-sm">SmartBot Assistant</h3>
-              <p className="text-white/70 text-xs">Online — Typically replies instantly</p>
+              <h3 className="text-gray-900 font-semibold text-sm">SmartBot Assistant</h3>
+              <p className="text-gray-900/70 text-xs">Online — Typically replies instantly</p>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white/60 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
+              className="text-gray-900/60 hover:text-gray-900 transition-colors p-1 rounded-lg hover:bg-white/10"
               aria-label="Minimize chat"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -263,7 +263,7 @@ const ChatWidget: React.FC = () => {
                   {msg.sender === 'bot' && (
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className="w-5 h-5 rounded-full bg-[#18453B] flex items-center justify-center flex-shrink-0">
-                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <svg className="w-3 h-3 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5" />
                         </svg>
                       </div>
@@ -273,7 +273,7 @@ const ChatWidget: React.FC = () => {
                   <div
                     className={`px-4 py-3 text-sm leading-relaxed ${
                       msg.sender === 'user'
-                        ? 'bg-[#18453B] text-white rounded-2xl rounded-br-md'
+                        ? 'bg-[#18453B] text-gray-900 rounded-2xl rounded-br-md'
                         : 'bg-white text-gray-700 rounded-2xl rounded-tl-md shadow-sm border border-gray-100'
                     }`}
                   >
@@ -292,7 +292,7 @@ const ChatWidget: React.FC = () => {
                 <div className="max-w-[85%]">
                   <div className="flex items-center gap-1.5 mb-1">
                     <div className="w-5 h-5 rounded-full bg-[#18453B] flex items-center justify-center flex-shrink-0">
-                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="w-3 h-3 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5" />
                       </svg>
                     </div>
@@ -319,7 +319,7 @@ const ChatWidget: React.FC = () => {
                   <button
                     key={reply.category}
                     onClick={() => handleQuickReply(reply)}
-                    className="px-3 py-1.5 text-xs font-medium bg-white border border-gray-200 text-[#18453B] rounded-full hover:bg-[#18453B] hover:text-white hover:border-[#18453B] transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="px-3 py-1.5 text-xs font-medium bg-white border border-gray-200 text-[#18453B] rounded-full hover:bg-[#18453B] hover:text-gray-900 hover:border-[#18453B] transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     {reply.label}
                   </button>
@@ -336,7 +336,7 @@ const ChatWidget: React.FC = () => {
                   <button
                     key={reply.category}
                     onClick={() => handleQuickReply(reply)}
-                    className="px-2.5 py-1 text-[11px] font-medium bg-white border border-gray-200 text-gray-500 rounded-full hover:bg-[#18453B] hover:text-white hover:border-[#18453B] transition-all duration-200 flex-shrink-0"
+                    className="px-2.5 py-1 text-[11px] font-medium bg-white border border-gray-200 text-gray-500 rounded-full hover:bg-[#18453B] hover:text-gray-900 hover:border-[#18453B] transition-all duration-200 flex-shrink-0"
                   >
                     {reply.label}
                   </button>
@@ -363,7 +363,7 @@ const ChatWidget: React.FC = () => {
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isTyping}
-                className="w-10 h-10 bg-[#18453B] hover:bg-[#0D3328] disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-md flex-shrink-0"
+                className="w-10 h-10 bg-[#18453B] hover:bg-[#0D3328] disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-900 rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-md flex-shrink-0"
                 aria-label="Send message"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

@@ -54,17 +54,17 @@ function TaxGPTPageInner() {
 
   return (
     <FeatureGate feature="taxgpt_basic" fullPage upgradeMessage="TaxGPT AI is available on the Essential plan and above. Upgrade to get 24/7 AI tax answers.">
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
       {/* Header */}
-      <div className="border-b border-slate-800 p-4">
+      <div className="border-b border-gray-200 p-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+              <Sparkles className="w-5 h-5 text-gray-900" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">TaxGPT</h1>
-              <p className="text-slate-400 text-sm">Your AI tax assistant — available 24/7</p>
+              <h1 className="text-xl font-bold text-gray-900">TaxGPT</h1>
+              <p className="text-gray-500 text-sm">Your AI tax assistant — available 24/7</p>
             </div>
           </div>
           <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
@@ -80,10 +80,10 @@ function TaxGPTPageInner() {
           {messages.length === 0 && (
             <div className="text-center py-12">
               <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Sparkles className="w-10 h-10 text-white" />
+                <Sparkles className="w-10 h-10 text-gray-900" />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Ask TaxGPT anything</h2>
-              <p className="text-slate-400 mb-8 max-w-md mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Ask TaxGPT anything</h2>
+              <p className="text-gray-500 mb-8 max-w-md mx-auto">
                 Get instant answers about taxes, deductions, quarterly payments, crypto taxes, and more.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
@@ -91,10 +91,10 @@ function TaxGPTPageInner() {
                   <button
                     key={i}
                     onClick={() => sendMessage(q.text)}
-                    className="flex items-center gap-3 p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-emerald-500/50 hover:bg-slate-800 transition-all text-left"
+                    className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:border-emerald-500/50 hover:bg-gray-100 transition-all text-left"
                   >
                     <q.icon className="w-5 h-5 text-emerald-400 shrink-0" />
-                    <span className="text-slate-300 text-sm">{q.text}</span>
+                    <span className="text-gray-600 text-sm">{q.text}</span>
                   </button>
                 ))}
               </div>
@@ -105,13 +105,13 @@ function TaxGPTPageInner() {
             <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {msg.role === 'assistant' && (
                 <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-lg flex items-center justify-center shrink-0 mt-1">
-                  <Bot className="w-4 h-4 text-white" />
+                  <Bot className="w-4 h-4 text-gray-900" />
                 </div>
               )}
               <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                 msg.role === 'user'
-                  ? 'bg-emerald-500 text-white rounded-tr-sm'
-                  : 'bg-slate-900 border border-slate-800 text-slate-100 rounded-tl-sm'
+                  ? 'bg-emerald-500 text-gray-900 rounded-tr-sm'
+                  : 'bg-white border border-gray-200 text-gray-800 rounded-tl-sm'
               }`}>
                 {msg.role === 'assistant' ? (
                   <div className="prose prose-invert prose-sm max-w-none">
@@ -122,8 +122,8 @@ function TaxGPTPageInner() {
                 )}
               </div>
               {msg.role === 'user' && (
-                <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center shrink-0 mt-1">
-                  <User className="w-4 h-4 text-slate-300" />
+                <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 mt-1">
+                  <User className="w-4 h-4 text-gray-600" />
                 </div>
               )}
             </div>
@@ -132,9 +132,9 @@ function TaxGPTPageInner() {
           {chatMutation.isPending && (
             <div className="flex gap-3 justify-start">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-lg flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-white" />
+                <Bot className="w-4 h-4 text-gray-900" />
               </div>
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm px-4 py-3">
+              <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-3">
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -149,7 +149,7 @@ function TaxGPTPageInner() {
       </div>
 
       {/* Input */}
-      <div className="border-t border-slate-800 p-4">
+      <div className="border-t border-gray-200 p-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex gap-2">
             <Input
@@ -157,7 +157,7 @@ function TaxGPTPageInner() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about taxes, deductions, quarterly payments..."
-              className="bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 flex-1"
+              className="bg-white border-gray-200 text-gray-900 placeholder:text-gray-500 flex-1"
               disabled={chatMutation.isPending}
             />
             <Button
@@ -168,7 +168,7 @@ function TaxGPTPageInner() {
               <Send className="w-4 h-4" />
             </Button>
           </div>
-          <p className="text-slate-600 text-xs mt-2 text-center">
+          <p className="text-gray-600 text-xs mt-2 text-center">
             TaxGPT provides general tax information. Consult a licensed tax professional for personalized advice.
           </p>
         </div>

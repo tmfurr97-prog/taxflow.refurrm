@@ -111,7 +111,7 @@ function formatFileSize(bytes: number) {
 function FileTypeIcon({ mimeType }: { mimeType: string }) {
   if (mimeType === 'application/pdf') return <FileText className="w-4 h-4 text-red-400" />;
   if (mimeType.startsWith('image/')) return <ImageIcon className="w-4 h-4 text-blue-400" />;
-  return <FileIcon className="w-4 h-4 text-slate-400" />;
+  return <FileIcon className="w-4 h-4 text-gray-500" />;
 }
 
 export default function RemoteReturns() {
@@ -236,14 +236,14 @@ export default function RemoteReturns() {
   if (activeReturnData && activeReturnData.status !== 'draft') {
     const currentStep = STATUS_STEPS.findIndex(s => s.key === activeReturnData.status);
     return (
-      <div className="min-h-screen bg-slate-950 text-white p-6">
+      <div className="min-h-screen bg-gray-50 text-gray-900 p-6">
         <div className="max-w-3xl mx-auto space-y-6">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Your Tax Return</h1>
-            <p className="text-slate-400">Tax Year {taxYear} · Prepared by SmartBooks24 · E-filed through licensed partner</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Your Tax Return</h1>
+            <p className="text-gray-500">Tax Year {taxYear} · Prepared by SmartBooks24 · E-filed through licensed partner</p>
           </div>
-          <Card className="bg-slate-900 border-slate-800">
-            <CardHeader><CardTitle className="text-white text-lg">Return Status</CardTitle></CardHeader>
+          <Card className="bg-white border-gray-200">
+            <CardHeader><CardTitle className="text-gray-900 text-lg">Return Status</CardTitle></CardHeader>
             <CardContent>
               <div className="flex items-center">
                 {STATUS_STEPS.map((step, i) => {
@@ -252,13 +252,13 @@ export default function RemoteReturns() {
                   return (
                     <React.Fragment key={step.key}>
                       <div className="flex flex-col items-center gap-1.5 flex-1">
-                        <div className={`w-9 h-9 rounded-full flex items-center justify-center border-2 ${isDone ? 'bg-emerald-500 border-emerald-500' : 'bg-slate-800 border-slate-700'} ${isCurrent ? 'ring-2 ring-emerald-400 ring-offset-2 ring-offset-slate-900' : ''}`}>
-                          <step.icon className={`w-4 h-4 ${isDone ? 'text-white' : 'text-slate-500'}`} />
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center border-2 ${isDone ? 'bg-emerald-500 border-emerald-500' : 'bg-gray-100 border-gray-200'} ${isCurrent ? 'ring-2 ring-emerald-400 ring-offset-2 ring-offset-slate-900' : ''}`}>
+                          <step.icon className={`w-4 h-4 ${isDone ? 'text-gray-900' : 'text-gray-500'}`} />
                         </div>
-                        <span className={`text-xs text-center leading-tight ${isCurrent ? 'text-emerald-400 font-semibold' : isDone ? 'text-slate-300' : 'text-slate-600'}`}>{step.label}</span>
+                        <span className={`text-xs text-center leading-tight ${isCurrent ? 'text-emerald-400 font-semibold' : isDone ? 'text-gray-600' : 'text-gray-600'}`}>{step.label}</span>
                       </div>
                       {i < STATUS_STEPS.length - 1 && (
-                        <div className={`h-0.5 flex-1 mx-1 ${i < currentStep ? 'bg-emerald-500' : 'bg-slate-700'}`} />
+                        <div className={`h-0.5 flex-1 mx-1 ${i < currentStep ? 'bg-emerald-500' : 'bg-gray-200'}`} />
                       )}
                     </React.Fragment>
                   );
@@ -266,26 +266,26 @@ export default function RemoteReturns() {
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-slate-900 border-slate-800">
+          <Card className="bg-white border-gray-200">
             <CardHeader>
-              <CardTitle className="text-white text-lg">Uploaded Documents</CardTitle>
-              <CardDescription className="text-slate-400">{activeReturnData.checklistCompletePct ?? 0}% checklist complete</CardDescription>
+              <CardTitle className="text-gray-900 text-lg">Uploaded Documents</CardTitle>
+              <CardDescription className="text-gray-500">{activeReturnData.checklistCompletePct ?? 0}% checklist complete</CardDescription>
             </CardHeader>
             <CardContent>
               <Progress value={activeReturnData.checklistCompletePct ?? 0} className="h-2 mb-4" />
               {uploadedDocs.length === 0 ? (
-                <p className="text-slate-400 text-sm text-center py-4">Your documents are being reviewed. We'll update your status shortly.</p>
+                <p className="text-gray-500 text-sm text-center py-4">Your documents are being reviewed. We'll update your status shortly.</p>
               ) : (
                 <div className="space-y-2">
                   {uploadedDocs.map(doc => (
-                    <div key={doc.id} className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
+                    <div key={doc.id} className="flex items-center gap-3 p-3 bg-gray-100 rounded-lg">
                       <FileTypeIcon mimeType={doc.mimeType} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white truncate">{doc.fileName}</p>
-                        <p className="text-xs text-slate-500">{formatFileSize(doc.fileSize)}</p>
+                        <p className="text-sm text-gray-900 truncate">{doc.fileName}</p>
+                        <p className="text-xs text-gray-500">{formatFileSize(doc.fileSize)}</p>
                       </div>
                       <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-slate-400 hover:text-white">
+                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-gray-500 hover:text-gray-900">
                           <Eye className="w-3.5 h-3.5" />
                         </Button>
                       </a>
@@ -295,8 +295,8 @@ export default function RemoteReturns() {
               )}
             </CardContent>
           </Card>
-          <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-lg text-xs text-slate-500">
-            <p className="font-medium text-slate-400 mb-1">Preparer Disclosure</p>
+          <div className="p-4 bg-white/50 border border-gray-200 rounded-lg text-xs text-gray-500">
+            <p className="font-medium text-gray-500 mb-1">Preparer Disclosure</p>
             <p>Returns prepared by SmartBooks24 by ReFurrm (PTIN on file). Electronic filing performed through our authorized e-file partner. This service does not constitute legal or financial advice.</p>
           </div>
         </div>
@@ -306,32 +306,32 @@ export default function RemoteReturns() {
 
   // ─── Checklist View ─────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 p-6">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      <div className="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-gray-200 p-6">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <FileCheck className="w-6 h-6 text-emerald-400" />
-                <h1 className="text-2xl font-bold text-white">Remote Returns</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Remote Returns</h1>
                 <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">Human-Assisted</Badge>
               </div>
-              <p className="text-slate-400 max-w-xl">
+              <p className="text-gray-500 max-w-xl">
                 No AI required. Upload your documents, complete the checklist, and your dedicated tax preparer handles everything — then e-files through our licensed partner.
               </p>
             </div>
             <div className="text-right">
-              <p className="text-slate-500 text-sm">Tax Year</p>
-              <p className="text-2xl font-bold text-white">{taxYear}</p>
+              <p className="text-gray-500 text-sm">Tax Year</p>
+              <p className="text-2xl font-bold text-gray-900">{taxYear}</p>
             </div>
           </div>
           <div className="mt-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-slate-400">Checklist Progress</span>
+              <span className="text-sm text-gray-500">Checklist Progress</span>
               <span className="text-sm font-medium text-emerald-400">{completionPct}% complete</span>
             </div>
             <Progress value={completionPct} className="h-2.5" />
-            <p className="text-xs text-slate-500 mt-1.5">
+            <p className="text-xs text-gray-500 mt-1.5">
               {completedCount} of {visibleItems.length} items complete
               {requiredComplete && completedCount > 0 && (
                 <span className="text-emerald-400 ml-2">✓ All required items complete</span>
@@ -343,12 +343,12 @@ export default function RemoteReturns() {
 
       <div className="max-w-4xl mx-auto p-6 space-y-4">
         {/* New Client Toggle */}
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-white border-gray-200">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-white text-sm font-medium">First time using SmartBooks24?</p>
-                <p className="text-slate-500 text-xs mt-0.5">New clients must provide last year's return so we can carry over your AGI, deductions, and depreciation schedules.</p>
+                <p className="text-gray-900 text-sm font-medium">First time using SmartBooks24?</p>
+                <p className="text-gray-500 text-xs mt-0.5">New clients must provide last year's return so we can carry over your AGI, deductions, and depreciation schedules.</p>
               </div>
               <Switch checked={isNewClient} onCheckedChange={setIsNewClient} className="data-[state=checked]:bg-emerald-500" />
             </div>
@@ -381,22 +381,22 @@ export default function RemoteReturns() {
           const isExpanded = expandedCategories.has(category.id);
 
           return (
-            <Card key={category.id} className="bg-slate-900 border-slate-800 overflow-hidden">
+            <Card key={category.id} className="bg-white border-gray-200 overflow-hidden">
               <button
                 onClick={() => toggleCategory(category.id)}
-                className="w-full flex items-center gap-3 p-4 hover:bg-slate-800/50 transition-colors text-left"
+                className="w-full flex items-center gap-3 p-4 hover:bg-gray-100/50 transition-colors text-left"
               >
                 <category.icon className={`w-5 h-5 ${category.color} shrink-0`} />
                 <div className="flex-1">
-                  <p className="text-white font-medium text-sm">{category.title}</p>
-                  <p className="text-slate-500 text-xs">{categoryCount}/{visibleCategoryItems.length} complete</p>
+                  <p className="text-gray-900 font-medium text-sm">{category.title}</p>
+                  <p className="text-gray-500 text-xs">{categoryCount}/{visibleCategoryItems.length} complete</p>
                 </div>
                 {categoryComplete && <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />}
-                {isExpanded ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />}
+                {isExpanded ? <ChevronDown className="w-4 h-4 text-gray-500" /> : <ChevronRight className="w-4 h-4 text-gray-500" />}
               </button>
 
               {isExpanded && (
-                <div className="border-t border-slate-800">
+                <div className="border-t border-gray-200">
                   {visibleCategoryItems.map((item, idx) => {
                     const status = itemStatuses[item.id] ?? 'not_started';
                     const isUploading = uploadingItem === item.id;
@@ -405,7 +405,7 @@ export default function RemoteReturns() {
                     return (
                       <div
                         key={item.id}
-                        className={`p-4 ${idx < visibleCategoryItems.length - 1 ? 'border-b border-slate-800/60' : ''} ${status === 'uploaded' ? 'bg-emerald-500/5' : status === 'na' ? 'bg-slate-800/30' : ''}`}
+                        className={`p-4 ${idx < visibleCategoryItems.length - 1 ? 'border-b border-gray-200/60' : ''} ${status === 'uploaded' ? 'bg-emerald-500/5' : status === 'na' ? 'bg-gray-100/30' : ''}`}
                       >
                         {/* Hidden file input per item */}
                         <input
@@ -424,39 +424,39 @@ export default function RemoteReturns() {
                           <div className="mt-0.5 shrink-0">
                             {status === 'uploaded'
                               ? <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                              : <Circle className="w-5 h-5 text-slate-600" />
+                              : <Circle className="w-5 h-5 text-gray-600" />
                             }
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap mb-1">
-                              <p className={`text-sm font-medium ${status === 'uploaded' ? 'text-emerald-300' : status === 'na' ? 'text-slate-500 line-through' : 'text-white'}`}>
+                              <p className={`text-sm font-medium ${status === 'uploaded' ? 'text-emerald-300' : status === 'na' ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
                                 {item.label}{item.required && <span className="text-red-400 ml-1">*</span>}
                               </p>
                               {item.newClientOnly && (
                                 <Badge className="bg-amber-500/15 text-amber-400 border-amber-500/20 text-xs py-0">New clients</Badge>
                               )}
                             </div>
-                            <p className="text-slate-500 text-xs mb-2">{item.description}</p>
+                            <p className="text-gray-500 text-xs mb-2">{item.description}</p>
                             {item.examples && (
-                              <p className="text-slate-600 text-xs italic mb-3">Examples: {item.examples}</p>
+                              <p className="text-gray-600 text-xs italic mb-3">Examples: {item.examples}</p>
                             )}
 
                             {/* Files uploaded for this item */}
                             {itemDocs.length > 0 && (
                               <div className="mb-3 space-y-1.5">
                                 {itemDocs.map(doc => (
-                                  <div key={doc.id} className="flex items-center gap-2 p-2 bg-slate-800 rounded-md">
+                                  <div key={doc.id} className="flex items-center gap-2 p-2 bg-gray-100 rounded-md">
                                     <FileTypeIcon mimeType={doc.mimeType} />
-                                    <span className="text-xs text-slate-300 flex-1 truncate">{doc.fileName}</span>
-                                    <span className="text-xs text-slate-500">{formatFileSize(doc.fileSize)}</span>
+                                    <span className="text-xs text-gray-600 flex-1 truncate">{doc.fileName}</span>
+                                    <span className="text-xs text-gray-500">{formatFileSize(doc.fileSize)}</span>
                                     <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
-                                      <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-slate-400 hover:text-white">
+                                      <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-gray-500 hover:text-gray-900">
                                         <Eye className="w-3 h-3" />
                                       </Button>
                                     </a>
                                     <Button
                                       size="sm" variant="ghost"
-                                      className="h-6 w-6 p-0 text-slate-600 hover:text-red-400"
+                                      className="h-6 w-6 p-0 text-gray-600 hover:text-red-400"
                                       onClick={() => deleteDocMutation.mutate({ documentId: doc.id })}
                                     >
                                       <Trash2 className="w-3 h-3" />
@@ -471,7 +471,7 @@ export default function RemoteReturns() {
                               <Button
                                 size="sm"
                                 variant={status === 'uploaded' ? 'default' : 'outline'}
-                                className={`h-7 text-xs gap-1.5 ${status === 'uploaded' ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-0' : 'border-slate-700 text-slate-300 hover:bg-slate-800 bg-transparent'}`}
+                                className={`h-7 text-xs gap-1.5 ${status === 'uploaded' ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-0' : 'border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent'}`}
                                 disabled={isUploading || !activeReturn}
                                 onClick={() => triggerFileInput(item.id)}
                               >
@@ -483,14 +483,14 @@ export default function RemoteReturns() {
                               {!item.required && (
                                 <Button
                                   size="sm" variant="ghost"
-                                  className={`h-7 text-xs gap-1.5 ${status === 'na' ? 'text-slate-400 bg-slate-800' : 'text-slate-600 hover:text-slate-400'}`}
+                                  className={`h-7 text-xs gap-1.5 ${status === 'na' ? 'text-gray-500 bg-gray-100' : 'text-gray-600 hover:text-gray-500'}`}
                                   onClick={() => setItemStatus(item.id, status === 'na' ? 'not_started' : 'na')}
                                 >
                                   <X className="w-3 h-3" />{status === 'na' ? 'Undo N/A' : 'Not Applicable'}
                                 </Button>
                               )}
                               {!activeReturn && (
-                                <span className="text-xs text-slate-600 italic">Start your return to upload</span>
+                                <span className="text-xs text-gray-600 italic">Start your return to upload</span>
                               )}
                             </div>
                           </div>
@@ -505,12 +505,12 @@ export default function RemoteReturns() {
         })}
 
         {/* Client Notes */}
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-white border-gray-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base flex items-center gap-2">
-              <FileText className="w-4 h-4 text-slate-400" />Notes for Your Preparer
+            <CardTitle className="text-gray-900 text-base flex items-center gap-2">
+              <FileText className="w-4 h-4 text-gray-500" />Notes for Your Preparer
             </CardTitle>
-            <CardDescription className="text-slate-500 text-xs">
+            <CardDescription className="text-gray-500 text-xs">
               Anything special we should know — life changes, new income sources, questions, concerns
             </CardDescription>
           </CardHeader>
@@ -519,7 +519,7 @@ export default function RemoteReturns() {
               value={clientNotes}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setClientNotes(e.target.value)}
               placeholder="e.g. I started a side business this year selling on Etsy. I moved from Texas to California in June. I have a question about my home office..."
-              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-600 min-h-[100px] resize-none"
+              className="bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-600 min-h-[100px] resize-none"
             />
           </CardContent>
         </Card>
@@ -543,7 +543,7 @@ export default function RemoteReturns() {
                 onClick={handleSaveProgress}
                 disabled={saveMutation.isPending}
                 variant="outline"
-                className="flex-1 border-slate-700 text-slate-300 hover:bg-slate-800 bg-transparent h-12 gap-2"
+                className="flex-1 border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent h-12 gap-2"
               >
                 {saveMutation.isPending
                   ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</>
@@ -578,8 +578,8 @@ export default function RemoteReturns() {
         )}
 
         {/* Preparer Disclosure Footer */}
-        <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-lg text-xs text-slate-500 mb-6">
-          <p className="font-medium text-slate-400 mb-1">Preparer Disclosure</p>
+        <div className="p-4 bg-white/50 border border-gray-200 rounded-lg text-xs text-gray-500 mb-6">
+          <p className="font-medium text-gray-500 mb-1">Preparer Disclosure</p>
           <p>Returns prepared by SmartBooks24 by ReFurrm (PTIN on file). Electronic filing performed through our authorized e-file partner. This service does not constitute legal or financial advice. For complex tax situations, we recommend consulting a licensed CPA or tax attorney.</p>
         </div>
       </div>

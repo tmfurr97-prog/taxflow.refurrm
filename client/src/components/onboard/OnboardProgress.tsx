@@ -41,9 +41,9 @@ const OnboardProgress: React.FC<OnboardProgressProps> = ({ currentStep }) => {
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                   isCompleted
-                    ? 'bg-[#18453B] text-white'
+                    ? 'bg-[#18453B] text-gray-900'
                     : isActive
-                    ? 'bg-[#18453B] text-white ring-4 ring-[#18453B]/20'
+                    ? 'bg-[#18453B] text-gray-900 ring-4 ring-[#18453B]/20'
                     : 'bg-white text-gray-400 border-2 border-gray-200'
                 }`}
               >

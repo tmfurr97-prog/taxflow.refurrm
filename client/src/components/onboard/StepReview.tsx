@@ -33,7 +33,7 @@ const StepReview: React.FC<Props> = ({ data, onChange, onSubmit, onBack, isSubmi
 
   const SectionHeader = ({ title, step }: { title: string; step: number }) => (
     <div className="flex items-center gap-3 mb-4">
-      <div className="w-7 h-7 rounded-full bg-[#18453B] text-white flex items-center justify-center text-xs font-bold">{step}</div>
+      <div className="w-7 h-7 rounded-full bg-[#18453B] text-gray-900 flex items-center justify-center text-xs font-bold">{step}</div>
       <h3 className="text-lg font-bold text-[#0A1628]">{title}</h3>
     </div>
   );
@@ -207,7 +207,7 @@ const StepReview: React.FC<Props> = ({ data, onChange, onSubmit, onBack, isSubmi
             }`}
           >
             {data.consent_given && (
-              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <svg className="w-3 h-3 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             )}
@@ -255,7 +255,7 @@ const StepReview: React.FC<Props> = ({ data, onChange, onSubmit, onBack, isSubmi
         <button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold px-8 py-3 rounded-lg text-sm transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold px-8 py-3 rounded-lg text-sm transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <>

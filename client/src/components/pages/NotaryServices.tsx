@@ -87,13 +87,13 @@ export default function NotaryServices() {
   const pastSessions = sessions?.filter(s => s.status === 'completed' || s.status === 'cancelled') || [];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-6">
       {/* Header */}
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white">Notary Services</h1>
-            <p className="text-slate-400 mt-1">Mobile & In-Person Notary Services — Local Availability</p>
+            <h1 className="text-3xl font-bold text-gray-900">Notary Services</h1>
+            <p className="text-gray-500 mt-1">Mobile & In-Person Notary Services — Local Availability</p>
           </div>
           <Dialog open={bookingOpen} onOpenChange={setBookingOpen}>
             <DialogTrigger asChild>
@@ -102,18 +102,18 @@ export default function NotaryServices() {
                 Book Session
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-slate-900 border-slate-700 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle className="text-white text-xl">Book Notary Session</DialogTitle>
+                <DialogTitle className="text-gray-900 text-xl">Book Notary Session</DialogTitle>
               </DialogHeader>
 
               <Tabs value={sessionType} onValueChange={(v) => setSessionType(v as 'RON' | 'general')}>
-                <TabsList className="bg-slate-800 border-slate-700 w-full">
+                <TabsList className="bg-gray-100 border-gray-200 w-full">
                   <TabsTrigger value="RON" disabled className="flex-1 opacity-50 cursor-not-allowed">
                     <Video className="w-4 h-4 mr-2" />
                     Remote Online (RON) — Coming Soon
                   </TabsTrigger>
-                  <TabsTrigger value="general" className="flex-1 data-[state=active]:bg-emerald-500 data-[state=active]:text-white">
+                  <TabsTrigger value="general" className="flex-1 data-[state=active]:bg-emerald-500 data-[state=active]:text-gray-900">
                     <MapPin className="w-4 h-4 mr-2" />
                     Mobile & In-Person
                   </TabsTrigger>
@@ -122,7 +122,7 @@ export default function NotaryServices() {
                 <TabsContent value="RON" className="mt-4">
                   <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-center">
                     <p className="text-yellow-400 font-medium text-sm">Remote Online Notarization (RON) is coming soon.</p>
-                    <p className="text-slate-400 text-xs mt-1">Mobile and in-person notary services are available now — book below.</p>
+                    <p className="text-gray-500 text-xs mt-1">Mobile and in-person notary services are available now — book below.</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     {RON_SERVICES.map((service) => (
@@ -132,13 +132,13 @@ export default function NotaryServices() {
                         className={`p-3 rounded-lg border cursor-pointer transition-all ${
                           selectedService?.id === service.id
                             ? 'border-emerald-500 bg-emerald-500/10'
-                            : 'border-slate-700 hover:border-slate-500'
+                            : 'border-gray-200 hover:border-slate-500'
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div>
                             <p className="font-medium text-sm">{service.name}</p>
-                            <p className="text-slate-400 text-xs mt-1">{service.description}</p>
+                            <p className="text-gray-500 text-xs mt-1">{service.description}</p>
                           </div>
                           <span className="text-emerald-400 font-bold text-sm ml-2">${service.price}</span>
                         </div>
@@ -148,7 +148,7 @@ export default function NotaryServices() {
                 </TabsContent>
 
                 <TabsContent value="general" className="mt-4">
-                  <p className="text-slate-400 text-sm mb-4">
+                  <p className="text-gray-500 text-sm mb-4">
                     Mobile and in-person notarization — available locally. We come to you or meet at a convenient location.
                   </p>
                   <div className="grid grid-cols-1 gap-3 mb-4">
@@ -159,13 +159,13 @@ export default function NotaryServices() {
                         className={`p-3 rounded-lg border cursor-pointer transition-all ${
                           selectedService?.id === service.id
                             ? 'border-emerald-500 bg-emerald-500/10'
-                            : 'border-slate-700 hover:border-slate-500'
+                            : 'border-gray-200 hover:border-slate-500'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="font-medium text-sm">{service.name}</p>
-                            <p className="text-slate-400 text-xs">{service.description}</p>
+                            <p className="text-gray-500 text-xs">{service.description}</p>
                           </div>
                           <span className="text-emerald-400 font-bold">${service.price}</span>
                         </div>
@@ -179,18 +179,18 @@ export default function NotaryServices() {
               <div className="space-y-4 mt-2">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-slate-300">Signer Name *</Label>
+                    <Label className="text-gray-600">Signer Name *</Label>
                     <Input
-                      className="bg-slate-800 border-slate-700 text-white mt-1"
+                      className="bg-gray-100 border-gray-200 text-gray-900 mt-1"
                       placeholder="Full legal name"
                       value={form.signerName}
                       onChange={e => setForm(f => ({ ...f, signerName: e.target.value }))}
                     />
                   </div>
                   <div>
-                    <Label className="text-slate-300">Signer Email *</Label>
+                    <Label className="text-gray-600">Signer Email *</Label>
                     <Input
-                      className="bg-slate-800 border-slate-700 text-white mt-1"
+                      className="bg-gray-100 border-gray-200 text-gray-900 mt-1"
                       type="email"
                       placeholder="email@example.com"
                       value={form.signerEmail}
@@ -200,18 +200,18 @@ export default function NotaryServices() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-slate-300">Document Name</Label>
+                    <Label className="text-gray-600">Document Name</Label>
                     <Input
-                      className="bg-slate-800 border-slate-700 text-white mt-1"
+                      className="bg-gray-100 border-gray-200 text-gray-900 mt-1"
                       placeholder="e.g., Deed of Trust"
                       value={form.documentName}
                       onChange={e => setForm(f => ({ ...f, documentName: e.target.value }))}
                     />
                   </div>
                   <div>
-                    <Label className="text-slate-300">Preferred Date & Time *</Label>
+                    <Label className="text-gray-600">Preferred Date & Time *</Label>
                     <Input
-                      className="bg-slate-800 border-slate-700 text-white mt-1"
+                      className="bg-gray-100 border-gray-200 text-gray-900 mt-1"
                       type="datetime-local"
                       value={form.scheduledAt}
                       onChange={e => setForm(f => ({ ...f, scheduledAt: e.target.value }))}
@@ -219,9 +219,9 @@ export default function NotaryServices() {
                   </div>
                 </div>
                 <div>
-                  <Label className="text-slate-300">Additional Notes</Label>
+                  <Label className="text-gray-600">Additional Notes</Label>
                   <Textarea
-                    className="bg-slate-800 border-slate-700 text-white mt-1"
+                    className="bg-gray-100 border-gray-200 text-gray-900 mt-1"
                     placeholder="Any special requirements or instructions..."
                     value={form.notes}
                     onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
@@ -234,7 +234,7 @@ export default function NotaryServices() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-emerald-400">{selectedService.name}</p>
-                        <p className="text-slate-400 text-sm">{sessionType === 'RON' ? 'Remote Online Notarization' : 'General Notary'}</p>
+                        <p className="text-gray-500 text-sm">{sessionType === 'RON' ? 'Remote Online Notarization' : 'General Notary'}</p>
                       </div>
                       <p className="text-2xl font-bold text-emerald-400">${selectedService.price}</p>
                     </div>
@@ -255,36 +255,36 @@ export default function NotaryServices() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <Card className="bg-slate-900 border-slate-800">
+          <Card className="bg-white border-gray-200">
             <CardContent className="p-4 flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-blue-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">{upcomingSessions.length}</p>
-                <p className="text-slate-400 text-sm">Upcoming Sessions</p>
+                <p className="text-2xl font-bold text-gray-900">{upcomingSessions.length}</p>
+                <p className="text-gray-500 text-sm">Upcoming Sessions</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-slate-900 border-slate-800">
+          <Card className="bg-white border-gray-200">
             <CardContent className="p-4 flex items-center gap-3">
               <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
                 <CheckCircle className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">{pastSessions.filter(s => s.status === 'completed').length}</p>
-                <p className="text-slate-400 text-sm">Completed</p>
+                <p className="text-2xl font-bold text-gray-900">{pastSessions.filter(s => s.status === 'completed').length}</p>
+                <p className="text-gray-500 text-sm">Completed</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-slate-900 border-slate-800">
+          <Card className="bg-white border-gray-200">
             <CardContent className="p-4 flex items-center gap-3">
               <div className="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-purple-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">Local</p>
-                <p className="text-slate-400 text-sm">Mobile & In-Person</p>
+                <p className="text-2xl font-bold text-gray-900">Local</p>
+                <p className="text-gray-500 text-sm">Mobile & In-Person</p>
               </div>
             </CardContent>
           </Card>
@@ -292,23 +292,23 @@ export default function NotaryServices() {
 
         {/* Service Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-slate-900 border-slate-800">
+          <Card className="bg-white border-gray-200">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
                   <Video className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <CardTitle className="text-white">Remote Online Notarization</CardTitle>
-                  <CardDescription className="text-slate-400">Coming soon</CardDescription>
+                  <CardTitle className="text-gray-900">Remote Online Notarization</CardTitle>
+                  <CardDescription className="text-gray-500">Coming soon</CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2 text-sm text-slate-400">
+              <ul className="space-y-2 text-sm text-gray-500">
                 {['Secure video call session', 'Identity verification included', 'Digital seal & signature', 'Legally valid in 40+ states', 'Documents delivered digitally', 'Available 7 days a week'].map(item => (
                   <li key={item} className="flex items-center gap-2 opacity-50">
-                    <Clock className="w-4 h-4 text-slate-500 shrink-0" />
+                    <Clock className="w-4 h-4 text-gray-500 shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -319,20 +319,20 @@ export default function NotaryServices() {
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-900 border-slate-800">
+          <Card className="bg-white border-gray-200">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
                   <MapPin className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <CardTitle className="text-white">General Notary Services</CardTitle>
-                  <CardDescription className="text-slate-400">Mobile & in-person — available locally now</CardDescription>
+                  <CardTitle className="text-gray-900">General Notary Services</CardTitle>
+                  <CardDescription className="text-gray-500">Mobile & in-person — available locally now</CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2 text-sm text-slate-300">
+              <ul className="space-y-2 text-sm text-gray-600">
                 {['Mobile notary — we come to you', 'In-person appointments available', 'All standard notarial acts', 'Certified true copies', 'Apostille assistance', 'Same-day service available'].map(item => (
                   <li key={item} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -349,27 +349,27 @@ export default function NotaryServices() {
 
         {/* Sessions List */}
         <Tabs defaultValue="upcoming">
-          <TabsList className="bg-slate-900 border border-slate-800">
-            <TabsTrigger value="upcoming" className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white text-slate-400">
+          <TabsList className="bg-white border border-gray-200">
+            <TabsTrigger value="upcoming" className="data-[state=active]:bg-emerald-500 data-[state=active]:text-gray-900 text-gray-500">
               Upcoming ({upcomingSessions.length})
             </TabsTrigger>
-            <TabsTrigger value="past" className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white text-slate-400">
+            <TabsTrigger value="past" className="data-[state=active]:bg-emerald-500 data-[state=active]:text-gray-900 text-gray-500">
               Past Sessions ({pastSessions.length})
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="upcoming" className="mt-4">
             {upcomingSessions.length === 0 ? (
-              <Card className="bg-slate-900 border-slate-800">
+              <Card className="bg-white border-gray-200">
                 <CardContent className="p-12 text-center">
-                  <Calendar className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                  <p className="text-slate-400">No upcoming sessions. Book your first notary session above.</p>
+                  <Calendar className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-500">No upcoming sessions. Book your first notary session above.</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="space-y-3">
                 {upcomingSessions.map(session => (
-                  <Card key={session.id} className="bg-slate-900 border-slate-800">
+                  <Card key={session.id} className="bg-white border-gray-200">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
@@ -377,10 +377,10 @@ export default function NotaryServices() {
                             {session.sessionType === 'RON' ? <Video className="w-5 h-5 text-blue-400" /> : <MapPin className="w-5 h-5 text-emerald-400" />}
                           </div>
                           <div>
-                            <p className="font-medium text-white">{session.documentName || session.serviceType}</p>
-                            <p className="text-slate-400 text-sm">{session.signerName} • {session.signerEmail}</p>
+                            <p className="font-medium text-gray-900">{session.documentName || session.serviceType}</p>
+                            <p className="text-gray-500 text-sm">{session.signerName} • {session.signerEmail}</p>
                             {session.scheduledAt && (
-                              <p className="text-slate-500 text-xs mt-1">
+                              <p className="text-gray-500 text-xs mt-1">
                                 <Calendar className="w-3 h-3 inline mr-1" />
                                 {new Date(session.scheduledAt).toLocaleString()}
                               </p>
@@ -416,27 +416,27 @@ export default function NotaryServices() {
 
           <TabsContent value="past" className="mt-4">
             {pastSessions.length === 0 ? (
-              <Card className="bg-slate-900 border-slate-800">
+              <Card className="bg-white border-gray-200">
                 <CardContent className="p-12 text-center">
-                  <FileSignature className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                  <p className="text-slate-400">No past sessions yet.</p>
+                  <FileSignature className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-500">No past sessions yet.</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="space-y-3">
                 {pastSessions.map(session => (
-                  <Card key={session.id} className="bg-slate-900 border-slate-800 opacity-75">
+                  <Card key={session.id} className="bg-white border-gray-200 opacity-75">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center shrink-0">
-                            {session.sessionType === 'RON' ? <Video className="w-5 h-5 text-slate-500" /> : <MapPin className="w-5 h-5 text-slate-500" />}
+                          <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+                            {session.sessionType === 'RON' ? <Video className="w-5 h-5 text-gray-500" /> : <MapPin className="w-5 h-5 text-gray-500" />}
                           </div>
                           <div>
-                            <p className="font-medium text-white">{session.documentName || session.serviceType}</p>
-                            <p className="text-slate-400 text-sm">{session.signerName}</p>
+                            <p className="font-medium text-gray-900">{session.documentName || session.serviceType}</p>
+                            <p className="text-gray-500 text-sm">{session.signerName}</p>
                             {session.scheduledAt && (
-                              <p className="text-slate-500 text-xs mt-1">
+                              <p className="text-gray-500 text-xs mt-1">
                                 {new Date(session.scheduledAt).toLocaleDateString()}
                               </p>
                             )}

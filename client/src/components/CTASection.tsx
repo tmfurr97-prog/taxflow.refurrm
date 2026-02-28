@@ -8,7 +8,7 @@ interface CTASectionProps {
 
 const CTASection: React.FC<CTASectionProps> = ({ onGetStarted }) => {
   return (
-    <div className="py-20 bg-gradient-to-br from-emerald-600 to-teal-600 text-white">
+    <div className="py-20 bg-gradient-to-br from-emerald-600 to-teal-600 text-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-4xl lg:text-5xl font-bold mb-6">
           Transform Your Tax Experience Today

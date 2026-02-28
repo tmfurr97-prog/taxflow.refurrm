@@ -9,7 +9,7 @@ export function EmailScanningInfo() {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-600 rounded-lg">
-            <Mail className="h-6 w-6 text-white" />
+            <Mail className="h-6 w-6 text-gray-900" />
           </div>
           <div>
             <CardTitle>Email Receipt Scanning</CardTitle>

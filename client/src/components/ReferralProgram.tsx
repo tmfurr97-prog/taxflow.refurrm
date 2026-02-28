@@ -64,7 +64,7 @@ const ReferralProgram: React.FC = () => {
                 </div>
                 <div className="text-center"><span className="text-[#6B7280] text-xs uppercase tracking-widest block mb-1">Your Points</span><span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#18453B] to-[#1B365D]">{points}</span></div>
                 <div className="space-y-3">
-                  <button onClick={copyCode} className="w-full bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold py-3 rounded-xl text-sm uppercase tracking-wider shadow-sm">{copied ? 'Link Copied!' : 'Copy Referral Link'}</button>
+                  <button onClick={copyCode} className="w-full bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold py-3 rounded-xl text-sm uppercase tracking-wider shadow-sm">{copied ? 'Link Copied!' : 'Copy Referral Link'}</button>
                   <div className="grid grid-cols-3 gap-2">
                     {['Twitter', 'Facebook', 'Email'].map((platform) => (
                       <button key={platform} onClick={() => { const url = encodeURIComponent(`${window.location.origin}?ref=${referralCode}`); const text = encodeURIComponent('Take control of your wealth with SmartBooks24 by ReFurrm!'); if (platform === 'Twitter') window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`); if (platform === 'Facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`); if (platform === 'Email') window.open(`mailto:?subject=SmartBooks24%20Referral&body=${text}%20${url}`); }}
@@ -79,7 +79,7 @@ const ReferralProgram: React.FC = () => {
                 <p className="text-[#6B7280] text-sm mb-4">Start earning points with every referral.</p>
                 <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your Name" className={inputClass} />
                 <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email Address" className={inputClass} />
-                <button type="submit" disabled={loading} className="w-full bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold py-3.5 rounded-lg text-sm uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 disabled:opacity-50">
+                <button type="submit" disabled={loading} className="w-full bg-[#18453B] hover:bg-[#0D3328] text-gray-900 font-semibold py-3.5 rounded-lg text-sm uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 disabled:opacity-50">
                   {loading ? <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg> : 'Generate My Code'}
                 </button>
               </form>

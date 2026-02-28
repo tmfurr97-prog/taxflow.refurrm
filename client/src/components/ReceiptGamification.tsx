@@ -145,7 +145,7 @@ export default function ReceiptGamification() {
                       className="flex flex-col items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       <div className={`${color} p-2 rounded-full mb-2`}>
-                        <Icon className="h-5 w-5 text-white" />
+                        <Icon className="h-5 w-5 text-gray-900" />
                       </div>
                       <span className="text-xs font-medium text-center">{badge.badge_name}</span>
                     </div>

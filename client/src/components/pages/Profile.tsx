@@ -201,7 +201,7 @@ export default function Profile() {
                 />
                 <p className="text-xs text-muted-foreground">Used for return identification only. Full SSN is collected securely during tax prep.</p>
               </div>
-              <Button onClick={handleSavePersonal} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleSavePersonal} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-gray-900">
                 {updateMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                 Save Personal Info
               </Button>
@@ -243,7 +243,7 @@ export default function Profile() {
                   <Input id="zip" value={zip} onChange={e => setZip(e.target.value.replace(/\D/g, '').slice(0, 10))} placeholder="62701" inputMode="numeric" />
                 </div>
               </div>
-              <Button onClick={handleSaveAddress} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleSaveAddress} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-gray-900">
                 {updateMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                 Save Address
               </Button>
@@ -275,7 +275,7 @@ export default function Profile() {
                 <Label htmlFor="ein">Employer Identification Number (EIN)</Label>
                 <Input id="ein" value={ein} onChange={e => setEin(e.target.value)} placeholder="12-3456789" />
               </div>
-              <Button onClick={handleSaveBusiness} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleSaveBusiness} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-gray-900">
                 {updateMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                 Save Business Info
               </Button>
@@ -344,7 +344,7 @@ export default function Profile() {
                   <span className="text-sm text-foreground">I own my home (mortgage interest deduction may apply)</span>
                 </label>
               </div>
-              <Button onClick={handleSaveTaxProfile} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleSaveTaxProfile} disabled={updateMutation.isPending} className="bg-emerald-600 hover:bg-emerald-700 text-gray-900">
                 {updateMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                 Save Tax Profile
               </Button>

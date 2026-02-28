@@ -66,10 +66,10 @@ export default function AdminPromoCodes() {
   if (user?.role !== "admin") {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <ShieldCheck className="w-12 h-12 text-slate-600" />
-        <p className="text-slate-400 text-lg">Admin access required</p>
+        <ShieldCheck className="w-12 h-12 text-gray-600" />
+        <p className="text-gray-500 text-lg">Admin access required</p>
         <Link href="/dashboard">
-          <Button variant="outline" className="border-slate-700 text-slate-300 bg-transparent hover:bg-slate-800">
+          <Button variant="outline" className="border-gray-200 text-gray-600 bg-transparent hover:bg-gray-100">
             Back to Dashboard
           </Button>
         </Link>
@@ -86,16 +86,16 @@ export default function AdminPromoCodes() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Ticket className="w-6 h-6 text-emerald-400" />
             Beta Promo Codes
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-gray-500 text-sm mt-1">
             Generate invite codes that grant free Pro-tier access to testers
           </p>
         </div>
         <Link href="/admin/returns">
-          <Button variant="outline" size="sm" className="border-slate-700 text-slate-300 bg-transparent hover:bg-slate-800">
+          <Button variant="outline" size="sm" className="border-gray-200 text-gray-600 bg-transparent hover:bg-gray-100">
             Returns Dashboard
           </Button>
         </Link>
@@ -103,30 +103,30 @@ export default function AdminPromoCodes() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-white border-gray-200">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-emerald-400">{codes.length}</p>
-            <p className="text-slate-500 text-xs mt-1">Total Codes</p>
+            <p className="text-gray-500 text-xs mt-1">Total Codes</p>
           </CardContent>
         </Card>
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-white border-gray-200">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-blue-400">{activeCodes}</p>
-            <p className="text-slate-500 text-xs mt-1">Active Codes</p>
+            <p className="text-gray-500 text-xs mt-1">Active Codes</p>
           </CardContent>
         </Card>
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-white border-gray-200">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-purple-400">{totalRedemptions}</p>
-            <p className="text-slate-500 text-xs mt-1">Total Redemptions</p>
+            <p className="text-gray-500 text-xs mt-1">Total Redemptions</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Generate New Code */}
-      <Card className="bg-slate-900 border-slate-800">
+      <Card className="bg-white border-gray-200">
         <CardHeader>
-          <CardTitle className="text-white text-base flex items-center gap-2">
+          <CardTitle className="text-gray-900 text-base flex items-center gap-2">
             <Plus className="w-4 h-4 text-emerald-400" />
             Generate New Beta Code
           </CardTitle>
@@ -134,36 +134,36 @@ export default function AdminPromoCodes() {
         <CardContent className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-slate-400 text-xs mb-1.5 block">Label (optional)</label>
+              <label className="text-gray-500 text-xs mb-1.5 block">Label (optional)</label>
               <Input
                 placeholder="e.g. Beta Tester - Jane Smith"
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                className="bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
-              <label className="text-slate-400 text-xs mb-1.5 block">Max Uses</label>
+              <label className="text-gray-500 text-xs mb-1.5 block">Max Uses</label>
               <Input
                 type="number"
                 min={1}
                 max={100}
                 value={maxUses}
                 onChange={(e) => setMaxUses(parseInt(e.target.value) || 1)}
-                className="bg-slate-800 border-slate-700 text-white"
+                className="bg-gray-100 border-gray-200 text-gray-900"
               />
             </div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 text-sm text-slate-400">
-            <p className="font-medium text-slate-300 mb-1">What this code grants:</p>
+          <div className="bg-gray-100/50 rounded-lg p-3 text-sm text-gray-500">
+            <p className="font-medium text-gray-600 mb-1">What this code grants:</p>
             <ul className="space-y-1 text-xs">
               <li className="flex items-center gap-1.5"><CheckCircle className="w-3 h-3 text-emerald-400" /> Full TaxGPT AI access</li>
               <li className="flex items-center gap-1.5"><CheckCircle className="w-3 h-3 text-emerald-400" /> Crypto tax tracking</li>
               <li className="flex items-center gap-1.5"><CheckCircle className="w-3 h-3 text-emerald-400" /> Audit Defense hub</li>
               <li className="flex items-center gap-1.5"><CheckCircle className="w-3 h-3 text-emerald-400" /> Business entity management</li>
               <li className="flex items-center gap-1.5"><CheckCircle className="w-3 h-3 text-emerald-400" /> SmartBooks Academy (full access)</li>
-              <li className="flex items-center gap-1.5"><XCircle className="w-3 h-3 text-slate-600" /> Remote Returns (paid separately)</li>
-              <li className="flex items-center gap-1.5"><XCircle className="w-3 h-3 text-slate-600" /> Notary services (paid separately)</li>
+              <li className="flex items-center gap-1.5"><XCircle className="w-3 h-3 text-gray-600" /> Remote Returns (paid separately)</li>
+              <li className="flex items-center gap-1.5"><XCircle className="w-3 h-3 text-gray-600" /> Notary services (paid separately)</li>
             </ul>
           </div>
           <Button
@@ -182,17 +182,17 @@ export default function AdminPromoCodes() {
       </Card>
 
       {/* Existing Codes */}
-      <Card className="bg-slate-900 border-slate-800">
+      <Card className="bg-white border-gray-200">
         <CardHeader>
-          <CardTitle className="text-white text-base flex items-center gap-2">
-            <Ticket className="w-4 h-4 text-slate-400" />
+          <CardTitle className="text-gray-900 text-base flex items-center gap-2">
+            <Ticket className="w-4 h-4 text-gray-500" />
             All Promo Codes
-            {codesQuery.isLoading && <RefreshCw className="w-3.5 h-3.5 animate-spin text-slate-500 ml-1" />}
+            {codesQuery.isLoading && <RefreshCw className="w-3.5 h-3.5 animate-spin text-gray-500 ml-1" />}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {codes.length === 0 ? (
-            <div className="text-center py-10 text-slate-500">
+            <div className="text-center py-10 text-gray-500">
               <Ticket className="w-10 h-10 mx-auto mb-3 opacity-30" />
               <p>No codes yet. Generate your first beta code above.</p>
             </div>
@@ -202,13 +202,13 @@ export default function AdminPromoCodes() {
                 <div
                   key={c.id}
                   className={`flex items-center justify-between p-4 rounded-xl border ${
-                    c.isActive ? "bg-slate-800/50 border-slate-700" : "bg-slate-900/50 border-slate-800 opacity-60"
+                    c.isActive ? "bg-gray-100/50 border-gray-200" : "bg-white/50 border-gray-200 opacity-60"
                   }`}
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <code className="text-emerald-400 font-mono font-bold text-sm">{c.code}</code>
-                      <Badge className={`text-xs border-0 ${c.isActive ? "bg-emerald-500/20 text-emerald-400" : "bg-slate-700 text-slate-400"}`}>
+                      <Badge className={`text-xs border-0 ${c.isActive ? "bg-emerald-500/20 text-emerald-400" : "bg-gray-200 text-gray-500"}`}>
                         {c.isActive ? "Active" : "Revoked"}
                       </Badge>
                       <Badge className="bg-purple-500/20 text-purple-400 border-0 text-xs">
@@ -216,9 +216,9 @@ export default function AdminPromoCodes() {
                       </Badge>
                     </div>
                     {c.label && (
-                      <p className="text-slate-400 text-xs mt-1">{c.label}</p>
+                      <p className="text-gray-500 text-xs mt-1">{c.label}</p>
                     )}
-                    <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
+                    <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
                         <Users className="w-3 h-3" />
                         {c.usedCount} / {c.maxUses} uses
@@ -240,7 +240,7 @@ export default function AdminPromoCodes() {
                           size="sm"
                           variant="outline"
                           onClick={() => copyCode(c.code)}
-                          className="border-slate-700 text-slate-300 bg-transparent hover:bg-slate-700 gap-1.5 h-8"
+                          className="border-gray-200 text-gray-600 bg-transparent hover:bg-gray-200 gap-1.5 h-8"
                         >
                           {copied === c.code ? (
                             <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
@@ -269,11 +269,11 @@ export default function AdminPromoCodes() {
       </Card>
 
       {/* Instructions */}
-      <Card className="bg-slate-900/50 border-slate-800">
+      <Card className="bg-white/50 border-gray-200">
         <CardContent className="p-4">
-          <p className="text-slate-400 text-sm font-medium mb-2">How to share a code</p>
-          <p className="text-slate-500 text-xs leading-relaxed">
-            Share the code with your beta tester. They go to <strong className="text-slate-400">Profile → Redeem Promo Code</strong> and enter the code. 
+          <p className="text-gray-500 text-sm font-medium mb-2">How to share a code</p>
+          <p className="text-gray-500 text-xs leading-relaxed">
+            Share the code with your beta tester. They go to <strong className="text-gray-500">Profile → Redeem Promo Code</strong> and enter the code. 
             Their account will immediately be upgraded to Beta Pro access — no payment required. 
             Remote Returns and notary services remain paid separately.
           </p>

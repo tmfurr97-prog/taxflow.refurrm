@@ -113,7 +113,7 @@ const SubscriptionManagement: React.FC = () => {
 
       {hasActiveSubscription ? (
         <>
-          <Card className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6">
+          <Card className="bg-gradient-to-br from-blue-600 to-blue-800 text-gray-900 p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-xl font-bold capitalize">{subscription.subscription_plan} Plan</h3>

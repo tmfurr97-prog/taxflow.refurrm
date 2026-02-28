@@ -46,7 +46,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onUpload, onScanEmail, 
           className="hidden"
           id="file-upload"
         />
-        <label htmlFor="file-upload" className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg cursor-pointer hover:bg-blue-700">
+        <label htmlFor="file-upload" className="inline-block px-6 py-3 bg-blue-600 text-gray-900 rounded-lg cursor-pointer hover:bg-blue-700">
           Select Files
         </label>
         <p className="text-xs text-gray-500 mt-3">Supports PDF, JPEG, PNG</p>

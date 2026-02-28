@@ -299,13 +299,13 @@ function UpsellCard({ type }: { type: string | null }) {
         )} />
       </div>
       <div className="flex-1">
-        <p className="text-white font-semibold text-sm">{card.title}</p>
-        <p className="text-slate-400 text-sm mt-1">{card.desc}</p>
+        <p className="text-gray-900 font-semibold text-sm">{card.title}</p>
+        <p className="text-gray-500 text-sm mt-1">{card.desc}</p>
         <Button
           size="sm"
           onClick={() => navigate(card.path)}
           className={cn(
-            "mt-3 text-white",
+            "mt-3 text-gray-900",
             type === 'remote_returns' ? 'bg-emerald-600 hover:bg-emerald-700' :
             type === 'notary' ? 'bg-blue-600 hover:bg-blue-700' :
             type === 'quarterly' ? 'bg-violet-600 hover:bg-violet-700' :
@@ -331,8 +331,8 @@ function LeadMagnetModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8 max-w-md w-full relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-white">
+      <div className="bg-white border border-gray-200 rounded-2xl p-8 max-w-md w-full relative">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900">
           <X className="w-5 h-5" />
         </button>
         {submitted ? (
@@ -340,9 +340,9 @@ function LeadMagnetModal({ onClose }: { onClose: () => void }) {
             <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 className="w-8 h-8 text-emerald-400" />
             </div>
-            <h3 className="text-white text-xl font-bold mb-2">You're in!</h3>
-            <p className="text-slate-400 text-sm">Check your email for the Gig Worker Tax Starter Kit. We'll also send you tax tips and deadline reminders throughout the year.</p>
-            <Button onClick={onClose} className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white w-full">
+            <h3 className="text-gray-900 text-xl font-bold mb-2">You're in!</h3>
+            <p className="text-gray-500 text-sm">Check your email for the Gig Worker Tax Starter Kit. We'll also send you tax tips and deadline reminders throughout the year.</p>
+            <Button onClick={onClose} className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-gray-900 w-full">
               Start Learning
             </Button>
           </div>
@@ -353,7 +353,7 @@ function LeadMagnetModal({ onClose }: { onClose: () => void }) {
                 <Gift className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg leading-tight">Free Gig Worker Tax Starter Kit</h3>
+                <h3 className="text-gray-900 font-bold text-lg leading-tight">Free Gig Worker Tax Starter Kit</h3>
                 <p className="text-emerald-400 text-sm">Valued at $47 — yours free</p>
               </div>
             </div>
@@ -364,7 +364,7 @@ function LeadMagnetModal({ onClose }: { onClose: () => void }) {
                 'What to save all year (document list)',
                 'Tax deadline calendar for 2025',
               ].map((item) => (
-                <li key={item} className="flex items-center gap-2 text-slate-300 text-sm">
+                <li key={item} className="flex items-center gap-2 text-gray-600 text-sm">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   {item}
                 </li>
@@ -375,24 +375,24 @@ function LeadMagnetModal({ onClose }: { onClose: () => void }) {
                 placeholder="Your first name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                className="bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-500"
               />
               <Input
                 type="email"
                 placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                className="bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-500"
               />
               <Button
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-gray-900"
                 disabled={!email || captureMutation.isPending}
                 onClick={() => captureMutation.mutate({ email, name })}
               >
                 {captureMutation.isPending ? 'Sending...' : 'Send Me the Starter Kit →'}
               </Button>
             </div>
-            <p className="text-slate-600 text-xs text-center mt-3">No spam. Unsubscribe anytime.</p>
+            <p className="text-gray-600 text-xs text-center mt-3">No spam. Unsubscribe anytime.</p>
           </>
         )}
       </div>
@@ -420,18 +420,18 @@ function LessonViewer({
 
   return (
     <div className="max-w-3xl mx-auto">
-      <button onClick={onBack} className="flex items-center gap-2 text-slate-400 hover:text-white mb-6 transition-colors text-sm">
+      <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 transition-colors text-sm">
         <ChevronLeft className="w-4 h-4" /> Back to courses
       </button>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         {/* Header */}
-        <div className="p-6 border-b border-slate-800">
+        <div className="p-6 border-b border-gray-200">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-white text-xl font-bold">{lesson.title}</h1>
+              <h1 className="text-gray-900 text-xl font-bold">{lesson.title}</h1>
               <div className="flex items-center gap-3 mt-2">
-                <span className="flex items-center gap-1 text-slate-400 text-sm">
+                <span className="flex items-center gap-1 text-gray-500 text-sm">
                   <Clock className="w-3.5 h-3.5" /> {lesson.duration}
                 </span>
                 {lesson.isPremium && (
@@ -455,33 +455,33 @@ function LessonViewer({
             <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Lock className="w-8 h-8 text-amber-400" />
             </div>
-            <h3 className="text-white text-lg font-semibold mb-2">Premium Lesson</h3>
-            <p className="text-slate-400 text-sm max-w-sm mx-auto mb-6">
+            <h3 className="text-gray-900 text-lg font-semibold mb-2">Premium Lesson</h3>
+            <p className="text-gray-500 text-sm max-w-sm mx-auto mb-6">
               Upgrade to SmartBooks Academy Premium to unlock this lesson and all future content.
             </p>
             <Button
               onClick={() => navigate('/pricing')}
-              className="bg-amber-600 hover:bg-amber-700 text-white"
+              className="bg-amber-600 hover:bg-amber-700 text-gray-900"
             >
               <Star className="w-4 h-4 mr-2" /> Unlock for $24.99/mo
             </Button>
-            <p className="text-slate-600 text-xs mt-3">Cancel anytime. Includes all app features.</p>
+            <p className="text-gray-600 text-xs mt-3">Cancel anytime. Includes all app features.</p>
           </div>
         ) : (
           <div className="p-6">
             {/* Render markdown-like content */}
             <div className="prose prose-invert prose-sm max-w-none">
               {content.split('\n').map((line, i) => {
-                if (line.startsWith('## ')) return <h2 key={i} className="text-white text-lg font-bold mt-6 mb-3 first:mt-0">{line.slice(3)}</h2>;
-                if (line.startsWith('### ')) return <h3 key={i} className="text-white font-semibold mt-4 mb-2">{line.slice(4)}</h3>;
+                if (line.startsWith('## ')) return <h2 key={i} className="text-gray-900 text-lg font-bold mt-6 mb-3 first:mt-0">{line.slice(3)}</h2>;
+                if (line.startsWith('### ')) return <h3 key={i} className="text-gray-900 font-semibold mt-4 mb-2">{line.slice(4)}</h3>;
                 if (line.startsWith('> ')) return (
                   <blockquote key={i} className="border-l-4 border-emerald-500 pl-4 py-1 my-3 bg-emerald-500/5 rounded-r-lg">
                     <p className="text-emerald-300 text-sm italic">{line.slice(2)}</p>
                   </blockquote>
                 );
-                if (line.startsWith('✅') || line.startsWith('⏳')) return <p key={i} className="text-slate-300 text-sm my-1">{line}</p>;
+                if (line.startsWith('✅') || line.startsWith('⏳')) return <p key={i} className="text-gray-600 text-sm my-1">{line}</p>;
                 if (line.startsWith('- **') || line.startsWith('- ')) return (
-                  <li key={i} className="text-slate-300 text-sm ml-4 my-0.5 list-disc">{line.slice(2).replace(/\*\*(.*?)\*\*/g, '$1')}</li>
+                  <li key={i} className="text-gray-600 text-sm ml-4 my-0.5 list-disc">{line.slice(2).replace(/\*\*(.*?)\*\*/g, '$1')}</li>
                 );
                 if (line.startsWith('| ')) {
                   const cells = line.split('|').filter(c => c.trim());
@@ -489,7 +489,7 @@ function LessonViewer({
                   const isSeparator = line.includes('---');
                   if (isSeparator) return null;
                   return (
-                    <div key={i} className={cn("flex gap-0 text-sm", isHeader ? "font-semibold text-white border-b border-slate-700 pb-1 mb-1" : "text-slate-300 border-b border-slate-800/50")}>
+                    <div key={i} className={cn("flex gap-0 text-sm", isHeader ? "font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-1" : "text-gray-600 border-b border-gray-200/50")}>
                       {cells.map((cell, j) => (
                         <div key={j} className="flex-1 py-1.5 px-2 first:pl-0">{cell.trim()}</div>
                       ))}
@@ -497,8 +497,8 @@ function LessonViewer({
                   );
                 }
                 if (line.trim() === '') return <div key={i} className="h-2" />;
-                return <p key={i} className="text-slate-300 text-sm leading-relaxed my-1"
-                  dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>') }}
+                return <p key={i} className="text-gray-600 text-sm leading-relaxed my-1"
+                  dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>') }}
                 />;
               })}
             </div>
@@ -510,7 +510,7 @@ function LessonViewer({
             {!isCompleted && (
               <Button
                 onClick={onComplete}
-                className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white w-full"
+                className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-gray-900 w-full"
               >
                 <CheckCircle2 className="w-4 h-4 mr-2" /> Mark as Complete
               </Button>
@@ -579,8 +579,8 @@ export default function Academy() {
             <BookOpen className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
-            <h1 className="text-white text-2xl font-bold">SmartBooks Academy</h1>
-            <p className="text-slate-400 text-sm">Tax & finance education for the self-employed</p>
+            <h1 className="text-gray-900 text-2xl font-bold">SmartBooks Academy</h1>
+            <p className="text-gray-500 text-sm">Tax & finance education for the self-employed</p>
           </div>
         </div>
 
@@ -593,10 +593,10 @@ export default function Academy() {
             <Gift className="w-5 h-5 text-emerald-400" />
           </div>
           <div className="flex-1">
-            <p className="text-white font-semibold text-sm">🎁 Free: Gig Worker Tax Starter Kit</p>
-            <p className="text-slate-400 text-xs">Quarterly calculator, deductions checklist, deadline calendar — all free</p>
+            <p className="text-gray-900 font-semibold text-sm">🎁 Free: Gig Worker Tax Starter Kit</p>
+            <p className="text-gray-500 text-xs">Quarterly calculator, deductions checklist, deadline calendar — all free</p>
           </div>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0">
+          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-gray-900 shrink-0">
             Get It Free
           </Button>
         </div>
@@ -604,16 +604,16 @@ export default function Academy() {
 
       {/* Overall progress */}
       {user && (
-        <div className="mb-8 p-4 bg-slate-900 border border-slate-800 rounded-xl">
+        <div className="mb-8 p-4 bg-white border border-gray-200 rounded-xl">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-white text-sm font-medium">Your Overall Progress</span>
+            <span className="text-gray-900 text-sm font-medium">Your Overall Progress</span>
             <span className="text-emerald-400 text-sm font-semibold">
               {allCompleted.size} / {TRACKS.flatMap(t => t.courses.flatMap(c => c.lessons)).length} lessons
             </span>
           </div>
           <Progress
             value={(allCompleted.size / TRACKS.flatMap(t => t.courses.flatMap(c => c.lessons)).length) * 100}
-            className="h-2 bg-slate-800"
+            className="h-2 bg-gray-100"
           />
         </div>
       )}
@@ -644,12 +644,12 @@ export default function Academy() {
                   <TrackIcon className="w-4 h-4" />
                 </div>
                 <div>
-                  <h2 className="text-white font-bold">{track.label}</h2>
-                  <p className="text-slate-500 text-xs">{track.tagline}</p>
+                  <h2 className="text-gray-900 font-bold">{track.label}</h2>
+                  <p className="text-gray-500 text-xs">{track.tagline}</p>
                 </div>
                 <div className="ml-auto flex items-center gap-2">
-                  <span className="text-slate-500 text-xs">{stats.completed}/{stats.total} done</span>
-                  <div className="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <span className="text-gray-500 text-xs">{stats.completed}/{stats.total} done</span>
+                  <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                     <div
                       className={cn("h-full rounded-full transition-all", `bg-${track.color}-500`)}
                       style={{ width: `${(stats.completed / stats.total) * 100}%` }}
@@ -660,10 +660,10 @@ export default function Academy() {
 
               {/* Lessons */}
               {track.courses.map(course => (
-                <div key={course.slug} className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-                  <div className="px-5 py-3 border-b border-slate-800 bg-slate-900/80">
-                    <h3 className="text-white text-sm font-semibold">{course.title}</h3>
-                    <p className="text-slate-500 text-xs mt-0.5">{course.description}</p>
+                <div key={course.slug} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                  <div className="px-5 py-3 border-b border-gray-200 bg-white/80">
+                    <h3 className="text-gray-900 text-sm font-semibold">{course.title}</h3>
+                    <p className="text-gray-500 text-xs mt-0.5">{course.description}</p>
                   </div>
                   <div className="divide-y divide-slate-800">
                     {course.lessons.map((lesson, idx) => {
@@ -675,15 +675,15 @@ export default function Academy() {
                           onClick={() => setSelectedLesson(lesson)}
                           className={cn(
                             "flex items-center gap-4 px-5 py-4 cursor-pointer transition-colors group",
-                            isLocked ? "opacity-70 hover:bg-slate-800/30" : "hover:bg-slate-800/50"
+                            isLocked ? "opacity-70 hover:bg-gray-100/30" : "hover:bg-gray-100/50"
                           )}
                         >
                           {/* Status icon */}
                           <div className={cn(
                             "w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-semibold",
                             isDone ? "bg-emerald-500/20 text-emerald-400" :
-                            isLocked ? "bg-slate-800 text-slate-600" :
-                            "bg-slate-800 text-slate-400 group-hover:bg-slate-700"
+                            isLocked ? "bg-gray-100 text-gray-600" :
+                            "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                           )}>
                             {isDone ? <CheckCircle2 className="w-4 h-4" /> :
                              isLocked ? <Lock className="w-3.5 h-3.5" /> :
@@ -693,7 +693,7 @@ export default function Academy() {
                           {/* Lesson info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className={cn("text-sm font-medium", isDone ? "text-slate-400 line-through" : "text-white")}>
+                              <span className={cn("text-sm font-medium", isDone ? "text-gray-500 line-through" : "text-gray-900")}>
                                 {lesson.title}
                               </span>
                               {lesson.isPremium && (
@@ -702,12 +702,12 @@ export default function Academy() {
                                 </Badge>
                               )}
                             </div>
-                            <span className="text-slate-500 text-xs flex items-center gap-1 mt-0.5">
+                            <span className="text-gray-500 text-xs flex items-center gap-1 mt-0.5">
                               <Clock className="w-3 h-3" /> {lesson.duration}
                             </span>
                           </div>
 
-                          <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" />
+                          <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-gray-500 transition-colors shrink-0" />
                         </div>
                       );
                     })}
@@ -725,26 +725,26 @@ export default function Academy() {
           <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
             <TrendingUp className="w-6 h-6 text-amber-400" />
           </div>
-          <h3 className="text-white font-bold text-lg mb-1">Unlock All Premium Lessons</h3>
-          <p className="text-slate-400 text-sm max-w-md mx-auto mb-4">
+          <h3 className="text-gray-900 font-bold text-lg mb-1">Unlock All Premium Lessons</h3>
+          <p className="text-gray-500 text-sm max-w-md mx-auto mb-4">
             Get full access to every course, plus TaxGPT, automated bookkeeping, and all app features — for less than a cup of coffee a day.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <div className="text-center">
-              <p className="text-white font-bold text-2xl">$6.99<span className="text-slate-400 text-sm font-normal">/wk</span></p>
-              <p className="text-slate-500 text-xs">Weekly</p>
+              <p className="text-gray-900 font-bold text-2xl">$6.99<span className="text-gray-500 text-sm font-normal">/wk</span></p>
+              <p className="text-gray-500 text-xs">Weekly</p>
             </div>
-            <div className="text-center border-x border-slate-700 px-4">
-              <p className="text-amber-400 font-bold text-2xl">$24.99<span className="text-slate-400 text-sm font-normal">/mo</span></p>
+            <div className="text-center border-x border-gray-200 px-4">
+              <p className="text-amber-400 font-bold text-2xl">$24.99<span className="text-gray-500 text-sm font-normal">/mo</span></p>
               <p className="text-amber-500 text-xs font-medium">Most Popular</p>
             </div>
             <div className="text-center">
-              <p className="text-white font-bold text-2xl">$249<span className="text-slate-400 text-sm font-normal">/yr</span></p>
-              <p className="text-slate-500 text-xs">Save 17%</p>
+              <p className="text-gray-900 font-bold text-2xl">$249<span className="text-gray-500 text-sm font-normal">/yr</span></p>
+              <p className="text-gray-500 text-xs">Save 17%</p>
             </div>
           </div>
           <Button
-            className="mt-5 bg-amber-600 hover:bg-amber-700 text-white px-8"
+            className="mt-5 bg-amber-600 hover:bg-amber-700 text-gray-900 px-8"
             onClick={() => window.location.href = '/pricing'}
           >
             <Star className="w-4 h-4 mr-2" /> Get Full Access
