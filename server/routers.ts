@@ -9,7 +9,7 @@ import {
   chatMessages, receipts, taxDocuments, transactions,
   quarterlyPayments, businessEntities, cryptoTransactions,
   auditItems, backups, notarySessions, efileSubmissions, mileageLogs,
-  users, promoCodes, promoRedemptions
+  users, promoCodes, promoRedemptions, homeOfficeData
 } from "../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { storagePut } from "./storage";
@@ -662,6 +662,7 @@ const profileRouter = router({
       selfEmployed: z.boolean().optional(),
       homeOwner: z.boolean().optional(),
       dependents: z.number().optional(),
+      autoCategorize: z.boolean().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -671,7 +672,7 @@ const profileRouter = router({
         .where(eq(users.id, ctx.user.id));
       return { success: true };
     }),
-});;
+});
 
 // ─── Billing Router ─────────────────────────────────────────────────────────
 const billingRouter = router({
@@ -872,6 +873,101 @@ const promoCodesRouter = router({
   }),
 });
 
+// ─── Mileage Router ──────────────────────────────────────────────────────────
+const mileageRouter = router({
+  list: protectedProcedure
+    .input(z.object({ taxYear: z.number().optional() }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const year = input.taxYear || new Date().getFullYear();
+      return await db.select().from(mileageLogs)
+        .where(and(eq(mileageLogs.userId, ctx.user.id), eq(mileageLogs.taxYear, year)))
+        .orderBy(desc(mileageLogs.createdAt));
+    }),
+
+  create: protectedProcedure
+    .input(z.object({
+      date: z.string(),
+      startLocation: z.string().optional(),
+      endLocation: z.string().optional(),
+      miles: z.string(),
+      purpose: z.string().optional(),
+      category: z.enum(["business", "medical", "charity", "personal"]).default("business"),
+      taxYear: z.number().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const year = input.taxYear || new Date().getFullYear();
+      await db.insert(mileageLogs).values({
+        userId: ctx.user.id,
+        taxYear: year,
+        date: input.date,
+        startLocation: input.startLocation,
+        endLocation: input.endLocation,
+        miles: input.miles,
+        purpose: input.purpose,
+        category: input.category,
+      });
+      return { success: true };
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      await db.delete(mileageLogs)
+        .where(and(eq(mileageLogs.id, input.id), eq(mileageLogs.userId, ctx.user.id)));
+      return { success: true };
+    }),
+});
+
+// ─── Home Office Router ───────────────────────────────────────────────────────
+const homeOfficeRouter = router({
+  get: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+    const [record] = await db.select().from(homeOfficeData)
+      .where(eq(homeOfficeData.userId, ctx.user.id)).limit(1);
+    return record || null;
+  }),
+
+  save: protectedProcedure
+    .input(z.object({
+      taxYear: z.number().optional(),
+      officeSquareFeet: z.string().optional(),
+      totalHomeSqFt: z.string().optional(),
+      monthlyRentOrMortgage: z.string().optional(),
+      monthlyUtilities: z.string().optional(),
+      useRegularMethod: z.boolean().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const year = input.taxYear || new Date().getFullYear();
+      const existing = await db.select({ id: homeOfficeData.id }).from(homeOfficeData)
+        .where(eq(homeOfficeData.userId, ctx.user.id)).limit(1);
+      if (existing.length > 0) {
+        await db.update(homeOfficeData)
+          .set({ ...input, taxYear: year })
+          .where(eq(homeOfficeData.userId, ctx.user.id));
+      } else {
+        await db.insert(homeOfficeData).values({
+          userId: ctx.user.id,
+          taxYear: year,
+          officeSquareFeet: input.officeSquareFeet,
+          totalHomeSqFt: input.totalHomeSqFt,
+          monthlyRentOrMortgage: input.monthlyRentOrMortgage,
+          monthlyUtilities: input.monthlyUtilities,
+          useRegularMethod: input.useRegularMethod ?? true,
+        });
+      }
+      return { success: true };
+    }),
+});
+
 // ─── App Router ───────────────────────────────────────────────────────────────
 export const appRouter = router({
   system: systemRouter,
@@ -896,5 +992,7 @@ export const appRouter = router({
   academy: academyRouter,
   billing: billingRouter,
   promoCodes: promoCodesRouter,
+  mileage: mileageRouter,
+  homeOffice: homeOfficeRouter,
 });
 export type AppRouter = typeof appRouter;

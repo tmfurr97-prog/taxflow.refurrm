@@ -3,9 +3,10 @@ import multer from "multer";
 import { nanoid } from "nanoid";
 import { storagePut } from "./storage";
 import { getDb } from "./db";
-import { returnDocuments, remoteReturns, receipts } from "../drizzle/schema";
+import { returnDocuments, remoteReturns, receipts, users } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { sdk } from "./_core/sdk";
+import { invokeLLM } from "./_core/llm";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -28,17 +29,68 @@ const upload = multer({
   },
 });
 
+// AI auto-categorization: extract vendor, amount, date, category from filename + any text hint
+async function aiCategorizeReceipt(fileName: string, textHint?: string): Promise<{
+  vendor: string | null;
+  amount: string | null;
+  date: string | null;
+  category: string;
+  description: string;
+  isDeductible: boolean;
+}> {
+  const prompt = `You are a receipt categorization AI. Given a receipt filename and optional text hint, extract:
+- vendor (business name, or null if unknown)
+- amount (dollar amount as string like "42.50", or null if unknown)
+- date (YYYY-MM-DD format, or today's date if unknown)
+- category (one of: "Office Supplies", "Meals & Entertainment", "Travel", "Software & Subscriptions", "Equipment", "Professional Services", "Utilities", "Marketing", "Medical", "Personal", "Other")
+- description (brief 1-sentence description)
+- isDeductible (true if business-related, false if personal)
+
+Filename: "${fileName}"
+${textHint ? `Additional context: ${textHint}` : ""}
+
+Return valid JSON only. No markdown.`;
+
+  try {
+    const response = await invokeLLM({
+      messages: [
+        { role: "system", content: "You are a receipt categorization AI. Return valid JSON only." },
+        { role: "user", content: prompt },
+      ],
+      response_format: { type: "json_object" },
+    });
+    const raw = response.choices[0]?.message?.content;
+    const content = typeof raw === "string" ? raw : "{}";
+    const parsed = JSON.parse(content);
+    return {
+      vendor: parsed.vendor || null,
+      amount: parsed.amount || null,
+      date: parsed.date || new Date().toISOString().slice(0, 10),
+      category: parsed.category || "Other",
+      description: parsed.description || fileName,
+      isDeductible: parsed.isDeductible !== false,
+    };
+  } catch {
+    return {
+      vendor: null,
+      amount: null,
+      date: new Date().toISOString().slice(0, 10),
+      category: "Other",
+      description: fileName,
+      isDeductible: true,
+    };
+  }
+}
+
 export function registerUploadRoutes(app: express.Application) {
   const router = Router();
 
   // POST /api/upload/return-document
-  // Uploads a document for a specific checklist item in a remote return
   router.post(
     "/return-document",
     upload.single("file"),
     async (req: Request, res: Response) => {
       try {
-        // Authenticate user
         let user: Awaited<ReturnType<typeof sdk.authenticateRequest>>;
         try {
           user = await sdk.authenticateRequest(req as any);
@@ -58,7 +110,6 @@ export function registerUploadRoutes(app: express.Application) {
         const db = await getDb();
         if (!db) return res.status(500).json({ error: "Database unavailable" });
 
-        // Verify the return belongs to this user
         const [ret] = await db
           .select()
           .from(remoteReturns)
@@ -74,14 +125,11 @@ export function registerUploadRoutes(app: express.Application) {
           return res.status(404).json({ error: "Return not found" });
         }
 
-        // Build a safe file key
         const safeFileName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
         const fileKey = `returns/${user.id}/${returnId}/${checklistItemId ?? "misc"}-${nanoid(8)}-${safeFileName}`;
 
-        // Upload to S3
         const { url } = await storagePut(fileKey, req.file.buffer, req.file.mimetype);
 
-        // Save document record to DB
         const [result] = await db.insert(returnDocuments).values({
           returnId: parseInt(returnId),
           userId: user.id,
@@ -146,7 +194,7 @@ export function registerUploadRoutes(app: express.Application) {
   });
 
   // POST /api/upload/receipt
-  // Uploads a receipt image/PDF to S3 and saves a record to the receipts table
+  // Uploads a receipt to S3, optionally AI auto-categorizes based on user preference
   router.post(
     "/receipt",
     upload.single("file"),
@@ -163,31 +211,67 @@ export function registerUploadRoutes(app: express.Application) {
         }
         const db = await getDb();
         if (!db) return res.status(500).json({ error: "Database unavailable" });
+
         const taxYear = parseInt(req.body.taxYear) || new Date().getFullYear();
         const safeFileName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
         const fileKey = `receipts/${user.id}/${taxYear}/${nanoid(8)}-${safeFileName}`;
         const { url } = await storagePut(fileKey, req.file.buffer, req.file.mimetype);
+
+        // Check user's autoCategorize preference (default true)
+        const [userRecord] = await db.select({ autoCategorize: users.autoCategorize })
+          .from(users).where(eq(users.id, user.id)).limit(1);
+        const shouldAutoCategorize = userRecord?.autoCategorize !== false;
+
+        let vendor = req.body.vendor || null;
+        let amount = req.body.amount || null;
+        let date = req.body.date || new Date().toISOString().slice(0, 10);
+        let category = req.body.category || null;
+        let description = req.body.description || req.file.originalname;
+        let isDeductible = true;
+        let aiSuggested = false;
+
+        // If user has AI auto-categorize on and no manual category provided, run AI
+        if (shouldAutoCategorize && !req.body.category) {
+          const aiResult = await aiCategorizeReceipt(req.file.originalname, req.body.textHint);
+          vendor = vendor || aiResult.vendor;
+          amount = amount || aiResult.amount;
+          date = date || aiResult.date;
+          category = aiResult.category;
+          description = aiResult.description;
+          isDeductible = aiResult.isDeductible;
+          aiSuggested = true;
+        }
+
+        if (!category) category = "Uncategorized";
+
         const [result] = await db.insert(receipts).values({
           userId: user.id,
           taxYear,
-          vendor: req.body.vendor || null,
-          amount: req.body.amount || null,
-          date: req.body.date || new Date().toISOString().slice(0, 10),
-          category: req.body.category || "Uncategorized",
-          description: req.body.description || req.file.originalname,
+          vendor,
+          amount,
+          date,
+          category,
+          description,
           imageUrl: url,
           imageKey: fileKey,
-          isDeductible: true,
+          isDeductible,
         });
+
         return res.json({
           success: true,
+          aiSuggested,
           receipt: {
             id: (result as any).insertId,
             fileName: req.file.originalname,
             imageUrl: url,
             fileKey,
             taxYear,
-            category: req.body.category || "Uncategorized",
+            vendor,
+            amount,
+            date,
+            category,
+            description,
+            isDeductible,
           },
         });
       } catch (err: any) {

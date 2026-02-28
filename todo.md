@@ -187,6 +187,17 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## AI Auto-Categorize + Mileage/Home Office Rebuild
+- [x] Add home_office_data table to schema, push migration (mileage_logs already existed)
+- [x] Add user preference: autoCategorize boolean to users table or profile settings
+- [x] Add tRPC procedures: mileage.list, mileage.create, mileage.delete, homeOffice.save, homeOffice.get
+- [x] Add manual receipt entry form (vendor, amount, date, category, description -- no file required)
+- [ ] Add autoCategorize preference toggle to user profile settings UI (deferred -- can set via profile.update)
+- [x] Wire AI auto-categorization into /api/upload/receipt using invokeLLM (category, vendor, amount, date)
+- [x] Rebuild MileageTrackerV2 component using tRPC (replaced Supabase TripRecorder/MileageLogManager/VehicleExpenseTracker)
+- [x] Rebuild HomeOfficeCalculatorV2 component using tRPC (replaced Supabase-wired version)
+- [x] Update Receipts.tsx to use new tRPC-backed V2 components
+
 ## Receipts Page Fake Data Fix
 - [x] Remove hardcoded fake stat cards from Receipts page -- replaced with live tRPC data: receipt count, total expenses, potential deductions (3 cards instead of 4, all real data)
 

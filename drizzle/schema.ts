@@ -38,6 +38,8 @@ export const users = mysqlTable("users", {
   subscriptionStatus: varchar("subscriptionStatus", { length: 32 }).default("inactive"),
   stripeCustomerId: varchar("stripeCustomerId", { length: 64 }),
   stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 64 }),
+  // Preferences
+  autoCategorize: boolean("autoCategorize").default(true), // AI auto-categorize on upload
   // Referral
   referralCode: varchar("referralCode", { length: 16 }),
   referredBy: varchar("referredBy", { length: 16 }),
@@ -356,6 +358,21 @@ export const promoRedemptions = mysqlTable("promo_redemptions", {
   redeemedAt: timestamp("redeemedAt").defaultNow().notNull(),
 });
 export type PromoRedemption = typeof promoRedemptions.$inferSelect;
+
+// ─── Home Office Data ────────────────────────────────────────────────────────
+export const homeOfficeData = mysqlTable("home_office_data", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(), // one record per user
+  taxYear: int("taxYear").notNull(),
+  officeSquareFeet: decimal("officeSquareFeet", { precision: 8, scale: 2 }),
+  totalHomeSqFt: decimal("totalHomeSqFt", { precision: 8, scale: 2 }),
+  monthlyRentOrMortgage: decimal("monthlyRentOrMortgage", { precision: 10, scale: 2 }),
+  monthlyUtilities: decimal("monthlyUtilities", { precision: 10, scale: 2 }),
+  useRegularMethod: boolean("useRegularMethod").default(true), // true=regular, false=simplified ($5/sqft)
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type HomeOfficeData = typeof homeOfficeData.$inferSelect;
 
 export const efileSubmissions = mysqlTable("efile_submissions", {
   id: int("id").autoincrement().primaryKey(),

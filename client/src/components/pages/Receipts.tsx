@@ -1,25 +1,19 @@
-import { ReceiptManager } from '@/components/ReceiptManager';
-import ReceiptGamification from '@/components/ReceiptGamification';
-import ReminderSettings from '@/components/ReminderSettings';
-import { TripRecorder } from '@/components/TripRecorder';
-import { MileageLogManager } from '@/components/MileageLogManager';
-import { VehicleExpenseTracker } from '@/components/VehicleExpenseTracker';
-import { HomeOfficeCalculator } from '@/components/HomeOfficeCalculator';
+import { useMemo } from 'react';
+import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Receipt, TrendingUp, FileText } from 'lucide-react';
-import { useState, useMemo } from 'react';
-import { trpc } from '@/lib/trpc';
+import { ReceiptManagerV2 } from '@/components/ReceiptManagerV2';
+import { MileageTrackerV2 } from '@/components/MileageTrackerV2';
+import { HomeOfficeCalculatorV2 } from '@/components/HomeOfficeCalculatorV2';
 
 export default function Receipts() {
-  const [refreshTrips, setRefreshTrips] = useState(0);
   const taxYear = useMemo(() => new Date().getFullYear(), []);
-
   const { data: receiptList = [] } = trpc.receipts.list.useQuery({ taxYear });
 
   const receiptCount = receiptList.length;
   const totalExpenses = receiptList.reduce((sum, r) => sum + parseFloat(r.amount || '0'), 0);
   const deductibleTotal = receiptList
-    .filter(r => r.category && r.category !== 'personal')
+    .filter(r => r.isDeductible)
     .reduce((sum, r) => sum + parseFloat(r.amount || '0'), 0);
 
   return (
@@ -27,9 +21,10 @@ export default function Receipts() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Receipt & Expense Tracking</h1>
-          <p className="text-gray-600">Scan receipts, track mileage, and manage business expenses</p>
+          <p className="text-gray-600">Upload receipts, track mileage, and manage business expenses</p>
         </div>
 
+        {/* Live Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-3">
@@ -71,31 +66,24 @@ export default function Receipts() {
           </Card>
         </div>
 
-        <div className="space-y-8">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Receipt Scanner</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="lg:col-span-2">
-                <ReceiptManager />
-              </div>
-              <ReceiptGamification />
-              <ReminderSettings />
-            </div>
-          </div>
+        <div className="space-y-10">
+          {/* Receipt Scanner */}
+          <section>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Receipts</h2>
+            <ReceiptManagerV2 />
+          </section>
 
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Mileage & Vehicle Tracking</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <TripRecorder onTripAdded={() => setRefreshTrips(prev => prev + 1)} />
-              <VehicleExpenseTracker />
-            </div>
-            <MileageLogManager key={refreshTrips} />
-          </div>
+          {/* Mileage */}
+          <section>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Mileage Tracking</h2>
+            <MileageTrackerV2 />
+          </section>
 
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Home Office Calculator</h2>
-            <HomeOfficeCalculator />
-          </div>
+          {/* Home Office */}
+          <section>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Home Office Deduction</h2>
+            <HomeOfficeCalculatorV2 />
+          </section>
         </div>
       </div>
     </div>

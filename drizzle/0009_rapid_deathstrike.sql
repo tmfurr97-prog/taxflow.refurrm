@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `autoCategorize` boolean DEFAULT true;

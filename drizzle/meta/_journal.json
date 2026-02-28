@@ -57,6 +57,20 @@
       "when": 1772145526228,
       "tag": "0007_fantastic_sue_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1772252746003,
+      "tag": "0008_shallow_zuras",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1772253583933,
+      "tag": "0009_rapid_deathstrike",
+      "breakpoints": true
     }
   ]
 }
