@@ -1,32 +1,15 @@
 import { useState } from 'react';
-import DashboardSection from '@/components/DashboardSection';
 import DocumentUpload from '@/components/DocumentUpload';
-import YearEndChecklist from '@/components/YearEndChecklist';
-import TaxPreview from '@/components/TaxPreview';
+import DashboardSection from '@/components/DashboardSection';
 import { EmailIntegration } from '@/components/EmailIntegration';
 import { EmailScanningInfo } from '@/components/EmailScanningInfo';
 import { DocumentReview } from '@/components/DocumentReview';
-import AIAssistantSection from '@/components/AIAssistantSection';
-import { PlaidConnection } from '@/components/PlaidConnection';
-import { TransactionMatching } from '@/components/TransactionMatching';
-import { TransactionReview } from '@/components/TransactionReview';
 import TaxHealthWidget from '@/components/TaxHealthWidget';
-import GoalTracker from '@/components/GoalTracker';
-import SmartTimeline from '@/components/SmartTimeline';
-import ReportCenter from '@/components/ReportCenter';
-import QuickBooksIntegration from '@/components/QuickBooksIntegration';
-import { BankDashboard } from '@/components/BankDashboard';
-import { QuarterlyTaxSection } from '@/components/QuarterlyTaxSection';
-import { TaxAssistant } from '@/components/TaxAssistant';
-import { TaxProfessionalCollaboration } from '@/components/TaxProfessionalCollaboration';
-
-
+import { useAuth } from '@/_core/hooks/useAuth';
 
 export default function Dashboard() {
-  const [documents, setDocuments] = useState<any[]>([
-    { id: 1, name: 'W-2 Form - ABC Corp', category: 'Tax Forms', date: 'Jan 15, 2024', amount: '', status: 'verified', type: 'W-2' },
-    { id: 2, name: '1099-NEC - Freelance Work', category: 'Tax Forms', date: 'Jan 20, 2024', amount: '', status: 'verified', type: '1099' },
-  ]);
+  const { user } = useAuth();
+  const [documents, setDocuments] = useState<any[]>([]);
   const [reviewDocuments, setReviewDocuments] = useState<any[]>([]);
   const [showReview, setShowReview] = useState(false);
 
@@ -61,8 +44,10 @@ export default function Dashboard() {
     setDocuments([...documents, newDoc]);
   };
 
+  const firstName = user?.name?.split(' ')[0] || 'there';
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-950">
       {showReview && reviewDocuments.length > 0 && (
         <DocumentReview
           documents={reviewDocuments}
@@ -72,81 +57,42 @@ export default function Dashboard() {
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-heading font-bold text-charcoal">Dashboard</h1>
-          <div className="text-sm text-muted-foreground">
-            Powered by <span className="text-teal font-semibold">SmartBooks Academy</span>
-          </div>
-        </div>
-
-        {/* Top Row: Tax Health & Goals */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <TaxHealthWidget />
-          <GoalTracker />
-        </div>
-
-        {/* Smart Timeline */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page header */}
         <div className="mb-8">
-          <SmartTimeline />
+          <h1 className="text-2xl font-bold text-white">Welcome back, {firstName}</h1>
+          <p className="text-slate-400 text-sm mt-1">
+            {new Date().getFullYear()} tax year &mdash; {documents.length === 0 ? 'Start by uploading your first document.' : `${documents.length} document${documents.length !== 1 ? 's' : ''} uploaded.`}
+          </p>
         </div>
 
-        {/* Report Center & QuickBooks */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <ReportCenter />
-          <QuickBooksIntegration />
-        </div>
-        
-        <DashboardSection 
-          documents={documents}
-          onViewDocument={(id) => console.log('View:', id)}
-          onDeleteDocument={(id) => setDocuments(documents.filter(doc => doc.id !== id))}
-        />
-
-
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Upload Documents</h2>
+        {/* PRIMARY ACTION: Upload first */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-white mb-4">Upload Documents</h2>
           <DocumentUpload onUpload={handleUpload} onScanEmail={() => {}} onConnectBank={() => {}} />
         </div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mb-8 space-y-4">
           <EmailScanningInfo />
           <EmailIntegration onDocumentsFound={handleDocumentsFound} />
         </div>
 
+        {/* Document list — only shown when there are documents */}
+        {documents.length > 0 && (
+          <div className="mb-8">
+            <DashboardSection
+              documents={documents}
+              onViewDocument={(id) => console.log('View:', id)}
+              onDeleteDocument={(id) => setDocuments(documents.filter(doc => doc.id !== id))}
+            />
+          </div>
+        )}
 
-        <div className="mt-8">
-          <BankDashboard />
-          <PlaidConnection />
-        </div>
-        <div className="mt-8">
-          <TransactionMatching />
-        </div>
-
-        <div className="mt-8">
-          <TransactionReview />
-        </div>
-
-        <div className="mt-8">
-          <TaxProfessionalCollaboration />
-        </div>
-
-        <div className="mt-8">
-          <QuarterlyTaxSection />
-        </div>
-
-        <div className="mt-8">
-          <YearEndChecklist />
-        </div>
-
-        <div className="mt-8">
-          <TaxPreview />
+        {/* Tax Health — shown below upload, zeroed for new accounts */}
+        <div className="mb-8">
+          <TaxHealthWidget />
         </div>
       </div>
-
-
-      <AIAssistantSection />
-      <TaxAssistant userContext={{ filingStatus: 'single', dependents: 0, income: 0, state: 'CA', homeOwner: false, selfEmployed: false }} />
     </div>
   );
 }

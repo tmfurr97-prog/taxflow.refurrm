@@ -15,17 +15,7 @@ import { getLoginUrl } from '@/const';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-  { icon: Send, label: 'TaxGPT AI', path: '/taxgpt', badge: 'AI' },
   { icon: Receipt, label: 'Receipts & Mileage', path: '/receipts' },
-  { icon: DollarSign, label: 'Quarterly Taxes', path: '/quarterly' },
-  { icon: Building2, label: 'Business Entities', path: '/business-entities' },
-  { icon: Bitcoin, label: 'Crypto Taxes', path: '/crypto' },
-  { icon: Shield, label: 'Audit Defense', path: '/audit-defense' },
-  { icon: FileText, label: 'E-File', path: '/efile' },
-  { icon: Users, label: 'Remote Returns', path: '/remote-returns', badge: 'Human' },
-  { icon: NotebookPen, label: 'Notary Services', path: '/notary' },
-  { icon: Database, label: 'Backups', path: '/backups' },
-  { icon: BookOpen, label: 'Academy', path: '/academy' },
   { icon: User, label: 'Profile', path: '/profile' },
 ];
 
@@ -109,7 +99,6 @@ export default function AppShell({ children }: AppShellProps) {
           {sidebarOpen && (
             <div className="min-w-0">
               <p className="text-white font-bold text-sm leading-none">TaxFlow</p>
-              <p className="text-emerald-400 text-xs mt-0.5">SmartBooks24</p>
             </div>
           )}
           <button

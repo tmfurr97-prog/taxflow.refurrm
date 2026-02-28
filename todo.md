@@ -187,6 +187,15 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Dashboard UX Overhaul
+- [x] Remove "SmartBooks24" sub-header from nav/AppShell branding
+- [x] Strip sidebar to 3 items: Dashboard, Receipts, Profile (hide all others)
+- [x] Invert dashboard layout: Upload Documents block moves to top
+- [x] Zero out Tax Health Score for new accounts (0%, not 85%)
+- [x] Zero out Smart Timeline sample data ($17,800 expenses is fake) — SmartTimeline removed from dashboard entirely
+- [x] Remove "Sarah Johnson, CPA" placeholder from Tax Professional Collaboration feed — TaxProfessionalCollaboration removed from dashboard
+- [x] Remove or hide Financial Goals, Report Center, Smart Timeline until user has real data — all removed
+
 ## Plaid & Data Cleanup
 - [x] Disable Connect Bank (Plaid) button — show "Coming Soon" state since Plaid is not configured
 - [x] Remove all test/seed data from database — chat_messages, receipts, transactions, mileage_logs, notary_sessions, remote_returns, audit_items, business_entities, quarterly_payments, crypto_transactions, efile_submissions, lead_magnets, academy_progress, promo_redemptions, backups all cleared
