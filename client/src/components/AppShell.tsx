@@ -16,6 +16,16 @@ import { getLoginUrl } from '@/const';
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
   { icon: Receipt, label: 'Receipts & Mileage', path: '/receipts' },
+  { icon: NotebookPen, label: 'TaxGPT', path: '/taxgpt' },
+  { icon: CreditCard, label: 'Quarterly Payments', path: '/quarterly' },
+  { icon: Building2, label: 'Business Entities', path: '/business-entities' },
+  { icon: Bitcoin, label: 'Crypto Taxes', path: '/crypto' },
+  { icon: Shield, label: 'Audit Defense', path: '/audit-defense' },
+  { icon: Send, label: 'E-File', path: '/efile' },
+  { icon: Home, label: 'Remote Returns', path: '/remote-returns' },
+  { icon: FileText, label: 'Notary Services', path: '/notary' },
+  { icon: Database, label: 'Backups', path: '/backups' },
+  { icon: BookOpen, label: 'Academy', path: '/academy' },
   { icon: User, label: 'Profile', path: '/profile' },
 ];
 

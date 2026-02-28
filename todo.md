@@ -187,6 +187,10 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Sidebar Restore + CSV Import
+- [ ] Restore all 13 sidebar nav items in AppShell.tsx
+- [ ] Add CSV import for receipts (map date, vendor, amount, category columns)
+
 ## AI Auto-Categorize + Mileage/Home Office Rebuild
 - [x] Add home_office_data table to schema, push migration (mileage_logs already existed)
 - [x] Add user preference: autoCategorize boolean to users table or profile settings
