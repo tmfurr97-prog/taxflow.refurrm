@@ -1,0 +1,42 @@
+{
+  "query": "SELECT 'users' as tbl, COUNT(*) as cnt FROM users UNION ALL SELECT 'receipts', COUNT(*) FROM receipts UNION ALL SELECT 'transactions', COUNT(*) FROM transactions UNION ALL SELECT 'mileageLogs', COUNT(*) FROM mileage_logs UNION ALL SELECT 'notarySessions', COUNT(*) FROM notary_sessions UNION ALL SELECT 'chatMessages', COUNT(*) FROM chat_messages UNION ALL SELECT 'academyCourses', COUNT(*) FROM academy_courses UNION ALL SELECT 'academyLessons', COUNT(*) FROM academy_lessons ORDER BY cnt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3aSQ2isK7sgeomn.root --database D2X9Y6m5hZkrjwFqZFWRus --execute SELECT 'users' as tbl, COUNT(*) as cnt FROM users UNION ALL SELECT 'receipts', COUNT(*) FROM receipts UNION ALL SELECT 'transactions', COUNT(*) FROM transactions UNION ALL SELECT 'mileageLogs', COUNT(*) FROM mileage_logs UNION ALL SELECT 'notarySessions', COUNT(*) FROM notary_sessions UNION ALL SELECT 'chatMessages', COUNT(*) FROM chat_messages UNION ALL SELECT 'academyCourses', COUNT(*) FROM academy_courses UNION ALL SELECT 'academyLessons', COUNT(*) FROM academy_lessons ORDER BY cnt DESC;",
+  "rows": [
+    {
+      "tbl": "chatMessages",
+      "cnt": "24"
+    },
+    {
+      "tbl": "users",
+      "cnt": "1"
+    },
+    {
+      "tbl": "academyCourses",
+      "cnt": "0"
+    },
+    {
+      "tbl": "notarySessions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "mileageLogs",
+      "cnt": "0"
+    },
+    {
+      "tbl": "receipts",
+      "cnt": "0"
+    },
+    {
+      "tbl": "academyLessons",
+      "cnt": "0"
+    },
+    {
+      "tbl": "transactions",
+      "cnt": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tcnt\nchatMessages\t24\nusers\t1\nacademyCourses\t0\nnotarySessions\t0\nmileageLogs\t0\nreceipts\t0\nacademyLessons\t0\ntransactions\t0\n",
+  "stderr": "",
+  "execution_time_ms": 517
+}

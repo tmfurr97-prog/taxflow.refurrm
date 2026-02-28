@@ -1,0 +1,9 @@
+{
+  "query": "\nDELETE FROM chat_messages;\nDELETE FROM receipts;\nDELETE FROM transactions;\nDELETE FROM mileage_logs;\nDELETE FROM notary_sessions;\nDELETE FROM remote_returns;\nDELETE FROM return_documents;\nDELETE FROM audit_items;\nDELETE FROM business_entities;\nDELETE FROM quarterly_payments;\nDELETE FROM crypto_transactions;\nDELETE FROM efile_submissions;\nDELETE FROM lead_magnets;\nDELETE FROM academy_progress;\nDELETE FROM promo_redemptions;\nDELETE FROM backups;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3aSQ2isK7sgeomn.root --database D2X9Y6m5hZkrjwFqZFWRus --execute \nDELETE FROM chat_messages;\nDELETE FROM receipts;\nDELETE FROM transactions;\nDELETE FROM mileage_logs;\nDELETE FROM notary_sessions;\nDELETE FROM remote_returns;\nDELETE FROM return_documents;\nDELETE FROM audit_items;\nDELETE FROM business_entities;\nDELETE FROM quarterly_payments;\nDELETE FROM crypto_transactions;\nDELETE FROM efile_submissions;\nDELETE FROM lead_magnets;\nDELETE FROM academy_progress;\nDELETE FROM promo_redemptions;\nDELETE FROM backups;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1103
+}

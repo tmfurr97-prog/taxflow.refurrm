@@ -1,0 +1,42 @@
+{
+  "query": "\nSELECT 'chat_messages' as tbl, COUNT(*) as cnt FROM chat_messages\nUNION ALL SELECT 'receipts', COUNT(*) FROM receipts\nUNION ALL SELECT 'transactions', COUNT(*) FROM transactions\nUNION ALL SELECT 'notary_sessions', COUNT(*) FROM notary_sessions\nUNION ALL SELECT 'remote_returns', COUNT(*) FROM remote_returns\nUNION ALL SELECT 'audit_items', COUNT(*) FROM audit_items\nUNION ALL SELECT 'promo_codes', COUNT(*) FROM promo_codes\nUNION ALL SELECT 'users', COUNT(*) FROM users;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3aSQ2isK7sgeomn.root --database D2X9Y6m5hZkrjwFqZFWRus --execute \nSELECT 'chat_messages' as tbl, COUNT(*) as cnt FROM chat_messages\nUNION ALL SELECT 'receipts', COUNT(*) FROM receipts\nUNION ALL SELECT 'transactions', COUNT(*) FROM transactions\nUNION ALL SELECT 'notary_sessions', COUNT(*) FROM notary_sessions\nUNION ALL SELECT 'remote_returns', COUNT(*) FROM remote_returns\nUNION ALL SELECT 'audit_items', COUNT(*) FROM audit_items\nUNION ALL SELECT 'promo_codes', COUNT(*) FROM promo_codes\nUNION ALL SELECT 'users', COUNT(*) FROM users;\n",
+  "rows": [
+    {
+      "tbl": "chat_messages",
+      "cnt": "0"
+    },
+    {
+      "tbl": "transactions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "remote_returns",
+      "cnt": "0"
+    },
+    {
+      "tbl": "receipts",
+      "cnt": "0"
+    },
+    {
+      "tbl": "notary_sessions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "promo_codes",
+      "cnt": "6"
+    },
+    {
+      "tbl": "users",
+      "cnt": "1"
+    },
+    {
+      "tbl": "audit_items",
+      "cnt": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tcnt\nchat_messages\t0\ntransactions\t0\nremote_returns\t0\nreceipts\t0\nnotary_sessions\t0\npromo_codes\t6\nusers\t1\naudit_items\t0\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

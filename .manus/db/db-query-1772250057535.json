@@ -1,0 +1,60 @@
+{
+  "query": "SELECT * FROM receipts LIMIT 3; SELECT * FROM transactions LIMIT 3; SELECT * FROM chat_messages LIMIT 3; SELECT * FROM notary_sessions LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3aSQ2isK7sgeomn.root --database D2X9Y6m5hZkrjwFqZFWRus --execute SELECT * FROM receipts LIMIT 3; SELECT * FROM transactions LIMIT 3; SELECT * FROM chat_messages LIMIT 3; SELECT * FROM notary_sessions LIMIT 3;",
+  "rows": [
+    {
+      "id": "1",
+      "userId": "1",
+      "sessionId": "9Pr26Ud3fM5YGCAtVdHQd",
+      "role": "user",
+      "content": "what do i do if i never got my refund last year and it shows i didn't fille?",
+      "createdAt": "2026-02-27 01:45:44"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "sessionId": "9Pr26Ud3fM5YGCAtVdHQd",
+      "role": "user",
+      "content": "i just recently started an LLC (single member) what. are my best filing options?",
+      "createdAt": "2026-02-27 01:48:54"
+    }
+  ],
+  "messages": [
+    "2\t1\t9Pr26Ud3fM5YGCAtVdHQd\tassistant\tOh no, that sounds incredibly frustrating! It's definitely a situation that needs to be addressed. Here's a step-by-step guide on what you should do:",
+    "### 1. Verify Your Filing Status",
+    "*   **Check Your Records:** First, dig through your personal files. Do you have a copy of the tax return you believe you filed for that year? Look for:",
+    "    *   A signed copy of your Form 1040 (or relevant tax form).",
+    "    *   Proof of e-filing (confirmation email or receipt from your tax software/preparer).",
+    "    *   Proof of mailing (certified mail receipt, if you mailed it).",
+    "*   **Contact Your Tax Preparer (if applicable):** If you used a tax professional, reach out to them immediately. They should have a record of your filed return and can confirm the filing date and method.",
+    "### 2. Check the IRS \"Where's My Refund?\" Tool",
+    "*   **IRS Tool:** Even if it shows you didn't file, it's worth double-checking the official IRS \"Where's My Refund?\" tool for that specific tax year. Sometimes there are delays or miscommunications.",
+    "    *   Visit: [https://www.irs.gov/refunds](https://www.irs.gov/refunds)",
+    "    *   You'll need your Social Security number, filing status, and the exact refund amount shown on your return.",
+    "### 3. Contact the IRS Directly",
+    "This is crucial. If your records show you filed but the IRS says you didn't, there's a discrepancy that only they can clarify.",
+    "*   **IRS Phone Number:** Call the IRS directly at **1-800-829-1040**. Be prepared for potentially long wait times.",
+    "*   **Have Information Ready:** When you call, have the following handy:",
+    "    *   Your Social Security number.",
+    "    *   The tax year in question.",
+    "    *   A copy of the tax return you believe you filed.",
+    "    *   Any proof of filing (e-file confirmation, certified mail receipt).",
+    "    *   All relevant income documents (W-2s, 1099s, etc.) for that year.",
+    "*   **Explain Clearly:** State that you believe you filed for that year, have proof, and the IRS records show no filing, and you never received your refund. Ask them to check their systems thoroughly.",
+    "### 4. What if the IRS Confirms No Filing?",
+    "If the IRS confirms they have no record of your return, despite your belief that you filed:",
+    "*   **Refile Immediately:** You will need to file an original tax return for that year.",
+    "    *   **Paper Filing:** Since it's for a prior year, you'll likely need to paper file. Make sure to use the correct forms for that specific tax year (e.g., Form 1040 for 2022 if that's the year). You can find prior year forms on the IRS website.",
+    "    *   **Mail Certified:** Send it via certified mail with a return receipt requested. This provides you with proof of mailing and delivery.",
+    "*   **Refund Deadline:** Be aware that there's generally a three-year window from the original due date of the return to claim a refund. If you're beyond this window, you might not be able to get your refund, even if you file.",
+    "### Important Considerations:",
+    "*   **Keep Meticulous Records:** Keep copies of everything you send to the IRS, including the return, any correspondence, and proof of mailing.",
+    "*   **Be Patient:** Resolving these types of issues can take time.",
+    "### When to Consult a Professional:",
+    "If you're feeling overwhelmed, can't get clear answers from the IRS, or the situation seems complex (e.g., you're past the refund deadline, or there are other issues), it's highly recommended to **consult a licensed tax professional (like an Enrolled Agent or CPA)**. They can communicate with the IRS on your behalf and help navigate the process.",
+    "Good luck! I hope you get this sorted out soon.\t2026-02-27 01:45:44"
+  ],
+  "stdout": "id\tuserId\tsessionId\trole\tcontent\tcreatedAt\n1\t1\t9Pr26Ud3fM5YGCAtVdHQd\tuser\twhat do i do if i never got my refund last year and it shows i didn't fille?\t2026-02-27 01:45:44\n2\t1\t9Pr26Ud3fM5YGCAtVdHQd\tassistant\tOh no, that sounds incredibly frustrating! It's definitely a situation that needs to be addressed. Here's a step-by-step guide on what you should do:\n\n### 1. Verify Your Filing Status\n\n*   **Check Your Records:** First, dig through your personal files. Do you have a copy of the tax return you believe you filed for that year? Look for:\n    *   A signed copy of your Form 1040 (or relevant tax form).\n    *   Proof of e-filing (confirmation email or receipt from your tax software/preparer).\n    *   Proof of mailing (certified mail receipt, if you mailed it).\n*   **Contact Your Tax Preparer (if applicable):** If you used a tax professional, reach out to them immediately. They should have a record of your filed return and can confirm the filing date and method.\n\n### 2. Check the IRS \"Where's My Refund?\" Tool\n\n*   **IRS Tool:** Even if it shows you didn't file, it's worth double-checking the official IRS \"Where's My Refund?\" tool for that specific tax year. Sometimes there are delays or miscommunications.\n    *   Visit: [https://www.irs.gov/refunds](https://www.irs.gov/refunds)\n    *   You'll need your Social Security number, filing status, and the exact refund amount shown on your return.\n\n### 3. Contact the IRS Directly\n\nThis is crucial. If your records show you filed but the IRS says you didn't, there's a discrepancy that only they can clarify.\n\n*   **IRS Phone Number:** Call the IRS directly at **1-800-829-1040**. Be prepared for potentially long wait times.\n*   **Have Information Ready:** When you call, have the following handy:\n    *   Your Social Security number.\n    *   The tax year in question.\n    *   A copy of the tax return you believe you filed.\n    *   Any proof of filing (e-file confirmation, certified mail receipt).\n    *   All relevant income documents (W-2s, 1099s, etc.) for that year.\n*   **Explain Clearly:** State that you believe you filed for that year, have proof, and the IRS records show no filing, and you never received your refund. Ask them to check their systems thoroughly.\n\n### 4. What if the IRS Confirms No Filing?\n\nIf the IRS confirms they have no record of your return, despite your belief that you filed:\n\n*   **Refile Immediately:** You will need to file an original tax return for that year.\n    *   **Paper Filing:** Since it's for a prior year, you'll likely need to paper file. Make sure to use the correct forms for that specific tax year (e.g., Form 1040 for 2022 if that's the year). You can find prior year forms on the IRS website.\n    *   **Mail Certified:** Send it via certified mail with a return receipt requested. This provides you with proof of mailing and delivery.\n*   **Refund Deadline:** Be aware that there's generally a three-year window from the original due date of the return to claim a refund. If you're beyond this window, you might not be able to get your refund, even if you file.\n\n### Important Considerations:\n\n*   **Keep Meticulous Records:** Keep copies of everything you send to the IRS, including the return, any correspondence, and proof of mailing.\n*   **Be Patient:** Resolving these types of issues can take time.\n\n### When to Consult a Professional:\n\nIf you're feeling overwhelmed, can't get clear answers from the IRS, or the situation seems complex (e.g., you're past the refund deadline, or there are other issues), it's highly recommended to **consult a licensed tax professional (like an Enrolled Agent or CPA)**. They can communicate with the IRS on your behalf and help navigate the process.\n\nGood luck! I hope you get this sorted out soon.\t2026-02-27 01:45:44\n3\t1\t9Pr26Ud3fM5YGCAtVdHQd\tuser\ti just recently started an LLC (single member) what. are my best filing options?\t2026-02-27 01:48:54\n",
+  "stderr": "",
+  "execution_time_ms": 493
+}

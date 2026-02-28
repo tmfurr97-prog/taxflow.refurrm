@@ -1,0 +1,86 @@
+{
+  "query": "\nSELECT 'users' as tbl, COUNT(*) as cnt FROM users\nUNION ALL SELECT 'taxDocuments', COUNT(*) FROM tax_documents\nUNION ALL SELECT 'receipts', COUNT(*) FROM receipts\nUNION ALL SELECT 'mileageLogs', COUNT(*) FROM mileage_logs\nUNION ALL SELECT 'transactions', COUNT(*) FROM transactions\nUNION ALL SELECT 'businessEntities', COUNT(*) FROM business_entities\nUNION ALL SELECT 'quarterlyPayments', COUNT(*) FROM quarterly_payments\nUNION ALL SELECT 'cryptoTransactions', COUNT(*) FROM crypto_transactions\nUNION ALL SELECT 'auditItems', COUNT(*) FROM audit_items\nUNION ALL SELECT 'notarySessions', COUNT(*) FROM notary_sessions\nUNION ALL SELECT 'chatMessages', COUNT(*) FROM chat_messages\nUNION ALL SELECT 'remoteReturns', COUNT(*) FROM remote_returns\nUNION ALL SELECT 'academyCourses', COUNT(*) FROM academy_courses\nUNION ALL SELECT 'academyLessons', COUNT(*) FROM academy_lessons\nUNION ALL SELECT 'academyProgress', COUNT(*) FROM academy_progress\nUNION ALL SELECT 'promoCodes', COUNT(*) FROM promo_codes\nUNION ALL SELECT 'promoRedemptions', COUNT(*) FROM promo_redemptions\nUNION ALL SELECT 'efileSubmissions', COUNT(*) FROM efile_submissions\nUNION ALL SELECT 'leadMagnets', COUNT(*) FROM lead_magnets;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3aSQ2isK7sgeomn.root --database D2X9Y6m5hZkrjwFqZFWRus --execute \nSELECT 'users' as tbl, COUNT(*) as cnt FROM users\nUNION ALL SELECT 'taxDocuments', COUNT(*) FROM tax_documents\nUNION ALL SELECT 'receipts', COUNT(*) FROM receipts\nUNION ALL SELECT 'mileageLogs', COUNT(*) FROM mileage_logs\nUNION ALL SELECT 'transactions', COUNT(*) FROM transactions\nUNION ALL SELECT 'businessEntities', COUNT(*) FROM business_entities\nUNION ALL SELECT 'quarterlyPayments', COUNT(*) FROM quarterly_payments\nUNION ALL SELECT 'cryptoTransactions', COUNT(*) FROM crypto_transactions\nUNION ALL SELECT 'auditItems', COUNT(*) FROM audit_items\nUNION ALL SELECT 'notarySessions', COUNT(*) FROM notary_sessions\nUNION ALL SELECT 'chatMessages', COUNT(*) FROM chat_messages\nUNION ALL SELECT 'remoteReturns', COUNT(*) FROM remote_returns\nUNION ALL SELECT 'academyCourses', COUNT(*) FROM academy_courses\nUNION ALL SELECT 'academyLessons', COUNT(*) FROM academy_lessons\nUNION ALL SELECT 'academyProgress', COUNT(*) FROM academy_progress\nUNION ALL SELECT 'promoCodes', COUNT(*) FROM promo_codes\nUNION ALL SELECT 'promoRedemptions', COUNT(*) FROM promo_redemptions\nUNION ALL SELECT 'efileSubmissions', COUNT(*) FROM efile_submissions\nUNION ALL SELECT 'leadMagnets', COUNT(*) FROM lead_magnets;\n",
+  "rows": [
+    {
+      "tbl": "users",
+      "cnt": "1"
+    },
+    {
+      "tbl": "receipts",
+      "cnt": "0"
+    },
+    {
+      "tbl": "mileageLogs",
+      "cnt": "0"
+    },
+    {
+      "tbl": "taxDocuments",
+      "cnt": "0"
+    },
+    {
+      "tbl": "transactions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "businessEntities",
+      "cnt": "0"
+    },
+    {
+      "tbl": "quarterlyPayments",
+      "cnt": "0"
+    },
+    {
+      "tbl": "cryptoTransactions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "notarySessions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "auditItems",
+      "cnt": "0"
+    },
+    {
+      "tbl": "academyCourses",
+      "cnt": "0"
+    },
+    {
+      "tbl": "chatMessages",
+      "cnt": "24"
+    },
+    {
+      "tbl": "remoteReturns",
+      "cnt": "0"
+    },
+    {
+      "tbl": "academyLessons",
+      "cnt": "0"
+    },
+    {
+      "tbl": "academyProgress",
+      "cnt": "0"
+    },
+    {
+      "tbl": "promoCodes",
+      "cnt": "6"
+    },
+    {
+      "tbl": "efileSubmissions",
+      "cnt": "0"
+    },
+    {
+      "tbl": "promoRedemptions",
+      "cnt": "1"
+    },
+    {
+      "tbl": "leadMagnets",
+      "cnt": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tcnt\nusers\t1\nreceipts\t0\nmileageLogs\t0\ntaxDocuments\t0\ntransactions\t0\nbusinessEntities\t0\nquarterlyPayments\t0\ncryptoTransactions\t0\nnotarySessions\t0\nauditItems\t0\nacademyCourses\t0\nchatMessages\t24\nremoteReturns\t0\nacademyLessons\t0\nacademyProgress\t0\npromoCodes\t6\nefileSubmissions\t0\npromoRedemptions\t1\nleadMagnets\t0\n",
+  "stderr": "",
+  "execution_time_ms": 472
+}
