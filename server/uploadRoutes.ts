@@ -30,7 +30,12 @@ const upload = multer({
 });
 
 // AI auto-categorization: extract vendor, amount, date, category from filename + any text hint
-async function aiCategorizeReceipt(fileName: string, textHint?: string): Promise<{
+// Handles receipts, invoices, bank statements, and payment platform exports (Cash App, Venmo, PayPal, etc.)
+async function aiCategorizeReceipt(
+  fileName: string,
+  textHint?: string,
+  businessContext?: { selfEmployed?: boolean; businessName?: string; businessType?: string }
+): Promise<{
   vendor: string | null;
   amount: string | null;
   date: string | null;
@@ -38,23 +43,47 @@ async function aiCategorizeReceipt(fileName: string, textHint?: string): Promise
   description: string;
   isDeductible: boolean;
 }> {
-  const prompt = `You are a receipt categorization AI. Given a receipt filename and optional text hint, extract:
-- vendor (business name, or null if unknown)
-- amount (dollar amount as string like "42.50", or null if unknown)
-- date (YYYY-MM-DD format, or today's date if unknown)
-- category (one of: "Office Supplies", "Meals & Entertainment", "Travel", "Software & Subscriptions", "Equipment", "Professional Services", "Utilities", "Marketing", "Medical", "Personal", "Other")
-- description (brief 1-sentence description)
-- isDeductible (true if business-related, false if personal)
+  const isStatement = /statement|export|cashapp|cash.app|venmo|paypal|zelle|stripe|square|bank|account/i.test(fileName);
+  const businessCtx = businessContext?.businessName
+    ? `This document belongs to a business account for "${businessContext.businessName}" (${businessContext.businessType || 'business'}).`
+    : businessContext?.selfEmployed
+    ? 'This document belongs to a self-employed individual\'s business account.'
+    : 'This document may belong to a business account.';
+
+  const prompt = `You are a tax document categorization AI for a small business bookkeeping platform.
+
+You will receive a filename (and optional context) for a document uploaded by a business owner. The document may be:
+- A receipt or invoice from a vendor
+- A bank or payment platform statement (Cash App, Venmo, PayPal, Zelle, Stripe, Square, etc.)
+- A monthly account statement showing Money In / Money Out
+
+${businessCtx}
+
+IMPORTANT RULES:
+1. If the filename suggests a bank or payment platform statement (Cash App, Venmo, PayPal, etc.), classify it as a business financial document.
+2. Outgoing payments (Money Out) on a business account are PRESUMED to be business expenses and therefore DEDUCTIBLE unless clearly personal.
+3. Payment platform statements (Cash App, Venmo, etc.) used for a business are deductible as "Bank & Payment Fees" or "Professional Services" depending on context.
+4. Do NOT default to non-deductible just because you cannot see the full document — when in doubt for a business account, default isDeductible to TRUE.
+5. Statement documents should use category "Bank Statements & Fees" if no better category is determinable.
+
+Extract the following fields:
+- vendor: the payment platform or bank name (e.g. "Cash App", "PayPal", "Chase"), or null if unknown
+- amount: total dollar amount as string like "305.00", or null if unknown
+- date: YYYY-MM-DD of the statement period or transaction, or today if unknown
+- category: one of: "Office Supplies", "Meals & Entertainment", "Travel", "Software & Subscriptions", "Equipment", "Professional Services", "Utilities", "Marketing", "Medical", "Bank Statements & Fees", "Contractor Payments", "Personal", "Other"
+- description: brief 1-sentence description of what this document is
+- isDeductible: true if business-related or a business account statement, false only if clearly personal
 
 Filename: "${fileName}"
-${textHint ? `Additional context: ${textHint}` : ""}
+${textHint ? `Additional context: ${textHint}` : ''}
+${isStatement ? 'Note: This filename suggests a bank or payment platform statement.' : ''}
 
 Return valid JSON only. No markdown.`;
 
   try {
     const response = await invokeLLM({
       messages: [
-        { role: "system", content: "You are a receipt categorization AI. Return valid JSON only." },
+        { role: "system", content: "You are a business tax document categorization AI. Return valid JSON only. When in doubt for a business account, default isDeductible to true." },
         { role: "user", content: prompt },
       ],
       response_format: { type: "json_object" },
@@ -217,9 +246,13 @@ export function registerUploadRoutes(app: express.Application) {
         const fileKey = `receipts/${user.id}/${taxYear}/${nanoid(8)}-${safeFileName}`;
         const { url } = await storagePut(fileKey, req.file.buffer, req.file.mimetype);
 
-        // Check user's autoCategorize preference (default true)
-        const [userRecord] = await db.select({ autoCategorize: users.autoCategorize })
-          .from(users).where(eq(users.id, user.id)).limit(1);
+        // Check user's autoCategorize preference and business context
+        const [userRecord] = await db.select({
+          autoCategorize: users.autoCategorize,
+          selfEmployed: users.selfEmployed,
+          businessName: users.businessName,
+          businessType: users.businessType,
+        }).from(users).where(eq(users.id, user.id)).limit(1);
         const shouldAutoCategorize = userRecord?.autoCategorize !== false;
 
         let vendor = req.body.vendor || null;
@@ -232,7 +265,15 @@ export function registerUploadRoutes(app: express.Application) {
 
         // If user has AI auto-categorize on and no manual category provided, run AI
         if (shouldAutoCategorize && !req.body.category) {
-          const aiResult = await aiCategorizeReceipt(req.file.originalname, req.body.textHint);
+          const aiResult = await aiCategorizeReceipt(
+            req.file.originalname,
+            req.body.textHint,
+            {
+              selfEmployed: userRecord?.selfEmployed ?? false,
+              businessName: userRecord?.businessName ?? undefined,
+              businessType: userRecord?.businessType ?? undefined,
+            }
+          );
           vendor = vendor || aiResult.vendor;
           amount = amount || aiResult.amount;
           date = date || aiResult.date;

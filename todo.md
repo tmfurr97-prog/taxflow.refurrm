@@ -246,3 +246,17 @@
 - [x] Replace nav dollar-sign icon with TF badge SVG logo (uploaded by Teresa)
 - [x] Update favicon with TF favicon SVG
 - [x] Rewrite/remove corny founder section (emoji, 1997/Harley/Now cards) — replaced with real photo + professional copy
+
+## AI Categorization Bug — Cash App / Payment Statements
+- [x] AI prompt fails on bank/payment platform statements (Cash App, Venmo, etc.) — returns "not deductible" for outgoing business payments
+- [x] Fix: expand LLM prompt to handle statements (not just receipts), recognize Money Out as potential business expense, use business context from user profile
+
+## Receipt Inline Edit
+- [x] Add tRPC receipts.update procedure (vendor, amount, date, category, description, isDeductible)
+- [x] Add inline edit UI to receipt cards in ReceiptManagerV2 — pencil icon opens edit form, save via tRPC
+
+## Ledger View Redesign
+- [x] Rebuild receipt library as journal ledger table (date, vendor, category, deductible toggle, amount, doc link, edit/delete)
+- [x] Inline row editing: click pencil → row fields become editable inputs, save via receipts.update tRPC
+- [x] Add "Bank Statements & Fees" and "Contractor Payments" to CATEGORIES list
+- [x] AI confirmation dialog: wire Confirm to actually call receipts.update so edits persist

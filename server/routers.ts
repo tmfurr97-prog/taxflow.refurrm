@@ -143,6 +143,26 @@ const receiptsRouter = router({
       return { success: true };
     }),
 
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      vendor: z.string().nullable().optional(),
+      amount: z.string().nullable().optional(),
+      date: z.string().optional(),
+      category: z.string().optional(),
+      description: z.string().optional(),
+      isDeductible: z.boolean().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const { id, ...fields } = input;
+      await db.update(receipts)
+        .set(fields)
+        .where(and(eq(receipts.id, id), eq(receipts.userId, ctx.user.id)));
+      return { success: true };
+    }),
+
   bulkCreate: protectedProcedure
     .input(z.object({
       rows: z.array(z.object({
