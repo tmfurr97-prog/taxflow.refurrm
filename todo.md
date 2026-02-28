@@ -187,6 +187,9 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Receipts Page Fake Data Fix
+- [x] Remove hardcoded fake stat cards from Receipts page -- replaced with live tRPC data: receipt count, total expenses, potential deductions (3 cards instead of 4, all real data)
+
 ## Light Mode Theme Overhaul
 - [x] Switch ThemeProvider to defaultTheme="light"
 - [x] Rewrite CSS variables in index.css for light backgrounds, dark text, emerald accents

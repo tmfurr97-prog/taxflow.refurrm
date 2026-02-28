@@ -6,11 +6,21 @@ import { MileageLogManager } from '@/components/MileageLogManager';
 import { VehicleExpenseTracker } from '@/components/VehicleExpenseTracker';
 import { HomeOfficeCalculator } from '@/components/HomeOfficeCalculator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Receipt, Car, Home, TrendingUp } from 'lucide-react';
-import { useState } from 'react';
+import { Receipt, TrendingUp, FileText } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { trpc } from '@/lib/trpc';
 
 export default function Receipts() {
   const [refreshTrips, setRefreshTrips] = useState(0);
+  const taxYear = useMemo(() => new Date().getFullYear(), []);
+
+  const { data: receiptList = [] } = trpc.receipts.list.useQuery({ taxYear });
+
+  const receiptCount = receiptList.length;
+  const totalExpenses = receiptList.reduce((sum, r) => sum + parseFloat(r.amount || '0'), 0);
+  const deductibleTotal = receiptList
+    .filter(r => r.category && r.category !== 'personal')
+    .reduce((sum, r) => sum + parseFloat(r.amount || '0'), 0);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -20,56 +30,43 @@ export default function Receipts() {
           <p className="text-gray-600">Scan receipts, track mileage, and manage business expenses</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <Receipt className="h-4 w-4 text-blue-600" />
+                <Receipt className="h-4 w-4 text-emerald-600" />
                 Receipts
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">156</div>
-              <p className="text-xs text-muted-foreground">Scanned this year</p>
+              <div className="text-2xl font-bold">{receiptCount}</div>
+              <p className="text-xs text-muted-foreground">Uploaded this year</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <Car className="h-4 w-4 text-green-600" />
-                Mileage
+                <FileText className="h-4 w-4 text-blue-600" />
+                Total Expenses
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">2,847</div>
-              <p className="text-xs text-muted-foreground">Business miles</p>
+              <div className="text-2xl font-bold">${totalExpenses.toFixed(2)}</div>
+              <p className="text-xs text-muted-foreground">Tracked this year</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <Home className="h-4 w-4 text-purple-600" />
-                Home Office
+                <TrendingUp className="h-4 w-4 text-emerald-600" />
+                Potential Deductions
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$3,200</div>
-              <p className="text-xs text-muted-foreground">Deduction estimate</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-orange-600" />
-                Total Savings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$8,945</div>
-              <p className="text-xs text-muted-foreground">Tax deductions YTD</p>
+              <div className="text-2xl font-bold">${deductibleTotal.toFixed(2)}</div>
+              <p className="text-xs text-muted-foreground">Business expenses tracked</p>
             </CardContent>
           </Card>
         </div>
