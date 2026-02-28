@@ -86,10 +86,7 @@ export default function Landing() {
             <Link href="/">
               <div className="flex items-center gap-2 cursor-pointer">
                 <img src="/favicon.svg" alt="TaxFlow" className="w-9 h-9" />
-                <div>
-                  <span className="text-white font-bold text-lg leading-none">TaxFlow</span>
-                  <span className="text-emerald-400 text-xs block leading-none">SmartBooks24</span>
-                </div>
+                <span className="text-white font-bold text-lg leading-none">TaxFlow</span>
               </div>
             </Link>
             <div className="hidden md:flex items-center gap-6">

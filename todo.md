@@ -187,6 +187,10 @@
 - [ ] Proper address: Street Address, Apt/Suite, City, State, ZIP
 - [ ] Add: DOB, Phone, SSN Last 4, Business Name, Business Type, EIN
 
+## Landing Nav & Receipt Upload
+- [x] Remove SmartBooks24 sub-text from public landing page nav
+- [x] Wire receipt upload to S3 + DB persistence — /api/upload/receipt endpoint, multer + storagePut, saves to receipts table, dashboard loads from DB via tRPC, delete works
+
 ## Dashboard UX Overhaul
 - [x] Remove "SmartBooks24" sub-header from nav/AppShell branding
 - [x] Strip sidebar to 3 items: Dashboard, Receipts, Profile (hide all others)

@@ -3,7 +3,7 @@ import multer from "multer";
 import { nanoid } from "nanoid";
 import { storagePut } from "./storage";
 import { getDb } from "./db";
-import { returnDocuments, remoteReturns } from "../drizzle/schema";
+import { returnDocuments, remoteReturns, receipts } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { sdk } from "./_core/sdk";
 
@@ -144,6 +144,58 @@ export function registerUploadRoutes(app: express.Application) {
       return res.status(500).json({ error: err.message ?? "Delete failed" });
     }
   });
+
+  // POST /api/upload/receipt
+  // Uploads a receipt image/PDF to S3 and saves a record to the receipts table
+  router.post(
+    "/receipt",
+    upload.single("file"),
+    async (req: Request, res: Response) => {
+      try {
+        let user: Awaited<ReturnType<typeof sdk.authenticateRequest>>;
+        try {
+          user = await sdk.authenticateRequest(req as any);
+        } catch {
+          return res.status(401).json({ error: "Unauthorized" });
+        }
+        if (!req.file) {
+          return res.status(400).json({ error: "No file provided" });
+        }
+        const db = await getDb();
+        if (!db) return res.status(500).json({ error: "Database unavailable" });
+        const taxYear = parseInt(req.body.taxYear) || new Date().getFullYear();
+        const safeFileName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const fileKey = `receipts/${user.id}/${taxYear}/${nanoid(8)}-${safeFileName}`;
+        const { url } = await storagePut(fileKey, req.file.buffer, req.file.mimetype);
+        const [result] = await db.insert(receipts).values({
+          userId: user.id,
+          taxYear,
+          vendor: req.body.vendor || null,
+          amount: req.body.amount || null,
+          date: req.body.date || new Date().toISOString().slice(0, 10),
+          category: req.body.category || "Uncategorized",
+          description: req.body.description || req.file.originalname,
+          imageUrl: url,
+          imageKey: fileKey,
+          isDeductible: true,
+        });
+        return res.json({
+          success: true,
+          receipt: {
+            id: (result as any).insertId,
+            fileName: req.file.originalname,
+            imageUrl: url,
+            fileKey,
+            taxYear,
+            category: req.body.category || "Uncategorized",
+          },
+        });
+      } catch (err: any) {
+        console.error("[Upload/Receipt] Error:", err);
+        return res.status(500).json({ error: err.message ?? "Upload failed" });
+      }
+    }
+  );
 
   app.use("/api/upload", router);
 }
