@@ -161,6 +161,25 @@ export default function AppShell({ children }: AppShellProps) {
                   )}
                 </div>
               </Link>
+              <Link href="/admin/intake">
+                <div
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all group",
+                    location === '/admin/intake'
+                      ? "bg-red-500/15 text-red-400 font-medium"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                  )}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <ShieldCheck className={cn("w-5 h-5 shrink-0", location === '/admin/intake' ? "text-red-400" : "")} />
+                  {sidebarOpen && <span className="text-sm truncate">Admin: Intake</span>}
+                  {!sidebarOpen && (
+                    <div className="absolute left-16 bg-gray-100 text-gray-900 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                      Admin: Intake
+                    </div>
+                  )}
+                </div>
+              </Link>
             </>
           )}
           {navItems.map((item) => {

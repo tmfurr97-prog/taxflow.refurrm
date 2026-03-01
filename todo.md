@@ -279,3 +279,14 @@
 - Step 5: Deductions (mortgage interest, property tax, medical, student loan, educator, retirement, home office sqft)
 - Step 6: Donations (add charity name, amount, cash/non-cash, receipt upload)
 - Step 7: Review + AI completeness check + Payment ($0 consult / $199 file)
+
+## Admin Intake Dashboard (/admin/intake)
+- [x] tRPC: intake.adminList (admin only, filterable by status/year/paymentType)
+- [x] tRPC: intake.updateStatus (admin only: submitted → in_review → ready_to_sign → filed)
+- [x] tRPC: intake.addNote (admin only: preparer notes per submission)
+- [x] AdminIntake.tsx: table of all submissions with name, email, tax year, filing status, doc count, payment type, status, submitted date
+- [x] Detail drawer/panel: full intake data, dependent list, income docs with download links, deductions, donations, preparer notes
+- [x] Status badge + dropdown to update status inline
+- [x] Filter bar: by status, tax year, payment type (consult vs paid)
+- [x] Add /admin/intake route to App.tsx
+- [x] Add "Admin: Intake" to AppShell admin nav section

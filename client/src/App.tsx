@@ -40,6 +40,7 @@ import Academy from "./components/pages/Academy";
 import { QuarterlyPayments } from "./components/QuarterlyPayments";
 import AdminReturns from "./components/pages/AdminReturns";
 import AdminPromoCodes from "./components/pages/AdminPromoCodes";
+import AdminIntake from "./components/pages/AdminIntake";
 
 function Router() {
   return (
@@ -107,6 +108,9 @@ function Router() {
       </Route>
       <Route path="/admin/promo-codes">
         {() => <AppShell><AdminPromoCodes /></AppShell>}
+      </Route>
+      <Route path="/admin/intake">
+        {() => <AppShell><AdminIntake /></AppShell>}
       </Route>
 
       {/* Fallback */}

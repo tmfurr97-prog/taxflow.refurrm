@@ -1125,12 +1125,55 @@ Return a JSON object with:
     }),
 
   adminList: protectedProcedure
-    .query(async ({ ctx }) => {
+    .input(z.object({
+      status: z.string().optional(),
+      taxYear: z.number().optional(),
+      paymentType: z.string().optional(),
+    }).optional())
+    .query(async ({ ctx, input }) => {
       if (ctx.user.role !== 'admin') throw new Error('Forbidden');
       const db = await getDb();
       if (!db) return [];
-      return await db.select().from(taxIntakeSubmissions)
+      const conditions = [];
+      if (input?.status) conditions.push(eq(taxIntakeSubmissions.status, input.status as any));
+      if (input?.taxYear) conditions.push(eq(taxIntakeSubmissions.taxYear, input.taxYear));
+      if (input?.paymentType) conditions.push(eq(taxIntakeSubmissions.paymentType, input.paymentType as any));
+      const query = db.select().from(taxIntakeSubmissions)
         .orderBy(desc(taxIntakeSubmissions.createdAt));
+      if (conditions.length > 0) {
+        return await db.select().from(taxIntakeSubmissions)
+          .where(and(...conditions))
+          .orderBy(desc(taxIntakeSubmissions.createdAt));
+      }
+      return await query;
+    }),
+  updateStatus: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      status: z.enum(["draft", "submitted", "in_review", "ready_to_sign", "filed"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.role !== 'admin') throw new Error('Forbidden');
+      const db = await getDb();
+      if (!db) throw new Error('Database unavailable');
+      await db.update(taxIntakeSubmissions)
+        .set({ status: input.status })
+        .where(eq(taxIntakeSubmissions.id, input.id));
+      return { success: true };
+    }),
+  addNote: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      note: z.string().max(5000),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user.role !== 'admin') throw new Error('Forbidden');
+      const db = await getDb();
+      if (!db) throw new Error('Database unavailable');
+      await db.update(taxIntakeSubmissions)
+        .set({ preparerNotes: input.note })
+        .where(eq(taxIntakeSubmissions.id, input.id));
+      return { success: true };
     }),
 });
 
