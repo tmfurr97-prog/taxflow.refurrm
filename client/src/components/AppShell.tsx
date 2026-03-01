@@ -22,7 +22,7 @@ const navItems = [
   { icon: Bitcoin, label: 'Crypto Taxes', path: '/crypto' },
   { icon: Shield, label: 'Audit Defense', path: '/audit-defense' },
   { icon: Send, label: 'E-File', path: '/efile' },
-  { icon: Home, label: 'Remote Returns', path: '/remote-returns' },
+  { icon: Home, label: 'File Your Taxes', path: '/file-taxes' },
   { icon: FileText, label: 'Notary Services', path: '/notary' },
   { icon: Database, label: 'Backups', path: '/backups' },
   { icon: BookOpen, label: 'Academy', path: '/academy' },

@@ -260,3 +260,22 @@
 - [x] Inline row editing: click pencil → row fields become editable inputs, save via receipts.update tRPC
 - [x] Add "Bank Statements & Fees" and "Contractor Payments" to CATEGORIES list
 - [x] AI confirmation dialog: wire Confirm to actually call receipts.update so edits persist
+
+## Tax Intake Page (Public, No Account Required)
+- [x] DB schema: tax_intake_submissions table (anonymous + logged-in, all IRS fields, JSON for dependents/docs/donations)
+- [x] tRPC: intake.create (public), intake.getById (for preparer), intake.list (admin)
+- [x] S3 upload endpoint for anonymous document uploads (/api/upload/intake-doc)
+- [x] TaxIntake.tsx: 7-step wizard (Contact, Filing Status, Dependents, Income Docs, Deductions, Donations, Review + Pay)
+- [x] AI completeness check: scan submitted data, flag missing required docs before payment
+- [x] Stripe checkout: $199 basic filing OR $0 free consult
+- [x] Public routes: /file-taxes and /remote-returns both serve TaxIntake wizard
+- [x] Nav item renamed to "File Your Taxes" in AppShell sidebar
+
+## Tax Intake Wizard Steps
+- Step 1: Contact Info (name, email, phone, DOB, SSN last 4, address)
+- Step 2: Filing Status + Spouse Info (if MFJ/MFS)
+- Step 3: Dependents (add/remove cards)
+- Step 4: Income Documents (checklist dropdown: W-2, 1099-NEC, 1099-K, 1099-MISC, 1099-INT, 1099-DIV, 1099-R, SSA-1099, K-1, Schedule C, crypto, other — upload per item)
+- Step 5: Deductions (mortgage interest, property tax, medical, student loan, educator, retirement, home office sqft)
+- Step 6: Donations (add charity name, amount, cash/non-cash, receipt upload)
+- Step 7: Review + AI completeness check + Payment ($0 consult / $199 file)

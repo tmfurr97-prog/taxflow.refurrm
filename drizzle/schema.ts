@@ -388,3 +388,45 @@ export const efileSubmissions = mysqlTable("efile_submissions", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
+
+// ─── Tax Intake Submissions (public, no account required) ────────────────────
+export const taxIntakeSubmissions = mysqlTable("tax_intake_submissions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId"), // null if anonymous
+  taxYear: int("taxYear").notNull(),
+  // Contact
+  firstName: varchar("firstName", { length: 64 }),
+  middleInitial: varchar("middleInitial", { length: 4 }),
+  lastName: varchar("lastName", { length: 64 }),
+  email: varchar("email", { length: 128 }),
+  phone: varchar("phone", { length: 32 }),
+  dateOfBirth: varchar("dateOfBirth", { length: 16 }),
+  ssnLast4: varchar("ssnLast4", { length: 4 }),
+  streetAddress: varchar("streetAddress", { length: 256 }),
+  aptSuite: varchar("aptSuite", { length: 64 }),
+  city: varchar("city", { length: 64 }),
+  state: varchar("state", { length: 2 }),
+  zip: varchar("zip", { length: 10 }),
+  // Filing status
+  filingStatus: mysqlEnum("filingStatus2", ["single", "married_jointly", "married_separately", "head_of_household", "qualifying_widow"]),
+  spouseFirstName: varchar("spouseFirstName", { length: 64 }),
+  spouseLastName: varchar("spouseLastName", { length: 64 }),
+  spouseDob: varchar("spouseDob", { length: 16 }),
+  spouseSsnLast4: varchar("spouseSsnLast4", { length: 4 }),
+  // JSON fields
+  dependents: json("dependents"),
+  incomeDocs: json("incomeDocs"),
+  deductions: json("deductions"),
+  donations: json("donations"),
+  additionalNotes: varchar("additionalNotes", { length: 2000 }),
+  // Status & payment
+  status: mysqlEnum("intakeStatus", ["draft", "submitted", "in_review", "ready_to_sign", "filed"]).default("draft"),
+  paymentType: mysqlEnum("paymentType", ["free_consult", "basic_filing"]),
+  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 128 }),
+  aiReviewNotes: text("aiReviewNotes"),
+  preparerNotes: text("preparerNotes"),
+  createdAt: timestamp("intakeCreatedAt").defaultNow().notNull(),
+  updatedAt: timestamp("intakeUpdatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TaxIntakeSubmission = typeof taxIntakeSubmissions.$inferSelect;
+export type InsertTaxIntakeSubmission = typeof taxIntakeSubmissions.$inferInsert;

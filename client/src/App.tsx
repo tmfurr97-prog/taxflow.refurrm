@@ -34,7 +34,7 @@ import BusinessEntities from "./components/pages/BusinessEntities";
 import AuditDefense from "./components/pages/AuditDefense";
 import Backups from "./components/pages/Backups";
 import EFile from "./components/pages/EFile";
-import RemoteReturns from "./components/pages/RemoteReturns";
+import TaxIntake from "./components/pages/TaxIntake";
 import CryptoTaxes from "./components/pages/CryptoTaxes";
 import Academy from "./components/pages/Academy";
 import { QuarterlyPayments } from "./components/QuarterlyPayments";
@@ -85,7 +85,10 @@ function Router() {
         {() => <AppShell><EFile /></AppShell>}
       </Route>
       <Route path="/remote-returns">
-        {() => <AppShell><RemoteReturns /></AppShell>}
+        {() => <TaxIntake />}
+      </Route>
+      <Route path="/file-taxes">
+        {() => <TaxIntake />}
       </Route>
       <Route path="/notary">
         {() => <AppShell><NotaryServices /></AppShell>}

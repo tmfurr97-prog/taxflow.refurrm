@@ -71,6 +71,13 @@
       "when": 1772253583933,
       "tag": "0009_rapid_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1772351912951,
+      "tag": "0010_motionless_living_mummy",
+      "breakpoints": true
     }
   ]
 }

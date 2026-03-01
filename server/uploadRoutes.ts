@@ -322,5 +322,24 @@ export function registerUploadRoutes(app: express.Application) {
     }
   );
 
+  // POST /api/upload/intake-doc (public, no auth required)
+  router.post(
+    "/intake-doc",
+    upload.single("file"),
+    async (req: Request, res: Response) => {
+      try {
+        if (!req.file) return res.status(400).json({ error: "No file provided" });
+        const docType = (req.body.docType || "document").replace(/[^a-zA-Z0-9._-]/g, "_");
+        const safeFileName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const fileKey = `intake-docs/${Date.now()}-${nanoid(8)}-${docType}-${safeFileName}`;
+        const { url } = await storagePut(fileKey, req.file.buffer, req.file.mimetype);
+        return res.json({ success: true, url, fileName: req.file.originalname, fileKey, docType });
+      } catch (err: any) {
+        console.error("[Upload/IntakeDoc] Error:", err);
+        return res.status(500).json({ error: err.message ?? "Upload failed" });
+      }
+    }
+  );
+
   app.use("/api/upload", router);
 }

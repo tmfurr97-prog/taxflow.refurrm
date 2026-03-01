@@ -9,7 +9,7 @@ import {
   chatMessages, receipts, taxDocuments, transactions,
   quarterlyPayments, businessEntities, cryptoTransactions,
   auditItems, backups, notarySessions, efileSubmissions, mileageLogs,
-  users, promoCodes, promoRedemptions, homeOfficeData
+  users, promoCodes, promoRedemptions, homeOfficeData, taxIntakeSubmissions
 } from "../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { storagePut } from "./storage";
@@ -1018,6 +1018,122 @@ const homeOfficeRouter = router({
     }),
 });
 
+// ─── Tax Intake Router (public, no account required) ─────────────────────────
+const intakeRouter = router({
+  create: publicProcedure
+    .input(z.object({
+      taxYear: z.number(),
+      firstName: z.string().optional(),
+      middleInitial: z.string().optional(),
+      lastName: z.string().optional(),
+      email: z.string().email().optional(),
+      phone: z.string().optional(),
+      dateOfBirth: z.string().optional(),
+      ssnLast4: z.string().max(4).optional(),
+      streetAddress: z.string().optional(),
+      aptSuite: z.string().optional(),
+      city: z.string().optional(),
+      state: z.string().max(2).optional(),
+      zip: z.string().optional(),
+      filingStatus: z.enum(["single","married_jointly","married_separately","head_of_household","qualifying_widow"]).optional(),
+      spouseFirstName: z.string().optional(),
+      spouseLastName: z.string().optional(),
+      spouseDob: z.string().optional(),
+      spouseSsnLast4: z.string().max(4).optional(),
+      dependents: z.any().optional(),
+      incomeDocs: z.any().optional(),
+      deductions: z.any().optional(),
+      donations: z.any().optional(),
+      additionalNotes: z.string().max(2000).optional(),
+      paymentType: z.enum(["free_consult","basic_filing"]).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const userId = ctx.user?.id ?? null;
+      const result = await db.insert(taxIntakeSubmissions).values({
+        userId,
+        taxYear: input.taxYear,
+        firstName: input.firstName,
+        middleInitial: input.middleInitial,
+        lastName: input.lastName,
+        email: input.email,
+        phone: input.phone,
+        dateOfBirth: input.dateOfBirth,
+        ssnLast4: input.ssnLast4,
+        streetAddress: input.streetAddress,
+        aptSuite: input.aptSuite,
+        city: input.city,
+        state: input.state,
+        zip: input.zip,
+        filingStatus: input.filingStatus,
+        spouseFirstName: input.spouseFirstName,
+        spouseLastName: input.spouseLastName,
+        spouseDob: input.spouseDob,
+        spouseSsnLast4: input.spouseSsnLast4,
+        dependents: input.dependents ?? [],
+        incomeDocs: input.incomeDocs ?? [],
+        deductions: input.deductions ?? {},
+        donations: input.donations ?? [],
+        additionalNotes: input.additionalNotes,
+        paymentType: input.paymentType,
+        status: "submitted",
+      });
+      return { success: true, id: (result as any).insertId };
+    }),
+
+  aiReview: publicProcedure
+    .input(z.object({
+      filingStatus: z.string().optional(),
+      hasDependents: z.boolean().optional(),
+      incomeDocs: z.array(z.object({ type: z.string(), uploaded: z.boolean() })).optional(),
+      deductions: z.record(z.string(), z.any()).optional(),
+      donations: z.array(z.any()).optional(),
+      selfEmployed: z.boolean().optional(),
+      hasSpouse: z.boolean().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const prompt = `You are a tax preparer reviewing a client intake form. Identify any missing or incomplete items.
+
+Filing status: ${input.filingStatus || 'not provided'}
+Has dependents: ${input.hasDependents ? 'yes' : 'no'}
+Has spouse: ${input.hasSpouse ? 'yes' : 'no'}
+Self-employed: ${input.selfEmployed ? 'yes' : 'no'}
+Income documents: ${JSON.stringify(input.incomeDocs || [])}
+Deductions provided: ${JSON.stringify(input.deductions || {})}
+Donations: ${(input.donations || []).length} entries
+
+Return a JSON object with:
+- missing: string[] (list of missing required items, e.g. "W-2 not uploaded", "Spouse SSN missing")
+- warnings: string[] (optional but recommended items, e.g. "No retirement contributions listed")
+- ready: boolean (true if the return looks complete enough to proceed)
+- summary: string (1-2 sentence plain English summary for the client)`;
+
+      const response = await invokeLLM({
+        messages: [
+          { role: "system", content: "You are a professional tax preparer. Return valid JSON only." },
+          { role: "user", content: prompt },
+        ],
+        response_format: { type: "json_object" },
+      });
+      const raw = response.choices[0]?.message?.content;
+      try {
+        return JSON.parse(typeof raw === 'string' ? raw : '{}');
+      } catch {
+        return { missing: [], warnings: [], ready: true, summary: "Your intake looks complete." };
+      }
+    }),
+
+  adminList: protectedProcedure
+    .query(async ({ ctx }) => {
+      if (ctx.user.role !== 'admin') throw new Error('Forbidden');
+      const db = await getDb();
+      if (!db) return [];
+      return await db.select().from(taxIntakeSubmissions)
+        .orderBy(desc(taxIntakeSubmissions.createdAt));
+    }),
+});
+
 // ─── App Router ───────────────────────────────────────────────────────────────
 export const appRouter = router({
   system: systemRouter,
@@ -1044,5 +1160,6 @@ export const appRouter = router({
   promoCodes: promoCodesRouter,
   mileage: mileageRouter,
   homeOffice: homeOfficeRouter,
+  intake: intakeRouter,
 });
 export type AppRouter = typeof appRouter;
