@@ -290,3 +290,7 @@
 - [x] Filter bar: by status, tax year, payment type (consult vs paid)
 - [x] Add /admin/intake route to App.tsx
 - [x] Add "Admin: Intake" to AppShell admin nav section
+
+## Landing Page CTA
+- [x] Add prominent "File Your Taxes" CTA button to hero section linking to /file-taxes
+- [x] Add "File Your Taxes" link to top nav on landing page

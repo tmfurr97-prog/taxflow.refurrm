@@ -14,6 +14,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 const NAV_LINKS = [
   { label: "Features", href: "/features" },
   { label: "Pricing", href: "/pricing" },
+  { label: "File Your Taxes", href: "/file-taxes" },
   { label: "Blog", href: "/blog" },
   { label: "Academy", href: "/academy" },
 ];
@@ -125,14 +126,14 @@ export default function Landing() {
                 Your year-round tax assistant. Store receipts, track expenses, and stay audit-ready automatically — no manual entry, no stress, no surprise bills.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" onClick={handleGetStarted} className="bg-emerald-500 hover:bg-emerald-600 text-white text-lg px-8 h-14 font-semibold gap-2">
-                  Get Started Free <ArrowRight className="w-5 h-5" />
-                </Button>
-                <Link href="/pricing">
-                  <Button size="lg" variant="outline" className="border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent text-lg px-8 h-14 gap-2 w-full sm:w-auto">
-                    View Pricing
+                <Link href="/file-taxes">
+                  <Button size="lg" className="bg-emerald-500 hover:bg-emerald-600 text-white text-lg px-8 h-14 font-semibold gap-2 w-full sm:w-auto shadow-lg shadow-emerald-500/30">
+                    File Your Taxes <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>
+                <Button size="lg" variant="outline" onClick={handleGetStarted} className="border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent text-lg px-8 h-14 gap-2">
+                  Get Started Free
+                </Button>
                 <a href="https://calendly.com/refurrm-llc/30min" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                   <Button size="lg" variant="outline" className="border-emerald-700 text-emerald-400 hover:bg-emerald-50 bg-transparent text-lg px-8 h-14 gap-2 w-full">
                     <CalendarDays className="w-5 h-5" /> Book a Free Consultation
@@ -311,8 +312,13 @@ export default function Landing() {
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Transform your tax experience today</h2>
           <p className="text-xl text-gray-500 mb-10">Join thousands of professionals who have automated their tax workflow. Start free — no credit card needed.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={handleGetStarted} className="bg-emerald-500 hover:bg-emerald-600 text-white text-lg px-10 h-14 font-semibold gap-2">
-              Get Started Free <ArrowRight className="w-5 h-5" />
+            <Link href="/file-taxes">
+              <Button size="lg" className="bg-emerald-500 hover:bg-emerald-600 text-white text-lg px-10 h-14 font-semibold gap-2 w-full sm:w-auto shadow-lg shadow-emerald-500/30">
+                File Your Taxes Now <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+            <Button size="lg" variant="outline" onClick={handleGetStarted} className="border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent text-lg px-10 h-14 gap-2">
+              Get Started Free
             </Button>
             <Link href="/pricing">
               <Button size="lg" variant="outline" className="border-gray-200 text-gray-600 hover:bg-gray-100 bg-transparent text-lg px-10 h-14 gap-2 w-full sm:w-auto">
