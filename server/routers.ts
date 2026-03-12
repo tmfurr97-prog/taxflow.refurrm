@@ -1177,6 +1177,85 @@ Return a JSON object with:
     }),
 });
 
+// ─── QuickBooks Online Router ─────────────────────────────────────────────────
+import { getValidToken, fetchTransactions, fetchProfitLoss, fetchBalanceSheet, QBOPurchase } from "./qbo";
+import { qboConnections } from "../drizzle/schema";
+
+const qboRouter = router({
+  /** Check if current user has a connected QBO account */
+  status: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { connected: false };
+    const rows = await db.select().from(qboConnections)
+      .where(eq(qboConnections.userId, ctx.user.id)).limit(1);
+    if (rows.length === 0) return { connected: false };
+    const conn = rows[0];
+    const tokenExpired = Date.now() > conn.refreshTokenExpiry;
+    return {
+      connected: !tokenExpired,
+      companyName: conn.companyName,
+      realmId: conn.realmId,
+      environment: conn.environment,
+      connectedAt: conn.createdAt,
+    };
+  }),
+
+  /** Disconnect QBO */
+  disconnect: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("Database unavailable");
+    await db.delete(qboConnections).where(eq(qboConnections.userId, ctx.user.id));
+    return { success: true };
+  }),
+
+  /** Sync QBO transactions into TaxFlow receipts */
+  syncTransactions: protectedProcedure
+    .input(z.object({
+      startDate: z.string(),
+      endDate: z.string(),
+      taxYear: z.number().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const token = await getValidToken(ctx.user.id);
+      if (!token) throw new Error("QuickBooks not connected. Please reconnect.");
+      const purchases = await fetchTransactions(token.accessToken, token.realmId, input.startDate, input.endDate);
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const year = input.taxYear || new Date(input.startDate).getFullYear();
+      let inserted = 0;
+      for (const p of purchases as QBOPurchase[]) {
+        const vendor = p.EntityRef?.name || p.AccountRef?.name || "Unknown Vendor";
+        const amount = String(p.TotalAmt ?? 0);
+        const date = p.TxnDate;
+        const description = p.Line?.[0]?.Description || p.PrivateNote || "";
+        const category = p.Line?.[0]?.AccountBasedExpenseLineDetail?.AccountRef?.name || "Business Expense";
+        await db.insert(receipts).values({
+          userId: ctx.user.id, taxYear: year, vendor, amount, date, category, description, isDeductible: true,
+        }).onDuplicateKeyUpdate({ set: { vendor } });
+        inserted++;
+      }
+      return { inserted, total: purchases.length };
+    }),
+
+  /** Fetch P&L report from QBO */
+  profitLoss: protectedProcedure
+    .input(z.object({ startDate: z.string(), endDate: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const token = await getValidToken(ctx.user.id);
+      if (!token) throw new Error("QuickBooks not connected.");
+      return fetchProfitLoss(token.accessToken, token.realmId, input.startDate, input.endDate);
+    }),
+
+  /** Fetch Balance Sheet from QBO */
+  balanceSheet: protectedProcedure
+    .input(z.object({ asOfDate: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const token = await getValidToken(ctx.user.id);
+      if (!token) throw new Error("QuickBooks not connected.");
+      return fetchBalanceSheet(token.accessToken, token.realmId, input.asOfDate);
+    }),
+});
+
 // ─── App Router ───────────────────────────────────────────────────────────────
 export const appRouter = router({
   system: systemRouter,
@@ -1204,5 +1283,6 @@ export const appRouter = router({
   mileage: mileageRouter,
   homeOffice: homeOfficeRouter,
   intake: intakeRouter,
+  qbo: qboRouter,
 });
 export type AppRouter = typeof appRouter;

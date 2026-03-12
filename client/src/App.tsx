@@ -41,6 +41,7 @@ import { QuarterlyPayments } from "./components/QuarterlyPayments";
 import AdminReturns from "./components/pages/AdminReturns";
 import AdminPromoCodes from "./components/pages/AdminPromoCodes";
 import AdminIntake from "./components/pages/AdminIntake";
+import QBOConnect from "./components/pages/QBOConnect";
 
 function Router() {
   return (
@@ -111,6 +112,9 @@ function Router() {
       </Route>
       <Route path="/admin/intake">
         {() => <AppShell><AdminIntake /></AppShell>}
+      </Route>
+      <Route path="/quickbooks">
+        {() => <AppShell><QBOConnect /></AppShell>}
       </Route>
 
       {/* Fallback */}

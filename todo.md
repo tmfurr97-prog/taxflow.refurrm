@@ -294,3 +294,19 @@
 ## Landing Page CTA
 - [x] Add prominent "File Your Taxes" CTA button to hero section linking to /file-taxes
 - [x] Add "File Your Taxes" link to top nav on landing page
+
+## QuickBooks Online Integration
+- [x] Install intuit-oauth and node-quickbooks npm packages
+- [x] DB schema: qbo_connections table (userId, realmId, accessToken, refreshToken, tokenExpiry, environment)
+- [x] Server: /api/qbo/connect route (generates OAuth URL, redirects user to Intuit)
+- [x] Server: /api/qbo/callback route (exchanges code for tokens, stores in DB)
+- [x] tRPC: qbo.status (is connected, realmId, company name)
+- [x] tRPC: qbo.syncTransactions (pull expenses/purchases from QBO into receipts ledger)
+- [x] tRPC: qbo.profitLoss (fetch P&L report from QBO Reports API)
+- [x] tRPC: qbo.balanceSheet (fetch Balance Sheet from QBO Reports API)
+- [x] tRPC: qbo.disconnect (remove connection)
+- [x] UI: QBOConnect.tsx page at /quickbooks — connect button, date range, sync panel, P&L table, balance sheet
+- [x] Add /quickbooks route to App.tsx
+- [x] Add QuickBooks nav item to AppShell sidebar
+- [x] Token refresh middleware (auto-refresh expired access tokens using refresh token — handled in getValidToken in qbo.ts)
+- [x] Vitest: validate QBO credentials can reach Intuit discovery document (qbo.credentials.test.ts — 5 tests passing)

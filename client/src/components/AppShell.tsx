@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Building2, Shield, Bitcoin, Receipt,
   CreditCard, User, LogOut, Menu, X, Send, Database,
   FileText, BookOpen, ChevronLeft, ChevronRight, Home,
-  DollarSign, NotebookPen, Users, ShieldCheck
+  DollarSign, NotebookPen, Users, ShieldCheck, Link2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getLoginUrl } from '@/const';
@@ -27,6 +27,7 @@ const navItems = [
   { icon: Database, label: 'Backups', path: '/backups' },
   { icon: BookOpen, label: 'Academy', path: '/academy' },
   { icon: User, label: 'Profile', path: '/profile' },
+  { icon: Link2, label: 'QuickBooks', path: '/quickbooks' },
 ];
 
 interface AppShellProps {

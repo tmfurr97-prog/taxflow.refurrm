@@ -9,6 +9,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { registerStripeWebhook } from "../stripeWebhook";
 import { registerUploadRoutes } from "../uploadRoutes";
+import { registerQboRoutes } from "../qboRoutes";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -42,6 +43,8 @@ async function startServer() {
 
   // File upload routes (must be before tRPC to handle multipart)
   registerUploadRoutes(app);
+  // QuickBooks Online OAuth routes
+  registerQboRoutes(app);
   // tRPC API
   app.use(
     "/api/trpc",

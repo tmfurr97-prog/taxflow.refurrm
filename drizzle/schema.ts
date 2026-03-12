@@ -430,3 +430,21 @@ export const taxIntakeSubmissions = mysqlTable("tax_intake_submissions", {
 });
 export type TaxIntakeSubmission = typeof taxIntakeSubmissions.$inferSelect;
 export type InsertTaxIntakeSubmission = typeof taxIntakeSubmissions.$inferInsert;
+
+// ─── QuickBooks Online Connections ───────────────────────────────────────────
+import { bigint } from "drizzle-orm/mysql-core";
+export const qboConnections = mysqlTable("qbo_connections", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  realmId: varchar("realmId", { length: 64 }).notNull(),
+  companyName: varchar("companyName", { length: 256 }),
+  accessToken: text("accessToken").notNull(),
+  refreshToken: text("refreshToken").notNull(),
+  tokenExpiry: bigint("tokenExpiry", { mode: "number" }).notNull(),
+  refreshTokenExpiry: bigint("refreshTokenExpiry", { mode: "number" }).notNull(),
+  environment: varchar("environment", { length: 16 }).default("sandbox").notNull(),
+  createdAt: timestamp("qboCreatedAt").defaultNow().notNull(),
+  updatedAt: timestamp("qboUpdatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type QboConnection = typeof qboConnections.$inferSelect;
+export type InsertQboConnection = typeof qboConnections.$inferInsert;
