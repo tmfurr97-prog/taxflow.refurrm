@@ -1,25 +1,128 @@
 <!doctype html>
 <html lang="en" class="dark">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>TaxFlow - Year-Round Tax Automation</title>    
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&display=swap" rel="stylesheet" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
-  </body>
+  <!-- Viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <!-- Title -->
+  <title>TaxFlow | SmartBooks Tax Automation</title>
+
+  <!-- SEO -->
+  <meta name="description" content="TaxFlow provides year-round tax automation for individuals, gig workers, and small businesses. Powered by SmartBooks Advisor services when you need expert support." />
+  <meta name="keywords" content="tax automation, bookkeeping, gig worker taxes, small business taxes, SmartBooks, TaxFlow, automated tax filing" />
+  <meta name="author" content="ReFURRM" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="TaxFlow | Year-Round Tax Automation" />
+  <meta property="og:description" content="Automated tax tools with optional SmartBooks advisor support for individuals, gig workers, and small businesses." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://taxflow.smartbooks.ai" />
+  <meta property="og:image" content="/social-preview.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&display=swap" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <!-- React Root -->
+  <div id="root"></div>
+
+
+  <!-- Global Footer (visible before React hydration if needed) -->
+  <footer style="font-family: Inter, sans-serif; padding:40px 20px; text-align:center; background:#f8fafc; border-top:1px solid #e5e7eb;">
+
+    <div style="max-width:900px;margin:auto;">
+
+      <h3 style="margin-bottom:10px;">TaxFlow • SmartBooks</h3>
+
+      <p style="font-size:14px;color:#6b7280;">
+        TaxFlow provides year-round tax automation with optional SmartBooks advisor services for individuals,
+        gig workers, and small businesses.
+      </p>
+
+      <!-- Contact -->
+      <div style="margin-top:20px;font-size:14px;">
+        <p><strong>Contact</strong></p>
+        <p>Email: <a href="mailto:contact@smartbooks.ai">contact@smartbooks.ai</a></p>
+        <p>Support: <a href="mailto:support@smartbooks.ai">support@smartbooks.ai</a></p>
+        <p>Website: <a href="https://smartbooks.ai">smartbooks.ai</a></p>
+      </div>
+
+
+      <!-- Social Links -->
+      <div style="margin-top:25px;">
+
+        <a href="https://twitter.com/SmartBooksAI" style="margin:0 10px;">Twitter</a>
+
+        <a href="https://facebook.com/SmartBooksAI" style="margin:0 10px;">Facebook</a>
+
+        <a href="https://linkedin.com/company/smartbooks-ai" style="margin:0 10px;">LinkedIn</a>
+
+        <a href="https://github.com/ReFurrm" style="margin:0 10px;">GitHub</a>
+
+      </div>
+
+
+      <!-- Donate -->
+      <div style="margin-top:30px;">
+
+        <a href="https://refurrm.org/lean-foundation"
+           style="padding:12px 22px;
+                  background:#0f766e;
+                  color:white;
+                  text-decoration:none;
+                  border-radius:8px;
+                  font-weight:600;">
+
+          Donate • LEAN Foundation
+
+        </a>
+
+        <p style="margin-top:8px;font-size:13px;color:#6b7280;">
+          Proceeds support the LEAN Foundation mission restoring fairness and accountability in the storage auction system.
+        </p>
+
+      </div>
+
+
+      <!-- Legal -->
+      <div style="margin-top:35px;font-size:12px;color:#9ca3af;">
+
+        <p>© 2026 ReFURRM. All rights reserved.</p>
+
+        <p>
+          <a href="/privacy">Privacy Policy</a> •
+          <a href="/terms">Terms of Service</a>
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- React App -->
+  <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Analytics -->
+  <script
+    defer
+    src="%VITE_ANALYTICS_ENDPOINT%/umami"
+    data-website-id="%VITE_ANALYTICS_WEBSITE_ID%">
+  </script>
+
+</body>
 
 </html>
