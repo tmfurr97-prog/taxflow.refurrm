@@ -2,6 +2,7 @@
 <html lang="en" class="dark">
 
 <head>
+
   <meta charset="UTF-8" />
 
   <!-- Viewport -->
@@ -11,8 +12,10 @@
   <title>TaxFlow | SmartBooks Tax Automation</title>
 
   <!-- SEO -->
-  <meta name="description" content="TaxFlow provides year-round tax automation for individuals, gig workers, and small businesses. Powered by SmartBooks Advisor services when you need expert support." />
+  <meta name="description" content="TaxFlow provides year-round tax automation for individuals, gig workers, and small businesses. SmartBooks advisor services are available when you prefer professional support." />
+
   <meta name="keywords" content="tax automation, bookkeeping, gig worker taxes, small business taxes, SmartBooks, TaxFlow, automated tax filing" />
+
   <meta name="author" content="ReFURRM" />
 
   <!-- Open Graph -->
@@ -22,14 +25,20 @@
   <meta property="og:url" content="https://taxflow.smartbooks.ai" />
   <meta property="og:image" content="/social-preview.png" />
 
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#0f766e" />
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&display=swap"
+    rel="stylesheet" />
 
 </head>
 
@@ -38,8 +47,7 @@
   <!-- React Root -->
   <div id="root"></div>
 
-
-  <!-- Global Footer (visible before React hydration if needed) -->
+  <!-- Global Footer (static fallback) -->
   <footer style="font-family: Inter, sans-serif; padding:40px 20px; text-align:center; background:#f8fafc; border-top:1px solid #e5e7eb;">
 
     <div style="max-width:900px;margin:auto;">
@@ -56,34 +64,29 @@
         <p><strong>Contact</strong></p>
         <p>Email: <a href="mailto:contact@smartbooks.ai">contact@smartbooks.ai</a></p>
         <p>Support: <a href="mailto:support@smartbooks.ai">support@smartbooks.ai</a></p>
-        <p>Website: <a href="https://smartbooks.ai">smartbooks.ai</a></p>
+        <p>Website: <a href="https://smartbooks.ai" target="_blank" rel="noopener">smartbooks.ai</a></p>
       </div>
-
 
       <!-- Social Links -->
       <div style="margin-top:25px;">
 
-        <a href="https://twitter.com/SmartBooksAI" style="margin:0 10px;">Twitter</a>
+        <a href="https://twitter.com/SmartBooksAI" target="_blank" rel="noopener" style="margin:0 10px;">Twitter</a>
 
-        <a href="https://facebook.com/SmartBooksAI" style="margin:0 10px;">Facebook</a>
+        <a href="https://facebook.com/SmartBooksAI" target="_blank" rel="noopener" style="margin:0 10px;">Facebook</a>
 
-        <a href="https://linkedin.com/company/smartbooks-ai" style="margin:0 10px;">LinkedIn</a>
+        <a href="https://linkedin.com/company/smartbooks-ai" target="_blank" rel="noopener" style="margin:0 10px;">LinkedIn</a>
 
-        <a href="https://github.com/ReFurrm" style="margin:0 10px;">GitHub</a>
+        <a href="https://github.com/ReFurrm" target="_blank" rel="noopener" style="margin:0 10px;">GitHub</a>
 
       </div>
-
 
       <!-- Donate -->
       <div style="margin-top:30px;">
 
         <a href="https://refurrm.org/lean-foundation"
-           style="padding:12px 22px;
-                  background:#0f766e;
-                  color:white;
-                  text-decoration:none;
-                  border-radius:8px;
-                  font-weight:600;">
+           target="_blank"
+           rel="noopener"
+           style="padding:12px 22px;background:#0f766e;color:white;text-decoration:none;border-radius:8px;font-weight:600;">
 
           Donate • LEAN Foundation
 
@@ -94,7 +97,6 @@
         </p>
 
       </div>
-
 
       <!-- Legal -->
       <div style="margin-top:35px;font-size:12px;color:#9ca3af;">
@@ -111,7 +113,6 @@
     </div>
 
   </footer>
-
 
   <!-- React App -->
   <script type="module" src="/src/main.tsx"></script>
