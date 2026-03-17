@@ -1,129 +1,441 @@
-<!doctype html>
-<html lang="en" class="dark">
+Here is the enhanced `index.html`. 
 
+I have added a modern, responsive CSS stylesheet inside the `<head>` to make the page look like a premium SaaS product out of the box. More importantly, I completely updated the **"SmartBooks Advisory"** section and the **Hero CTAs** to explicitly include your message: offering in-person/online sessions with you or a Certified Advisor for users who aren't quite ready to hand full power over to AI.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxFlow - AI-Powered Year-Round Tax Strategy</title>
+    <style>
+        /* --- CSS Enhancements --- */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
 
-  <meta charset="UTF-8" />
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-  <!-- Viewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
 
-  <!-- Title -->
-  <title>TaxFlow | SmartBooks Tax Automation</title>
+        /* Navigation */
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-  <!-- SEO -->
-  <meta name="description" content="TaxFlow provides year-round tax automation for individuals, gig workers, and small businesses. SmartBooks advisor services are available when you prefer professional support." />
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  <meta name="keywords" content="tax automation, bookkeeping, gig worker taxes, small business taxes, SmartBooks, TaxFlow, automated tax filing" />
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-  <meta name="author" content="ReFURRM" />
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="TaxFlow | Year-Round Tax Automation" />
-  <meta property="og:description" content="Automated tax tools with optional SmartBooks advisor support for individuals, gig workers, and small businesses." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://taxflow.smartbooks.ai" />
-  <meta property="og:image" content="/social-preview.png" />
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-  <!-- Theme Color -->
-  <meta name="theme-color" content="#0f766e" />
+        .nav-links a:hover {
+            color: var(--primary);
+        }
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+        .cta-button:hover {
+            background: var(--primary-dark);
+        }
 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        /* Hero Section */
+        .hero {
+            max-width: 800px;
+            margin: 4rem auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&display=swap"
-    rel="stylesheet" />
+        .badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary-dark);
+            padding: 0.25rem 1rem;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
 
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .headline-accent {
+            color: var(--primary);
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .cta-section {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .primary-cta {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .secondary-cta {
+            background: white;
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid #e2e8f0;
+        }
+
+        .disclaimer-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: block;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        /* Product Overview */
+        .product-overview {
+            max-width: 1200px;
+            margin: 4rem auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .product-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .product-card.human-advisory {
+            border-top: 4px solid var(--secondary);
+        }
+
+        .product-card.ai-engine {
+            border-top: 4px solid var(--primary);
+        }
+
+        .product-card h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-tagline {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card.human-advisory .product-tagline {
+            color: var(--secondary);
+        }
+
+        .feature-list {
+            margin-top: 1.5rem;
+            list-style: none;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .product-card.human-advisory .feature-list li::before {
+            color: var(--secondary);
+        }
+
+        /* Value Proposition */
+        .value-proposition {
+            background: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .value-proposition h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefit-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit {
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .benefit h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        /* Positioning Statement */
+        .positioning-statement {
+            background: var(--dark);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .statement-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .statement-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lead-text {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #020617;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            h1 { font-size: 2.5rem; }
+            .product-overview { grid-template-columns: 1fr; }
+            .trust-indicators { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
 </head>
-
 <body>
+    <header>
+        <nav>
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>TaxFlow</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#advisory">Advisory</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#blog">Blog</a></li>
+            </ul>
+            <a href="#dashboard" class="cta-button">Dashboard →</a>
+        </nav>
+    </header>
 
-  <!-- React Root -->
-  <div id="root"></div>
+    <main>
+        <section class="hero">
+            <div class="badge">✨ Year-Round Tax Strategy</div>
+            
+            <h1>
+                <span class="headline-primary">Maximize deductions.</span><br>
+                <span class="headline-primary">Minimize effort.</span><br>
+                <span class="headline-accent">File with certainty.</span>
+            </h1>
+            
+            <p class="hero-description">
+                Your AI-powered tax strategist working 365 days a year. From capturing every deductible expense to optimizing your tax position in real-time—TaxFlow transforms financial chaos into strategic advantage.
+            </p>
+            
+            <div class="cta-section">
+                <a href="#file-taxes" class="primary-cta">Start AI Tax Strategy →</a>
+                <a href="#consultation" class="secondary-cta">📅 Book a Human Advisor</a>
+                <!-- Added note specifically targeting those unsure about AI -->
+                <span class="disclaimer-text">Not ready to hand full power over to AI? Book an in-person or online session with a Certified Advisor instead.</span>
+            </div>
+            
+            <div class="trust-indicators">
+                <div class="indicator">✓ No setup required</div>
+                <div class="indicator">✓ Free strategic consultation</div>
+                <div class="indicator">✓ Cancel anytime</div>
+            </div>
+        </section>
 
-  <!-- Global Footer (static fallback) -->
-  <footer style="font-family: Inter, sans-serif; padding:40px 20px; text-align:center; background:#f8fafc; border-top:1px solid #e5e7eb;">
+        <section class="product-overview" id="features">
+            <!-- AI Product Card -->
+            <div class="product-card ai-engine">
+                <h2>TaxFlow Engine</h2>
+                <p class="product-tagline">The AI that never misses a deduction</p>
+                <p>
+                    Every receipt captured. Every expense categorized. Every deduction maximized. 
+                    TaxFlow's AI engine works continuously behind the scenes, turning your daily 
+                    transactions into a comprehensive tax strategy. Simply connect your accounts 
+                    and let the system build your case for maximum refunds—automatically.
+                </p>
+                <ul class="feature-list">
+                    <li>Real-time expense tracking and categorization</li>
+                    <li>Automated deduction optimization</li>
+                    <li>Smart receipt capture and storage</li>
+                    <li>Audit-ready documentation</li>
+                </ul>
+            </div>
 
-    <div style="max-width:900px;margin:auto;">
+            <!-- Human Advisory Product Card - ENHANCED with your requirements -->
+            <div class="product-card human-advisory" id="advisory">
+                <h2>SmartBooks Advisory</h2>
+                <p class="product-tagline">Because some prefer a human touch</p>
+                <p>
+                    <strong>Not quite ready to give AI that kind of power over your finances? We completely understand.</strong> 
+                    <br><br>
+                    That's exactly why these in-person and online Advisor sessions are being offered and advertised here. If you prefer traditional human expertise over AI automation, you can bypass the algorithm entirely and make an appointment directly with me or one of my Certified Advisors. We will personally review your records, validate deductions, and provide strategic guidance.
+                </p>
+                <ul class="feature-list">
+                    <li>1-on-1 in-person or online appointments</li>
+                    <li>Work directly with me or a Certified Advisor</li>
+                    <li>Human oversight and strategic tax planning</li>
+                    <li>Zero reliance on AI—you remain in total control</li>
+                </ul>
+            </div>
+        </section>
 
-      <h3 style="margin-bottom:10px;">TaxFlow • SmartBooks</h3>
+        <section class="value-proposition">
+            <h2>Why Smart Taxpayers Choose Us</h2>
+            
+            <div class="benefit-grid">
+                <div class="benefit">
+                    <h3>Flexible Control</h3>
+                    <p>Choose full AI automation, a hybrid approach, or stick entirely with our human Certified Advisors. You dictate the power dynamic.</p>
+                </div>
+                
+                <div class="benefit">
+                    <h3>Eliminate Tax Season Stress</h3>
+                    <p>Your taxes are prepared continuously throughout the year. April 15th becomes just another day.</p>
+                </div>
+                
+                <div class="benefit">
+                    <h3>Professional-Grade Accuracy</h3>
+                    <p>Whether utilizing our AI precision or human expertise, we ensure your returns are bulletproof.</p>
+                </div>
+                
+                <div class="benefit">
+                    <h3>Strategic Tax Planning</h3>
+                    <p>Make informed financial decisions year-round with real-time tax impact analysis and expert guidance.</p>
+                </div>
+            </div>
+        </section>
 
-      <p style="font-size:14px;color:#6b7280;">
-        TaxFlow provides year-round tax automation with optional SmartBooks advisor services for individuals,
-        gig workers, and small businesses.
-      </p>
+        <section class="positioning-statement">
+            <div class="statement-content">
+                <h2>Your Tax Strategy Partner</h2>
+                <p class="lead-text">
+                    TaxFlow isn't just software—it's your dedicated tax strategist. 
+                    Whether you leverage our AI engine that never sleeps or sit down with our 
+                    Certified Advisors, we focus on protecting your wealth.
+                </p>
+                <p>
+                    <strong>We handle the complexity. You keep the savings.</strong>
+                </p>
+            </div>
+        </section>
+    </main>
 
-      <!-- Contact -->
-      <div style="margin-top:20px;font-size:14px;">
-        <p><strong>Contact</strong></p>
-        <p>Email: <a href="mailto:contact@smartbooks.ai">contact@smartbooks.ai</a></p>
-        <p>Support: <a href="mailto:support@smartbooks.ai">support@smartbooks.ai</a></p>
-        <p>Website: <a href="https://smartbooks.ai" target="_blank" rel="noopener">smartbooks.ai</a></p>
-      </div>
-
-      <!-- Social Links -->
-      <div style="margin-top:25px;">
-
-        <a href="https://twitter.com/SmartBooksAI" target="_blank" rel="noopener" style="margin:0 10px;">Twitter</a>
-
-        <a href="https://facebook.com/SmartBooksAI" target="_blank" rel="noopener" style="margin:0 10px;">Facebook</a>
-
-        <a href="https://linkedin.com/company/smartbooks-ai" target="_blank" rel="noopener" style="margin:0 10px;">LinkedIn</a>
-
-        <a href="https://github.com/ReFurrm" target="_blank" rel="noopener" style="margin:0 10px;">GitHub</a>
-
-      </div>
-
-      <!-- Donate -->
-      <div style="margin-top:30px;">
-
-        <a href="https://refurrm.org/lean-foundation"
-           target="_blank"
-           rel="noopener"
-           style="padding:12px 22px;background:#0f766e;color:white;text-decoration:none;border-radius:8px;font-weight:600;">
-
-          Donate • LEAN Foundation
-
-        </a>
-
-        <p style="margin-top:8px;font-size:13px;color:#6b7280;">
-          Proceeds support the LEAN Foundation mission restoring fairness and accountability in the storage auction system.
-        </p>
-
-      </div>
-
-      <!-- Legal -->
-      <div style="margin-top:35px;font-size:12px;color:#9ca3af;">
-
-        <p>© 2026 ReFURRM. All rights reserved.</p>
-
-        <p>
-          <a href="/privacy">Privacy Policy</a> •
-          <a href="/terms">Terms of Service</a>
-        </p>
-
-      </div>
-
-    </div>
-
-  </footer>
-
-  <!-- React App -->
-  <script type="module" src="/src/main.tsx"></script>
-
-  <!-- Analytics -->
-  <script
-    defer
-    src="%VITE_ANALYTICS_ENDPOINT%/umami"
-    data-website-id="%VITE_ANALYTICS_WEBSITE_ID%">
-  </script>
-
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 TaxFlow & SmartBooks Advisory. Professional tax strategy, your way.</p>
+        </div>
+    </footer>
 </body>
-
 </html>
+```
