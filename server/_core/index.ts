@@ -10,7 +10,6 @@ import { serveStatic, setupVite } from "./vite";
 import { registerStripeWebhook } from "../stripeWebhook";
 import { registerUploadRoutes } from "../uploadRoutes";
 import { registerQboRoutes } from "../qboRoutes";
-import { runAutoMigrations } from "../db";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -41,9 +40,6 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
-
-  // Run auto-migrations on startup
-  await runAutoMigrations();
 
   // File upload routes (must be before tRPC to handle multipart)
   registerUploadRoutes(app);

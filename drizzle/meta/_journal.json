@@ -85,13 +85,6 @@
       "when": 1773287273986,
       "tag": "0011_kind_drax",
       "breakpoints": true
-    },
-    {
-      "idx": 12,
-      "version": "5",
-      "when": 1773917852012,
-      "tag": "0012_secret_vampiro",
-      "breakpoints": true
     }
   ]
 }

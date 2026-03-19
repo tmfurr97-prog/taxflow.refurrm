@@ -1,6 +1,5 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { sql } from "drizzle-orm";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -88,29 +87,6 @@ export async function getUserByOpenId(openId: string) {
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
 
   return result.length > 0 ? result[0] : undefined;
-}
-
-// Auto-migration: ensures schema changes are applied on startup
-export async function runAutoMigrations() {
-  const db = await getDb();
-  if (!db) {
-    console.warn("[Migration] Skipping: database not available");
-    return;
-  }
-  try {
-    // Add notes column to receipts if it doesn't exist
-    await db.execute(sql`
-      ALTER TABLE receipts ADD COLUMN IF NOT EXISTS notes TEXT NULL
-    `);
-    console.log("[Migration] Auto-migrations completed successfully");
-  } catch (error: any) {
-    // Ignore "duplicate column" errors (MySQL doesn't support IF NOT EXISTS for columns)
-    if (error?.message?.includes('Duplicate column')) {
-      console.log("[Migration] notes column already exists, skipping");
-    } else {
-      console.warn("[Migration] Auto-migration warning:", error?.message);
-    }
-  }
 }
 
 // TODO: add feature queries here as your schema grows.

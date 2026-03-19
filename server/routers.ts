@@ -152,7 +152,6 @@ const receiptsRouter = router({
       category: z.string().optional(),
       description: z.string().optional(),
       isDeductible: z.boolean().optional(),
-      notes: z.string().nullable().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

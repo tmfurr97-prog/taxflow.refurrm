@@ -80,7 +80,6 @@ export const receipts = mysqlTable("receipts", {
   imageUrl: varchar("imageUrl", { length: 1024 }),
   imageKey: varchar("imageKey", { length: 512 }),
   isDeductible: boolean("isDeductible").default(true),
-  notes: text("notes"),
   ocrData: json("ocrData"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });

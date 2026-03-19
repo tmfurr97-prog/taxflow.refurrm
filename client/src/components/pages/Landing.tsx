@@ -59,8 +59,8 @@ export default function Landing() {
           <div className="flex items-center justify-between h-16">
             <Link href="/">
               <div className="flex items-center gap-2 cursor-pointer">
-                <img src="/favicon.svg" alt="TaxFlow" className="w-[92px] h-[92px]" />
-                <span className="text-gray-900 font-semibold text-5xl leading-8">TaxFlow</span>
+                <img src="/favicon.svg" alt="TaxFlow" className="w-9 h-9" />
+                <span className="text-gray-900 font-bold text-lg leading-none">TaxFlow</span>
               </div>
             </Link>
             <div className="hidden md:flex items-center gap-6">
@@ -113,9 +113,9 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 bg-emerald-500 border border-emerald-600 px-4 py-1.5 rounded-full mb-6">
-                <Sparkles className="w-4 h-4 text-white" />
-                <span className="text-white text-sm font-medium">Year-Round Tax Automation</span>
+              <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full mb-6">
+                <Sparkles className="w-4 h-4 text-emerald-400" />
+                <span className="text-emerald-400 text-sm font-medium">Year-Round Tax Automation</span>
               </div>
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
                 Automate.<br />

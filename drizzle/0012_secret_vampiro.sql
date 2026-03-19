@@ -1,1 +1,0 @@
-ALTER TABLE `receipts` ADD `notes` text;
