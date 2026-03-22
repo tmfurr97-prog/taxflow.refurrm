@@ -1,166 +1,116 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
+import AppointmentCalendar from '@/components/appointments/AppointmentCalendar';
+import BookingForm, { BookingFormData } from '@/components/appointments/BookingForm';
 
-interface Appointment {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  service_type: string;
-  appointment_date: string;
-  appointment_time: string;
-  duration_minutes: number;
-  status: string;
-  notes: string | null;
-  booking_reference: string;
-  created_at: string;
-}
+const SERVICE_TYPES = [
+  {
+    id: 'consultation',
+    label: 'Tax Consultation',
+    duration: '30 min',
+    price: 'Free',
+    description: 'Get expert advice on your tax situation, deductions, and filing strategy.',
+    color: 'from-emerald-500 to-teal-600',
+    bgLight: 'bg-emerald-50',
+    borderColor: 'border-emerald-200',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+      </svg>
+    ),
+  },
+  {
+    id: 'tax_preparation',
+    label: 'Tax Preparation',
+    duration: '60 min',
+    price: '$149+',
+    description: 'Full tax preparation service including federal and state returns.',
+    color: 'from-blue-500 to-indigo-600',
+    bgLight: 'bg-blue-50',
+    borderColor: 'border-blue-200',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+      </svg>
+    ),
+  },
+  {
+    id: 'notary_ron',
+    label: 'Notary / RON',
+    duration: '45 min',
+    price: '$75+',
+    description: 'Remote Online Notarization and traditional notary services.',
+    color: 'from-purple-500 to-violet-600',
+    bgLight: 'bg-purple-50',
+    borderColor: 'border-purple-200',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
+  {
+    id: 'bookkeeping',
+    label: 'Bookkeeping Review',
+    duration: '45 min',
+    price: '$99+',
+    description: 'Review and organize your financial records for accurate reporting.',
+    color: 'from-amber-500 to-orange-600',
+    bgLight: 'bg-amber-50',
+    borderColor: 'border-amber-200',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    ),
+  },
+];
 
-const SERVICE_LABELS: Record<string, string> = {
-  tax_preparation: 'Tax Preparation',
-  notary_ron: 'Notary / RON Services',
-  consultation: 'Tax Consultation',
-  bookkeeping: 'Bookkeeping Review',
-};
-
-const SERVICE_COLORS: Record<string, string> = {
-  tax_preparation: 'from-blue-500 to-indigo-600',
-  notary_ron: 'from-purple-500 to-violet-600',
-  consultation: 'from-emerald-500 to-teal-600',
-  bookkeeping: 'from-amber-500 to-orange-600',
-};
-
-const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-  confirmed: { bg: 'bg-emerald-50', text: 'text-emerald-700', label: 'Confirmed' },
-  rescheduled: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Rescheduled' },
-  cancelled: { bg: 'bg-red-50', text: 'text-red-600', label: 'Cancelled' },
-  completed: { bg: 'bg-gray-100', text: 'text-gray-600', label: 'Completed' },
-};
-
-const BUSINESS_HOURS_START = 9;
-const BUSINESS_HOURS_END = 17;
-
-function generateTimeSlots(): string[] {
-  const slots: string[] = [];
-  for (let m = BUSINESS_HOURS_START * 60; m + 30 <= BUSINESS_HOURS_END * 60; m += 30) {
-    const hours = Math.floor(m / 60);
-    const mins = m % 60;
-    const period = hours >= 12 ? 'PM' : 'AM';
-    const displayHour = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
-    slots.push(`${displayHour}:${mins.toString().padStart(2, '0')} ${period}`);
-  }
-  return slots;
-}
-
-const MyAppointments: React.FC = () => {
+const BookAppointment: React.FC = () => {
   const navigate = useNavigate();
-  const [lookupType, setLookupType] = useState<'email' | 'reference'>('email');
-  const [lookupValue, setLookupValue] = useState('');
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
-  const [cancellingId, setCancellingId] = useState<string | null>(null);
-  const [rescheduleAppt, setRescheduleAppt] = useState<Appointment | null>(null);
-  const [rescheduleDate, setRescheduleDate] = useState('');
-  const [rescheduleTime, setRescheduleTime] = useState('');
-  const [rescheduling, setRescheduling] = useState(false);
-  const [showCancelConfirm, setShowCancelConfirm] = useState<string | null>(null);
+  const [step, setStep] = useState<'service' | 'schedule' | 'success'>('service');
+  const [serviceType, setServiceType] = useState('consultation');
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingResult, setBookingResult] = useState<any>(null);
 
-  const timeSlots = generateTimeSlots();
-
-  const handleLookup = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (!lookupValue.trim()) return;
-
-    setLoading(true);
-    setSearched(true);
-    try {
-      if (lookupType === 'email') {
-        const { data } = await supabase.functions.invoke('book-appointment', {
-          body: { action: 'get_by_email', email: lookupValue.trim() },
-        });
-        setAppointments(data?.appointments || []);
-      } else {
-        const { data } = await supabase.functions.invoke('book-appointment', {
-          body: { action: 'get_by_reference', booking_reference: lookupValue.trim().toUpperCase() },
-        });
-        setAppointments(data?.appointment ? [data.appointment] : []);
-      }
-    } catch (err) {
-      console.error('Lookup error:', err);
-      setAppointments([]);
-    } finally {
-      setLoading(false);
-    }
+  const handleServiceSelect = (id: string) => {
+    setServiceType(id);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setStep('schedule');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCancel = async (id: string) => {
-    setCancellingId(id);
+  const handleBooking = async (formData: BookingFormData) => {
+    setIsSubmitting(true);
     try {
-      const { data } = await supabase.functions.invoke('book-appointment', {
-        body: { action: 'cancel', id },
-      });
-      if (data?.success) {
-        setAppointments((prev) =>
-          prev.map((a) => (a.id === id ? { ...a, status: 'cancelled' } : a))
-        );
-      }
-    } catch (err) {
-      alert('Failed to cancel appointment');
-    } finally {
-      setCancellingId(null);
-      setShowCancelConfirm(null);
-    }
-  };
-
-  const handleReschedule = async () => {
-    if (!rescheduleAppt || !rescheduleDate || !rescheduleTime) return;
-    setRescheduling(true);
-    try {
-      const { data } = await supabase.functions.invoke('book-appointment', {
+      const { data, error } = await supabase.functions.invoke('book-appointment', {
         body: {
-          action: 'reschedule',
-          id: rescheduleAppt.id,
-          appointment_date: rescheduleDate,
-          appointment_time: rescheduleTime,
+          action: 'book',
+          ...formData,
+          service_type: serviceType,
+          appointment_date: selectedDate,
+          appointment_time: selectedTime,
         },
       });
-      if (data?.error) {
-        alert(data.error);
-        return;
-      }
-      if (data?.success) {
-        setAppointments((prev) =>
-          prev.map((a) =>
-            a.id === rescheduleAppt.id
-              ? { ...a, appointment_date: rescheduleDate, appointment_time: rescheduleTime, status: 'rescheduled' }
-              : a
-          )
-        );
-        setRescheduleAppt(null);
-        setRescheduleDate('');
-        setRescheduleTime('');
-      }
-    } catch (err) {
-      alert('Failed to reschedule appointment');
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      setBookingResult(data);
+      setStep('success');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err: any) {
+      alert(err.message || 'Failed to book appointment. Please try again.');
     } finally {
-      setRescheduling(false);
+      setIsSubmitting(false);
     }
   };
 
-  const isUpcoming = (appt: Appointment) => {
-    const apptDate = new Date(appt.appointment_date + 'T23:59:59');
-    return apptDate >= new Date() && (appt.status === 'confirmed' || appt.status === 'rescheduled');
-  };
-
-  const upcomingAppointments = appointments.filter(isUpcoming);
-  const pastAppointments = appointments.filter((a) => !isUpcoming(a));
-
-  // Get min date for reschedule (tomorrow)
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const minDate = tomorrow.toISOString().split('T')[0];
+  const selectedService = SERVICE_TYPES.find((s) => s.id === serviceType);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
@@ -182,378 +132,272 @@ const MyAppointments: React.FC = () => {
 
             <div className="flex items-center gap-3">
               <button
-                onClick={() => navigate('/book-appointment')}
-                className="bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold px-5 py-2 rounded-lg text-sm transition-all shadow-sm"
+                onClick={() => navigate('/my-appointments')}
+                className="text-sm text-gray-600 hover:text-[#18453B] font-medium transition flex items-center gap-1.5"
               >
-                Book New
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                My Appointments
               </button>
               <button
                 onClick={() => navigate('/')}
                 className="text-sm text-gray-500 hover:text-gray-700 font-medium transition"
               >
-                Home
+                Back to Home
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        {/* Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#0A1628] mb-2">My Appointments</h1>
-          <p className="text-gray-500">Look up your appointments to view, reschedule, or cancel</p>
-        </div>
+      {/* Progress Steps */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-3xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center gap-2">
+            {['Select Service', 'Schedule & Book', 'Confirmation'].map((label, i) => {
+              const stepIndex = i;
+              const currentIndex = step === 'service' ? 0 : step === 'schedule' ? 1 : 2;
+              const isActive = stepIndex === currentIndex;
+              const isComplete = stepIndex < currentIndex;
 
-        {/* Lookup Form */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-8">
-          <div className="flex gap-2 mb-4">
-            <button
-              onClick={() => { setLookupType('email'); setLookupValue(''); setSearched(false); }}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                lookupType === 'email'
-                  ? 'bg-[#18453B] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Search by Email
-            </button>
-            <button
-              onClick={() => { setLookupType('reference'); setLookupValue(''); setSearched(false); }}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                lookupType === 'reference'
-                  ? 'bg-[#18453B] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Search by Reference
-            </button>
-          </div>
-
-          <form onSubmit={handleLookup} className="flex gap-3">
-            <input
-              type={lookupType === 'email' ? 'email' : 'text'}
-              value={lookupValue}
-              onChange={(e) => setLookupValue(e.target.value)}
-              placeholder={lookupType === 'email' ? 'Enter your email address' : 'Enter booking reference (e.g., SB-XXXXXXXX)'}
-              className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#18453B]/20 focus:border-[#18453B] text-sm"
-            />
-            <button
-              type="submit"
-              disabled={loading || !lookupValue.trim()}
-              className="px-6 py-3 rounded-xl bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              {loading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              )}
-              Search
-            </button>
-          </form>
-        </div>
-
-        {/* Results */}
-        {searched && !loading && (
-          <>
-            {appointments.length === 0 ? (
-              <div className="text-center py-16">
-                <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-1">No Appointments Found</h3>
-                <p className="text-gray-500 text-sm mb-6">
-                  We couldn't find any appointments matching your search.
-                </p>
-                <button
-                  onClick={() => navigate('/book-appointment')}
-                  className="px-6 py-3 rounded-xl bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold text-sm transition-all"
-                >
-                  Book an Appointment
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-8">
-                {/* Upcoming */}
-                {upcomingAppointments.length > 0 && (
-                  <div>
-                    <h2 className="text-lg font-bold text-[#0A1628] mb-4 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                      Upcoming Appointments ({upcomingAppointments.length})
-                    </h2>
-                    <div className="space-y-4">
-                      {upcomingAppointments.map((appt) => (
-                        <AppointmentCard
-                          key={appt.id}
-                          appointment={appt}
-                          onCancel={() => setShowCancelConfirm(appt.id)}
-                          onReschedule={() => {
-                            setRescheduleAppt(appt);
-                            setRescheduleDate('');
-                            setRescheduleTime('');
-                          }}
-                          isCancelling={cancellingId === appt.id}
-                        />
-                      ))}
+              return (
+                <React.Fragment key={label}>
+                  {i > 0 && (
+                    <div className={`w-8 sm:w-16 h-0.5 ${isComplete ? 'bg-[#18453B]' : 'bg-gray-200'}`} />
+                  )}
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`
+                        w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all
+                        ${isComplete
+                          ? 'bg-[#18453B] text-white'
+                          : isActive
+                            ? 'bg-[#18453B] text-white shadow-lg shadow-[#18453B]/25'
+                            : 'bg-gray-200 text-gray-400'
+                        }
+                      `}
+                    >
+                      {isComplete ? (
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        stepIndex + 1
+                      )}
                     </div>
+                    <span className={`text-sm font-medium hidden sm:block ${isActive ? 'text-[#18453B]' : isComplete ? 'text-gray-600' : 'text-gray-400'}`}>
+                      {label}
+                    </span>
                   </div>
-                )}
-
-                {/* Past */}
-                {pastAppointments.length > 0 && (
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-500 mb-4 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-gray-400" />
-                      Past & Cancelled ({pastAppointments.length})
-                    </h2>
-                    <div className="space-y-4 opacity-75">
-                      {pastAppointments.map((appt) => (
-                        <AppointmentCard
-                          key={appt.id}
-                          appointment={appt}
-                          isPast
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Initial state */}
-        {!searched && !loading && (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#18453B]/10 to-[#1B365D]/10 flex items-center justify-center mx-auto mb-5">
-              <svg className="w-10 h-10 text-[#18453B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-[#0A1628] mb-2">Find Your Appointments</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
-              Enter your email address or booking reference number above to view and manage your appointments.
-            </p>
-          </div>
-        )}
-      </main>
-
-      {/* Cancel Confirmation Modal */}
-      {showCancelConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6">
-            <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-center text-gray-800 mb-2">Cancel Appointment?</h3>
-            <p className="text-sm text-gray-500 text-center mb-6">
-              This action cannot be undone. Are you sure you want to cancel this appointment?
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowCancelConfirm(null)}
-                className="flex-1 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition"
-              >
-                Keep It
-              </button>
-              <button
-                onClick={() => handleCancel(showCancelConfirm)}
-                disabled={cancellingId === showCancelConfirm}
-                className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition flex items-center justify-center gap-2"
-              >
-                {cancellingId === showCancelConfirm ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  'Yes, Cancel'
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reschedule Modal */}
-      {rescheduleAppt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-lg font-bold text-gray-800">Reschedule Appointment</h3>
-              <button
-                onClick={() => setRescheduleAppt(null)}
-                className="p-1 rounded-lg hover:bg-gray-100 transition"
-              >
-                <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="bg-gray-50 rounded-xl p-4 mb-5 text-sm">
-              <p className="text-gray-500 mb-1">Current appointment:</p>
-              <p className="font-semibold text-gray-800">
-                {new Date(rescheduleAppt.appointment_date + 'T00:00:00').toLocaleDateString('en-US', {
-                  weekday: 'short', month: 'long', day: 'numeric',
-                })}{' '}
-                at {rescheduleAppt.appointment_time}
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">New Date</label>
-                <input
-                  type="date"
-                  value={rescheduleDate}
-                  min={minDate}
-                  onChange={(e) => setRescheduleDate(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#18453B]/20 focus:border-[#18453B] text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">New Time</label>
-                <select
-                  value={rescheduleTime}
-                  onChange={(e) => setRescheduleTime(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#18453B]/20 focus:border-[#18453B] text-sm"
-                >
-                  <option value="">Select a time</option>
-                  {timeSlots.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="flex gap-3 mt-6">
-              <button
-                onClick={() => setRescheduleAppt(null)}
-                className="flex-1 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleReschedule}
-                disabled={!rescheduleDate || !rescheduleTime || rescheduling}
-                className="flex-1 py-2.5 rounded-xl bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold text-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {rescheduling ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  'Confirm Reschedule'
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Appointment Card Sub-Component
-interface AppointmentCardProps {
-  appointment: Appointment;
-  onCancel?: () => void;
-  onReschedule?: () => void;
-  isPast?: boolean;
-  isCancelling?: boolean;
-}
-
-const AppointmentCard: React.FC<AppointmentCardProps> = ({
-  appointment,
-  onCancel,
-  onReschedule,
-  isPast,
-  isCancelling,
-}) => {
-  const status = STATUS_STYLES[appointment.status] || STATUS_STYLES.confirmed;
-  const serviceColor = SERVICE_COLORS[appointment.service_type] || 'from-gray-500 to-gray-600';
-
-  const dateFormatted = new Date(appointment.appointment_date + 'T00:00:00').toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-      <div className="flex">
-        {/* Color bar */}
-        <div className={`w-1.5 bg-gradient-to-b ${serviceColor}`} />
-
-        <div className="flex-1 p-5">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <h3 className="font-bold text-gray-800">
-                  {SERVICE_LABELS[appointment.service_type]}
-                </h3>
-                <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${status.bg} ${status.text}`}>
-                  {status.label}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-                <div>
-                  <span className="text-gray-400 text-xs block">Date</span>
-                  <span className="text-gray-700 font-medium">{dateFormatted}</span>
-                </div>
-                <div>
-                  <span className="text-gray-400 text-xs block">Time</span>
-                  <span className="text-gray-700 font-medium">{appointment.appointment_time}</span>
-                </div>
-                <div>
-                  <span className="text-gray-400 text-xs block">Duration</span>
-                  <span className="text-gray-700 font-medium">{appointment.duration_minutes} min</span>
-                </div>
-                <div>
-                  <span className="text-gray-400 text-xs block">Reference</span>
-                  <span className="text-[#18453B] font-bold text-xs tracking-wider">{appointment.booking_reference}</span>
-                </div>
-              </div>
-
-              {appointment.notes && (
-                <p className="text-xs text-gray-400 mt-2 italic">Note: {appointment.notes}</p>
-              )}
-            </div>
-
-            {/* Actions */}
-            {!isPast && (appointment.status === 'confirmed' || appointment.status === 'rescheduled') && (
-              <div className="flex sm:flex-col gap-2 flex-shrink-0">
-                <button
-                  onClick={onReschedule}
-                  className="px-4 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold transition flex items-center gap-1.5"
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  Reschedule
-                </button>
-                <button
-                  onClick={onCancel}
-                  disabled={isCancelling}
-                  className="px-4 py-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition flex items-center gap-1.5 disabled:opacity-50"
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  Cancel
-                </button>
-              </div>
-            )}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       </div>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        {/* STEP 1: Service Selection */}
+        {step === 'service' && (
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-10">
+              <h1 className="text-3xl lg:text-4xl font-bold text-[#0A1628] mb-3">
+                Book an Appointment
+              </h1>
+              <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+                Choose the service that best fits your needs. Our professionals are ready to help.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              {SERVICE_TYPES.map((service) => (
+                <button
+                  key={service.id}
+                  onClick={() => handleServiceSelect(service.id)}
+                  className="group text-left bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl hover:shadow-gray-200/50 hover:border-[#18453B]/30 transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-lg`}>
+                      {service.icon}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="font-bold text-gray-800 group-hover:text-[#18453B] transition-colors">
+                          {service.label}
+                        </h3>
+                        <span className="text-[#18453B] font-bold text-sm">{service.price}</span>
+                      </div>
+                      <p className="text-sm text-gray-500 mb-3">{service.description}</p>
+                      <div className="flex items-center gap-3 text-xs text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {service.duration}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                          Virtual or In-Person
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-end text-[#18453B] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Select & Continue
+                    <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 2: Schedule & Book */}
+        {step === 'schedule' && (
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <button
+                onClick={() => setStep('service')}
+                className="text-gray-400 hover:text-gray-600 transition p-1"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <div>
+                <h2 className="text-2xl font-bold text-[#0A1628]">
+                  Schedule Your {selectedService?.label}
+                </h2>
+                <p className="text-gray-500 text-sm mt-0.5">
+                  Pick a date and time, then fill in your details
+                </p>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-5 gap-8">
+              {/* Calendar - 3 cols */}
+              <div className="lg:col-span-3">
+                <AppointmentCalendar
+                  selectedDate={selectedDate}
+                  selectedTime={selectedTime}
+                  serviceType={serviceType}
+                  onSelectDate={setSelectedDate}
+                  onSelectTime={(t) => setSelectedTime(t || null)}
+                />
+              </div>
+
+              {/* Booking Form - 2 cols */}
+              <div className="lg:col-span-2">
+                <BookingForm
+                  selectedDate={selectedDate}
+                  selectedTime={selectedTime}
+                  serviceType={serviceType}
+                  onSubmit={handleBooking}
+                  isSubmitting={isSubmitting}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 3: Success */}
+        {step === 'success' && bookingResult && (
+          <div className="max-w-lg mx-auto text-center">
+            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-200/50 p-8 lg:p-10">
+              {/* Success Icon */}
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-[#18453B] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-200">
+                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+
+              <h2 className="text-2xl font-bold text-[#0A1628] mb-2">Appointment Confirmed!</h2>
+              <p className="text-gray-500 mb-6">
+                {bookingResult.email_sent
+                  ? 'A confirmation email has been sent to your inbox.'
+                  : 'Your appointment has been booked successfully.'}
+              </p>
+
+              {/* Booking Details Card */}
+              <div className="bg-gradient-to-br from-[#18453B]/5 to-[#1B365D]/5 rounded-2xl p-5 text-left mb-6 border border-[#18453B]/10">
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Reference</span>
+                    <span className="font-bold text-[#18453B] tracking-wider">
+                      {bookingResult.appointment?.booking_reference}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Service</span>
+                    <span className="font-medium text-gray-800">{selectedService?.label}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Date</span>
+                    <span className="font-medium text-gray-800">
+                      {bookingResult.appointment?.appointment_date &&
+                        new Date(bookingResult.appointment.appointment_date + 'T00:00:00').toLocaleDateString('en-US', {
+                          weekday: 'short',
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Time</span>
+                    <span className="font-medium text-gray-800">
+                      {bookingResult.appointment?.appointment_time}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Duration</span>
+                    <span className="font-medium text-gray-800">
+                      {bookingResult.appointment?.duration_minutes} minutes
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-gray-400 mb-6">
+                Save your booking reference to manage your appointment later.
+              </p>
+
+              <div className="space-y-3">
+                <button
+                  onClick={() => navigate('/my-appointments')}
+                  className="w-full py-3 rounded-xl bg-[#18453B] hover:bg-[#0D3328] text-white font-semibold text-sm transition-all shadow-lg shadow-[#18453B]/20"
+                >
+                  View My Appointments
+                </button>
+                <button
+                  onClick={() => {
+                    setStep('service');
+                    setSelectedDate(null);
+                    setSelectedTime(null);
+                    setBookingResult(null);
+                  }}
+                  className="w-full py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition-all"
+                >
+                  Book Another Appointment
+                </button>
+                <button
+                  onClick={() => navigate('/')}
+                  className="w-full py-2.5 text-gray-500 hover:text-gray-700 text-sm font-medium transition"
+                >
+                  Return to Home
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 };
 
-export default MyAppointments;
+export default BookAppointment;
