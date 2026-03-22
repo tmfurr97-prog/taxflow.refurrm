@@ -1,0 +1,96 @@
+# TaxxFlow Navigation Guide
+
+## Overview
+TaxxFlow uses a comprehensive navigation system with conditional visibility based on authentication and email verification status.
+
+## Navigation Structure
+
+### Public Routes (Always Accessible)
+- `/pricing` - Pricing plans and features
+- `/terms` - Terms of Service
+- `/privacy` - Privacy Policy
+- `/login` - User login
+- `/signup` - New user registration
+- `/reset-password` - Password reset flow
+- `/landing` - Marketing landing page
+
+### Protected Routes (Require Authentication + Email Verification)
+- `/` - Dashboard (main authenticated landing page)
+- `/profile` - User profile with tabs:
+  - Personal Info
+  - Tax Details
+  - Subscription & Billing
+  - Security Settings
+  - Referral Program
+  - Account Settings
+- `/entities` - Business Entity Management
+- `/audit-defense` - IRS Audit Defense Hub
+- `/crypto` - Cryptocurrency Tax Tracking
+- `/receipts` - Receipt & Expense Tracking
+- `/subscriptions` - Subscription & Billing Management
+
+## Conditional Visibility Rules
+
+### Not Authenticated
+- Navigation shows: Pricing, Terms, Privacy, Login, Sign Up
+- All protected routes redirect to `/login`
+
+### Authenticated but Email Not Verified
+- User is redirected to `/verify-email`
+- Protected routes are inaccessible until email is verified
+- A persistent banner prompts email verification
+
+### Authenticated and Email Verified
+- Full navigation menu appears with all protected routes
+- Dashboard becomes the home page
+- Profile dropdown includes all tabs
+- All feature hubs are accessible
+
+## Onboarding & Terms
+
+### First-Time Users
+- After signup and email verification, users see the onboarding modal
+- Modal collects basic tax information and shows Terms of Service
+- Once completed, `profiles.onboarding_completed` is set to `true`
+
+### Returning Users
+- If `onboarding_completed` is `true`, the modal does not appear
+- Users can view Terms anytime via Profile > Account Settings > View Terms
+
+## Active Route Highlighting
+- The navigation automatically highlights the current active route
+- Desktop: Blue background for active link
+- Mobile: Same highlighting in mobile menu
+
+## Mobile Navigation
+- Hamburger menu on small screens
+- Full menu slides in from top
+- All links and buttons work identically to desktop
+- Menu closes automatically after navigation
+
+## Access Control
+- All protected routes use `<ProtectedRoute>` wrapper
+- Database queries use Row Level Security (RLS)
+- Users can only access their own data
+- Tax professional collaboration requires explicit permission grants
+
+## Feature Hubs
+Each major feature has a dedicated page with:
+- Summary statistics cards at the top
+- Full feature component below
+- Breadcrumbs for sub-navigation (where applicable)
+
+## Profile Tabs
+The Profile page includes these tabs:
+1. **Personal** - Name, email, phone, address
+2. **Tax Info** - Filing status, state, business type, EIN
+3. **Subscription** - Plan management, billing history, payment methods
+4. **Security** - Password change, 2FA, security audit log
+5. **Referrals** - Referral code, earnings, referred users
+6. **Settings** - Account preferences, sign out
+
+## Development Notes
+- Navigation component: `src/components/Navigation.tsx`
+- Routes defined in: `src/App.tsx`
+- Auth context: `src/contexts/AuthContext.tsx`
+- Protected route wrapper: `src/components/auth/ProtectedRoute.tsx`
